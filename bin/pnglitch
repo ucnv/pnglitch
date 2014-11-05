@@ -37,9 +37,8 @@ ARGV.options do |o|
 end
 
 begin
-  raise if ARGV.size < 2
+  raise 'Wrong options' if ARGV.size < 2
   infile, outfile = ARGV
-
   PNGlitch.open infile do |png|
     unless filter.nil?
       png.each_scanline do |line|
@@ -51,6 +50,8 @@ begin
     end
     png.save outfile
   end
-rescue
+rescue => e
+  puts e.message
+  puts
   puts usage
 end

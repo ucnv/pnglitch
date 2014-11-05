@@ -88,7 +88,6 @@ describe PNGlitch do
 
     context('when it is not PNG file') do
       it 'should raise error' do
-        pending 'wip'
         file = infile.dirname.join('filter_none')
         expect {
           png = PNGlitch.open file

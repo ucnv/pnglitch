@@ -52,6 +52,9 @@ module PNGlitch
         end
         @idat_chunk_size = idat_sizes.first if idat_sizes.size > 1
       end
+      if @compressed_data.size == 0
+        raise FormatError.new path.to_s
+      end
       @head_data.rewind
       @tail_data.rewind
       @compressed_data.rewind
@@ -65,7 +68,7 @@ module PNGlitch
         if decompressed_size > expected_size * 2
           z.close
           self.close
-          raise DataSizeError.new decompressed_size, expected_size
+          raise DataSizeError.new path.to_s, decompressed_size, expected_size
         end
         @filtered_data << chunk
       end
