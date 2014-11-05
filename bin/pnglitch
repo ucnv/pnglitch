@@ -1,0 +1,56 @@
+#!/usr/bin/env ruby
+require 'optparse'
+require 'pnglitch'
+
+program_name = File.basename($0)
+usage = <<USAGE
+Usage:
+  #{program_name} <infile> [--filter=<n>] <outfile>
+
+Options:
+  -f, --filter=<n>  Fix all filter types as passed value before glitching.
+                    A number (0..4) or a type name (none|sub|up|average|paeth).
+  --version         Show version.
+  -h, --help        Show this screen.
+
+USAGE
+
+filter = nil
+
+ARGV.options do |o|
+  o.program_name = program_name
+  o.on('-f', '--filter=N', String)  do |n|
+    filter = PNGlitch::Filter.guess n
+  end
+
+  o.on_tail('--version') do
+    puts PNGlitch::VERSION
+    exit
+  end
+
+  o.on_tail('-h', '--help') do
+    puts usage
+    exit
+  end
+
+  o.parse!
+end
+
+begin
+  raise if ARGV.size < 2
+  infile, outfile = ARGV
+
+  PNGlitch.open infile do |png|
+    unless filter.nil?
+      png.each_scanline do |line|
+        line.change_filter filter
+      end
+    end
+    png.glitch do |data|
+      data.gsub /\d/, 'x'
+    end
+    png.save outfile
+  end
+rescue
+  puts usage
+end
