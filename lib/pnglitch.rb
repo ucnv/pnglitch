@@ -84,25 +84,17 @@ module PNGlitch
     #     end
     #   end
     #
-    # Optionally it can take arguments to limit the usage of memory and disk.
-    # By default, the limit of memory usage is 4GB, and of decompressed file size is 16GB.
-    # If a process goes over the limit, an error will be thrown. Those options can be
-    # set with hash keys :limit_of_decompressed_file_size and :limit_of_memory_usage like:
+    # Under normal conditions, the size of the decompressed data of PNG image becomes
+    # (1 + image_width * sample_size) * image_height in bytes (for example, an image in
+    # 1920x1080 pixels might make about 8.29 MB of decompressed data). To avoid the attack
+    # known as "zip bomb", PNGlitch will throw an error when decompressed data goes over 
+    # twice the expected size. If it's sure that the passed file is safe, the upper limit
+    # of decompressed data size can be set in +open+'s option. Like:
     #
-    #   png = PNGlitch.open(
-    #     infile,
-    #     limit_of_decompressed_file_size: 20 * 1024 ** 3,
-    #     limit_of_memory_usage: 6 * 1024 ** 3
-    #   )
+    #   PNGlitch.open(infile, limit_of_decompressed_data_size: 1 * 1024 ** 3)
     #
     def open file, options = {}
-      options[:limit_of_decompressed_file_size] ||= DEFAULT_LIMIT_OF_DECOMPRESSED_FILE_SIZE
-      options[:limit_of_memory_usage] ||= DEFAULT_LIMIT_OF_MEMORY_USAGE
-      base = Base.new(
-        file,
-        options[:limit_of_decompressed_file_size],
-        options[:limit_of_memory_usage]
-      )
+      base = Base.new file, options[:limit_of_decompressed_data_size]
       if block_given?
         begin
           block = Proc.new

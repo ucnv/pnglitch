@@ -68,12 +68,32 @@ describe PNGlitch do
       end
     end
 
-    context('when decompressed file size goes over the limit') do
+    context('when decompressed data is unexpected size') do
       it 'should raise error' do
+        bomb = infile.dirname.join('bomb.png')
         expect {
-          png = PNGlitch.open infile, limit_of_decompressed_file_size: File.size(infile)
+          png = PNGlitch.open bomb
           png.close
-        }.to raise_error PNGlitch::FileSizeError
+        }.to raise_error PNGlitch::DataSizeError
+      end
+
+      it 'can avoid the error' do
+        bomb = infile.dirname.join('bomb.png')
+        expect {
+          png = PNGlitch.open bomb, limit_of_decompressed_data_size: 100 * 1024 ** 2
+          png.close
+        }.not_to raise_error
+      end
+    end
+
+    context('when it is not PNG file') do
+      it 'should raise error' do
+        pending 'wip'
+        file = infile.dirname.join('filter_none')
+        expect {
+          png = PNGlitch.open file
+          png.close
+        }.to raise_error PNGlitch::FormatError
       end
     end
   end
@@ -172,18 +192,6 @@ describe PNGlitch do
       b = png2.filtered_data.size
       png2.close
       expect(b).to eq(a - 100)
-    end
-
-    context('when data size goes over the limit of memory') do
-      it 'should raise error' do
-        png = PNGlitch.open infile, limit_of_memory_usage: File.size(infile)
-        expect {
-          png.glitch do |data|
-            data.gsub /\d/, 'a'
-          end
-        }.to raise_error PNGlitch::MemorySizeError
-        png.close
-      end
     end
   end
 

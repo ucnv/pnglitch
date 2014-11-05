@@ -12,10 +12,7 @@ module PNGlitch
     #
     # Instanciate the class with the passed +file+
     #
-    def initialize file, limit_of_decompressed_file_size, limit_of_memory_usage
-      @limit_of_memory_usage = limit_of_memory_usage
-      @limit_of_decompressed_file_size = limit_of_decompressed_file_size
-
+    def initialize file, limit_of_decompressed_data_size = nil
       path = Pathname.new file
       @head_data = StringIO.new
       @tail_data = StringIO.new
@@ -59,13 +56,16 @@ module PNGlitch
       @tail_data.rewind
       @compressed_data.rewind
       decompressed_size = 0
+      expected_size = (1 + @width * @sample_size) * @height
+      expected_size = limit_of_decompressed_data_size unless limit_of_decompressed_data_size.nil?
       z = Zlib::Inflate.new
       z.inflate(@compressed_data.read) do |chunk|
         decompressed_size += chunk.size
-        if decompressed_size > @limit_of_decompressed_file_size
+        # raise error when the data size goes over 2 times the usually expected size
+        if decompressed_size > expected_size * 2
           z.close
           self.close
-          raise FileSizeError.new 'decompressed data', @limit_of_decompressed_file_size
+          raise DataSizeError.new decompressed_size, expected_size
         end
         @filtered_data << chunk
       end
@@ -124,11 +124,6 @@ module PNGlitch
     # In such case, please treat the data as IO through +glitch_as_io+ instead.
     #
     def glitch &block   # :yield: data
-      if @filtered_data.size > @limit_of_memory_usage
-        self.close
-        raise MemorySizeError.new 'decompressed data', @limit_of_memory_usage
-      end
-
       warn_if_compressed_data_modified
 
       wrap_with_rewind(@filtered_data) do
@@ -170,10 +165,6 @@ module PNGlitch
     # This operation will often destroy PNG image completely.
     #
     def glitch_after_compress &block   # :yield: data
-      if @compressed_data.size > @limit_of_memory_usage
-        self.close
-        raise MemorySizeError.new 'compressed data', @limit_of_memory_usage
-      end
       wrap_with_rewind(@compressed_data) do
         result = yield @compressed_data.read
         @compressed_data.rewind
@@ -344,7 +335,7 @@ module PNGlitch
       self.filter_types.each.with_index do |filter, at|
         if range.include? at
           s = Scanline.new(@filtered_data, pos, @width, @sample_size, at) do |scanline|
-            is_filter_needed = false
+            is_refilter_needed = false
             unless scanline.prev_filter_type.nil?
               is_refilter_needed = true
             else
