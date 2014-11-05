@@ -15,7 +15,7 @@ Gem::Specification.new do |spec|
     because of the checksum function. We provide a fail-proof destruction for it.
     Using this library you will see beautiful and various PNG artifacts.
   EOL
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/ucnv/pnglitch"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
