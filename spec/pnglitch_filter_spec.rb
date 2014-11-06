@@ -3,10 +3,11 @@ require 'spec_helper'
 describe PNGlitch::Filter do
   types = [:none, :sub, :up, :average, :paeth]
   dir = Pathname(File.dirname(__FILE__)).join('fixtures')
-  tests = types.zip(types.collect {|t|
+  tests = {}
+  types.each do |t|
     data = File.binread(dir.join('filter_' + t.to_s))
-    data.scan %r|[\s\S]{1,#{data.size / 2}}|
-  }).to_h
+    tests[t] = data.scan %r|[\s\S]{1,#{data.size / 2}}|
+  end
 
   types.each do |type|
     context "with #{type} type" do
