@@ -2,7 +2,7 @@ module PNGlitch
 
   # Scanline is the class that represents a particular PNG image scanline.
   #
-  # It is constructed by a filter type and a filtered pixel data.
+  # It consists of a filter type and a filtered pixel data.
   #
   class Scanline
 
@@ -48,7 +48,7 @@ module PNGlitch
     #
     # Replaces data with given Regexp +pattern+ and +replacement+.
     #
-    # It is same as +scanline.replace_data(scanline.data.gsub(pattern, replacement))+.
+    # It is same as <tt>scanline.replace_data(scanline.data.gsub(pattern, replacement))</tt>.
     # When the data size has changed, the data will be chopped or padded with null string
     # in original size.
     #
@@ -105,7 +105,7 @@ module PNGlitch
     end
 
     #
-    # Registers a custom filter function to decode data with a Proc object or a block.
+    # Registers a custom filter function to decode data.
     #
     # With this operation, it will be able to change filter decoding behavior despite 
     # the specified filter type value. It takes a Proc object or a block.

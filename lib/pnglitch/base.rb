@@ -123,8 +123,7 @@ module PNGlitch
     # To be polite to the filter types, use +each_scanline+ instead.
     #
     # Since this method sets the decompressed data into String, it may use a massive amount of 
-    # memory. It will raise an error when the data goes over the limit.
-    # In such case, please treat the data as IO through +glitch_as_io+ instead.
+    # memory. To decrease the memory usage, treat the data as IO through +glitch_as_io+ instead.
     #
     def glitch &block   # :yield: data
       warn_if_compressed_data_modified
@@ -291,6 +290,25 @@ module PNGlitch
     # See PNGlitch::Scanline for more details.
     #
     # This method is safer than +glitch+ but will be a little bit slow.
+    #
+    # -----
+    #
+    # Please note that +each_scanline+ will apply the filters after the loop. It means
+    # a following example doesn't work as expected.
+    #
+    #   pnglicth.each_scanline do |line|
+    #     line.change_filter 3
+    #     line.gsub! /\d/, 'x'  # wants to glitch after changing filters.
+    #   end
+    #
+    # To glitch after applying the new filter types, it should be called separately like:
+    #
+    #   pnglicth.each_scanline do |line|
+    #     line.change_filter 3
+    #   end
+    #   pnglicth.each_scanline do |line|
+    #     line.gsub! /\d/, 'x'
+    #   end
     #
     def each_scanline # :yield: scanline
       return enum_for :each_scanline unless block_given?

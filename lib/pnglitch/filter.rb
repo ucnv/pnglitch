@@ -1,6 +1,7 @@
 module PNGlitch
 
   # Filter represents the filtering functions that is defined in PNG spec.
+  #
   class Filter
 
     NONE    = 0
