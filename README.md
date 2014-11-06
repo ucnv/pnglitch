@@ -12,17 +12,6 @@ Using this library you will see beautiful and various PNG artifacts.
 ## Usage
 
 ```ruby
-    p = PNGlitch.open '/path/to/your/image.png'
-    p.glitch do |data|
-      data.gsub /\d/, 'x'
-    end
-    p.save '/path/to/broken/image.png'
-    p.close
-```
-
-The code above can be written with a block like below:
-
-```ruby
     PNGlitch.open('/path/to/your/image.png') do |p|
       p.glitch do |data|
         data.gsub /\d/, 'x'
@@ -30,7 +19,6 @@ The code above can be written with a block like below:
       p.save '/path/to/broken/image.png'
     end
 ```
-<!--
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -44,7 +32,6 @@ And then execute:
 Or install it yourself as:
 
     $ gem install pnglitch
--->
 
 ## Contributing
 
