@@ -156,9 +156,6 @@ module PNGlitch
     #
     # To set a glitched result, return the modified value in the block.
     #
-    # It will raise an error when the data goes over the limit. In such case, please treat
-    # the data as IO through +glitch_after_compress_as_io+ instead.
-    #
     # Once the compressed data is glitched, PNGlitch will warn about modifications to
     # filtered (decompressed) data because this method does not decompress the glitched 
     # compressed data again. It means that calling +glitch+ after +glitch_after_compress+ 
@@ -189,9 +186,7 @@ module PNGlitch
     end
 
     #
-    # (Re-)computes the filtering methods to each scanlines.
-    #
-    # On each scanline, it will compute them and apply the results as the filtered data.
+    # (Re-)computes the filtering methods on each scanline.
     #
     def apply_filters prev_filters = nil, filter_codecs = nil
       prev_filters = filter_types if prev_filters.nil?
@@ -269,7 +264,7 @@ module PNGlitch
     #
     # Process each scanlines.
     #
-    # It takes a block with a parameter. The parameter is an instance of
+    # It takes a block with a parameter. The parameter must be an instance of
     # PNGlitch::Scanline and it provides ways to edit the filter type and the data
     # of the scanlines. Normally it iterates the number of the PNG image height.
     #
@@ -280,7 +275,7 @@ module PNGlitch
     #   end
     #
     #   pnglicth.each_scanline do |line|
-    #     line.change_filter 3  # change all filter to 3, data will get re-filtering (it's not be a glitch)
+    #     line.change_filter 3  # change all filter to 3, data will get re-filtering (it won't be a glitch)
     #   end
     #
     #   pnglicth.each_scanline do |line|
@@ -293,7 +288,7 @@ module PNGlitch
     #
     # -----
     #
-    # Please note that +each_scanline+ will apply the filters after the loop. It means
+    # Please note that +each_scanline+ will apply the filters *after* the loop. It means
     # a following example doesn't work as expected.
     #
     #   pnglicth.each_scanline do |line|

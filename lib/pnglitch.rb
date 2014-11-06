@@ -20,7 +20,7 @@ require 'pnglitch/base'
 # = Usage
 #
 # == Simple glitch
-#
+# 
 #    png = PNGlitch.open '/path/to/your/image.png'
 #    png.glitch do |data|
 #      data.gsub /\d/, 'x'
@@ -64,8 +64,8 @@ require 'pnglitch/base'
 #      png.save '/path/to/broken/image.png'
 #    end
 #
-# Depe:nding a viewer application, the result of the first example using +glitch+ can 
-# detected as unopenable file, because of breaking the filter type bytes (Most applications
+# Depending a viewer application, the result of the first example using +glitch+ can be
+# detected as unopenable, because of breaking the filter type bytes (Most applications
 # will ignore it, but I found the library in java.awt get failed). The operation with
 # +each_scanline+ will be more careful for memory usage and the file itself.
 # It is a polite way, but is slower than the rude +glitch+.
@@ -89,9 +89,9 @@ require 'pnglitch/base'
 #    end
 #
 # Filter is a tiny function for optimizing PNG compression. It can be set different types
-# with each scanline. The five filter types are defined in the spec, are named +None+, +Up+,
-# +Sub+, +Average+ and +Paeth+ (+None+ means no filter, this filter type makes "raw" data).
-# Internally five digits (0-4) become the references.
+# with each scanline. The five filter types are defined in the spec, are named +None+,
+# +Sub+, +Up+, +Average+ and +Paeth+ (+None+ means no filter, this filter type makes "raw"
+# data). Internally five digits (0-4) correspond them.
 #
 # The filter types must be the most important factor behind the representation of glitch
 # results. Each filter has different effect.
@@ -141,7 +141,7 @@ require 'pnglitch/base'
 # a big difference. The filter is distinct and interesting thing in PNG glitching.
 # To put all filter type in a same value before glitching, we could see the signature
 # taste of each filter type. (Note that +change_filter+ will be a little bit slow, image
-# processing libraries like ImageMagick also have the option to put all filter type in
+# processing libraries like ImageMagick also have an option to put all filter type in
 # same ones and they will process faster.)
 #
 # This library provides a simple method to change the filter type so that generating all

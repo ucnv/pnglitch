@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = PNGlitch::VERSION
   spec.authors       = ["ucnv"]
   spec.email         = ["ucnvvv@gmail.com"]
-  spec.summary       = %q{A Ruby library to glitch PNG images.}
-  spec.description   = <<-EOL.gsub(/^\s*/, '')
+  spec.description   = %q{A Ruby library to glitch PNG images.}
+  spec.summary       = <<-EOL.gsub(/^\s*/, '')
     PNGlitch is a Ruby library to destroy your PNG images.
     With normal data-bending technique, a glitch against PNG will easily fail
     because of the checksum function. We provide a fail-proof destruction for it.
