@@ -70,8 +70,16 @@ describe PNGlitch do
     end
 
     context('when decompressed data is unexpected size') do
-      it 'should raise error' do
-        bomb = infile.dirname.join('bomb.png')
+      it 'should not raise error for too small size' do
+        bomb = infile.dirname.join('ina.png')
+        expect {
+          png = PNGlitch.open bomb
+          png.close
+        }.to_not raise_error
+      end
+
+      it 'should raise error for too large size' do
+        bomb = infile.dirname.join('inb.png')
         expect {
           png = PNGlitch.open bomb
           png.close
@@ -79,12 +87,13 @@ describe PNGlitch do
       end
 
       it 'can avoid the error' do
-        bomb = infile.dirname.join('bomb.png')
+        bomb = infile.dirname.join('inb.png')
         expect {
           png = PNGlitch.open bomb, limit_of_decompressed_data_size: 100 * 1024 ** 2
           png.close
         }.not_to raise_error
       end
+
     end
 
     context('when it is not PNG file') do
@@ -626,6 +635,10 @@ describe PNGlitch do
       PNGlitch.open out2 do |p|
         expect(p.idat_chunk_size).to be nil
       end
+      idat_size = open(out2, 'rb') do |f|
+        f.read.scan(/IDAT/).size
+      end
+      expect(idat_size).to be == 1
     end
   end
 
