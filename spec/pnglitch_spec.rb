@@ -586,7 +586,7 @@ describe PNGlitch do
   describe '.width and .height' do
     it 'destroy the dimension of the image' do
       w, h = ()
-      out = outdir.join('t.png') #outfile
+      out = outfile
       PNGlitch.open infile do |p|
         w = p.width
         h = p.height
@@ -598,6 +598,34 @@ describe PNGlitch do
       expect(p.width).to equal w - 10
       expect(p.height).to equal h + 10
       p.close
+    end
+  end
+
+  describe '.idat_chunk_size' do
+    it 'should be controlable' do
+      amount = nil
+      out1 = outdir.join 'a.png'
+      out2 = outdir.join 'b.png'
+      PNGlitch.open infile do |p|
+        amount = p.compressed_data.size
+        p.idat_chunk_size = 1024
+        p.output out1
+      end
+      PNGlitch.open out1 do |p|
+        expect(p.idat_chunk_size).to be == 1024
+      end
+      idat_size = open(out1, 'rb') do |f|
+        f.read.scan(/IDAT/).size
+      end
+      expect(idat_size).to be == (amount.to_f / 1024).ceil
+
+      PNGlitch.open infile do |p|
+        p.idat_chunk_size = nil
+        p.output out2
+      end
+      PNGlitch.open out2 do |p|
+        expect(p.idat_chunk_size).to be nil
+      end
     end
   end
 

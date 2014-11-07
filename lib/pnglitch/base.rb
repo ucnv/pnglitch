@@ -7,7 +7,7 @@ module PNGlitch
   class Base
 
     attr_reader :width, :height, :sample_size, :is_compressed_data_modified
-    attr_accessor :head_data, :tail_data, :compressed_data, :filtered_data
+    attr_accessor :head_data, :tail_data, :compressed_data, :filtered_data, :idat_chunk_size
 
     #
     # Instanciate the class with the passed +file+
