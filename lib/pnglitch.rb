@@ -39,7 +39,7 @@ require 'pnglitch/base'
 #
 # The +glitch+ method treats the decompressed data into one String instance. It will be
 # very convenient, but please note that it could take a huge size of memory. For example,
-# a normal PNG image in 3264 x 2448 pixels makes over 23 MB of decompressed data.
+# a normal PNG image in 4000 x 3000 pixels makes over 48 MB of decompressed data.
 # In case that the memory usage becomes a concern, it can be written to use IO instead of
 # String.
 #
@@ -94,28 +94,29 @@ require 'pnglitch/base'
 # data). Internally five digits (0-4) correspond them.
 #
 # The filter types must be the most important factor behind the representation of glitch
-# results. Each filter has different effect.
+# results. Each filter type has different effect.
 #
-# Generally in PNG file, scanlines has a variety of filter types on each. As in a 
+# Generally in PNG file, scanlines has a variety of filter types on each, as in a
 # convertion by image processing applications (like Photoshop or ImageMagick) they try to
-# apply proper filter types with each scanlines.
+# apply a proper filter type with each scanline.
 #
 # You can check the values like:
 #
 #    puts png.filter_types
 #
-# With +each_scanline+, we can reach the filters particularly.
+# With +each_scanline+, we can reach the filter types particularly.
 #
 #    png.each_scanline do |scanline|
+#      puts scanline.filter_type
 #      scanline.change_filter 3
 #    end
 #
 # The example above puts all filter types in 3 (type +Average+). +change_filter+ will
 # apply new filter type values correctly. It computes filters and makes the PNG well
-# formatted, and any glitch won't get happened. It also means the output image would have
-# completely looks the same as the input one.
+# formatted, and any glitch won't get happened. It also means the output image should
+# completely look the same as the input one.
 #
-# However glitches might reveal the difference of filter types.
+# However glitches will reveal the difference of the filter types.
 #
 #    PNGlitch.open(infile) do |png|
 #      png.each_scanline do |scanline|
@@ -139,10 +140,10 @@ require 'pnglitch/base'
 #
 # With the results of the example above, obviously we can recognize the filter types make
 # a big difference. The filter is distinct and interesting thing in PNG glitching.
-# To put all filter type in a same value before glitching, we could see the signature
-# taste of each filter type. (Note that +change_filter+ will be a little bit slow, image
+# To put all filter type in a same value before glitching, we would see the signature
+# taste of each filter type. (Note that +change_filter+ may be a little bit slow, image
 # processing libraries like ImageMagick also have an option to put all filter type in
-# same ones and they will process faster.)
+# same ones and they may process faster.)
 #
 # This library provides a simple method to change the filter type so that generating all
 # possible effects in PNG glitch.
@@ -178,7 +179,7 @@ require 'pnglitch/base'
 #    +----------+    +---------------+    +-----------------+    +----------------+
 #
 # It shows that there are two states between raw data and a result file, and it means there
-# are  two states possible to glitch. This library provides to choose of the state to glitch.
+# are two states possible to glitch. This library provides to choose of the state to glitch.
 #
 # All examples cited thus far are operations to "filtered data". On the other hand, PNGlitch
 # can touch the "compressed data" through +glitch_after_compress+ method:
@@ -189,7 +190,7 @@ require 'pnglitch/base'
 #     end
 #
 # Glitch against the compressed data makes slightly different pictures from other results.
-# But sometimes this scratch would break the compression and make the file unopenable.
+# But sometimes this scratch could break the compression and make the file unopenable.
 #
 module PNGlitch
   VERSION = '0.0.1'

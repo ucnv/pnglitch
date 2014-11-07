@@ -16,8 +16,8 @@ module PNGlitch
       path = Pathname.new file
       @head_data = StringIO.new
       @tail_data = StringIO.new
-      @compressed_data = Tempfile.new 'compressed', :encoding => 'ascii-8bit'
-      @filtered_data = Tempfile.new 'filtered', :encoding => 'ascii-8bit'
+      @compressed_data = Tempfile.new 'compressed', encoding: 'ascii-8bit'
+      @filtered_data = Tempfile.new 'filtered', encoding: 'ascii-8bit'
       @idat_chunk_size = nil
 
       open(path, 'rb') do |io|
@@ -333,6 +333,7 @@ module PNGlitch
       end
       apply_filters(prev_filters, filter_codecs) if is_refilter_needed
       compress
+      self
     end
 
     #
@@ -389,6 +390,7 @@ module PNGlitch
         end
       end
       @head_data.rewind
+      w
     end
 
     #
@@ -409,27 +411,27 @@ module PNGlitch
         end
       end
       @head_data.rewind
+      h
     end
 
     #
     # Save to the +file+.
     #
     def save file
-      @head_data.rewind
-      @tail_data.rewind
-      @compressed_data.rewind
-      open(file, 'w') do |io|
-        io << @head_data.read
-        chunk_size = @idat_chunk_size || @compressed_data.size
-        type = 'IDAT'
-        until @compressed_data.eof? do
-          data = @compressed_data.read(chunk_size)
-          io << [data.size].pack('N')
-          io << type
-          io << data
-          io << [Zlib.crc32(data, Zlib.crc32(type))].pack('N')
+      wrap_with_rewind(@head_data, @tail_data, @compressed_data) do
+        open(file, 'w') do |io|
+          io << @head_data.read
+          chunk_size = @idat_chunk_size || @compressed_data.size
+          type = 'IDAT'
+          until @compressed_data.eof? do
+            data = @compressed_data.read(chunk_size)
+            io << [data.size].pack('N')
+            io << type
+            io << data
+            io << [Zlib.crc32(data, Zlib.crc32(type))].pack('N')
+          end
+          io << @tail_data.read
         end
-        io << @tail_data.read
       end
       self
     end

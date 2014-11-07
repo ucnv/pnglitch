@@ -49,6 +49,7 @@ describe PNGlitch do
           end
         }.not_to raise_error
         expect(types.size).to eq h
+        expect(outfile).to exist
       end
 
       it 'should return a value of last call in the block' do
