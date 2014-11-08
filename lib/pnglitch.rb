@@ -160,13 +160,12 @@ require 'pnglitch/base'
 #
 #    png.each_scanline do |scanline|
 #      scanline.register_filter_encoder do |data, prev|
-#        d = data.dup
-#        d.size.times.reverse_each do |i|
-#          x = d.getbyte(i)
+#        data.size.times.reverse_each do |i|
+#          x = data.getbyte(i)
 #          v = prev ? prev.getbyte((i - 5).abs) : 0
-#          d.setbyte(i, (x - v) & 0xff)
+#          data.setbyte(i, (x - v) & 0xff)
 #        end
-#        d
+#        data
 #      end
 #    end
 #

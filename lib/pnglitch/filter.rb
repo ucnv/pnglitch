@@ -42,14 +42,14 @@ module PNGlitch
     # Filter with a specified filter type.
     #
     def encode data, prev_data = nil
-      @encoder.call data, prev_data
+      @encoder.call data.dup, prev_data
     end
 
     #
     # Reconstruct with a specified filter type.
     #
     def decode data, prev_data = nil
-      @decoder.call data, prev_data
+      @decoder.call data.dup, prev_data
     end
 
     private
@@ -64,74 +64,68 @@ module PNGlitch
 
     def encode_sub data, prev # :nodoc:
       # Filt(x) = Orig(x) - Orig(a)
-      d = data.dup
-      d.size.times.reverse_each do |i|
+      data.size.times.reverse_each do |i|
         next if i < @sample_size
-        x = d.getbyte i
-        a = d.getbyte i - @sample_size
-        d.setbyte i, (x - a) & 0xff
+        x = data.getbyte i
+        a = data.getbyte i - @sample_size
+        data.setbyte i, (x - a) & 0xff
       end
-      d
+      data
     end
 
     def decode_sub data, prev # :nodoc:
       # Recon(x) = Filt(x) + Recon(a)
-      d = data.dup
-      d.size.times do |i|
+      data.size.times do |i|
         next if i < @sample_size
-        x = d.getbyte i
-        a = d.getbyte i - @sample_size
-        d.setbyte i, (x + a) & 0xff
+        x = data.getbyte i
+        a = data.getbyte i - @sample_size
+        data.setbyte i, (x + a) & 0xff
       end
-      d
+      data
     end
 
     def encode_up data, prev # :nodoc:
       # Filt(x) = Orig(x) - Orig(b)
       return data if prev.nil?
-      d = data.dup
-      d.size.times.reverse_each do |i|
-        x = d.getbyte i
+      data.size.times.reverse_each do |i|
+        x = data.getbyte i
         b = prev.getbyte i
-        d.setbyte i, (x - b) & 0xff
+        data.setbyte i, (x - b) & 0xff
       end
-      d
+      data
     end
 
     def decode_up data, prev # :nodoc:
       # Recon(x) = Filt(x) + Recon(b)
       return data if prev.nil?
-      d = data.dup
-      d.size.times do |i|
-        x = d.getbyte i
+      data.size.times do |i|
+        x = data.getbyte i
         b = prev.getbyte i
-        d.setbyte i, (x + b) & 0xff
+        data.setbyte i, (x + b) & 0xff
       end
-      d
+      data
     end
 
     def decode_average data, prev # :nodoc:
       # Recon(x) = Filt(x) + floor((Recon(a) + Recon(b)) / 2)
-      d = data.dup
-      d.size.times do |i|
-        x = d.getbyte i
-        a = i >= @sample_size ? d.getbyte(i - @sample_size) : 0
+      data.size.times do |i|
+        x = data.getbyte i
+        a = i >= @sample_size ? data.getbyte(i - @sample_size) : 0
         b = !prev.nil? ? prev.getbyte(i) : 0
-        d.setbyte i, (x + ((a + b) / 2)) & 0xff
+        data.setbyte i, (x + ((a + b) / 2)) & 0xff
       end
-      d
+      data
     end
 
     def encode_average data, prev # :nodoc:
       # Filt(x) = Orig(x) - floor((Orig(a) + Orig(b)) / 2)
-      d = data.dup
-      d.size.times.reverse_each do |i|
-        x = d.getbyte i
-        a = i >= @sample_size ? d.getbyte(i - @sample_size) : 0
+      data.size.times.reverse_each do |i|
+        x = data.getbyte i
+        a = i >= @sample_size ? data.getbyte(i - @sample_size) : 0
         b = !prev.nil? ? prev.getbyte(i) : 0
-        d.setbyte i, (x - ((a + b) / 2)) & 0xff
+        data.setbyte i, (x - ((a + b) / 2)) & 0xff
       end
-      d
+      data
     end
 
     def encode_paeth data, prev # :nodoc:
@@ -146,12 +140,11 @@ module PNGlitch
       #   else if pb <= pc then Pr = b
       #   else Pr = c
       #   return Pr
-      d = data.dup
-      d.size.times.reverse_each do |i|
-        x = d.getbyte i
+      data.size.times.reverse_each do |i|
+        x = data.getbyte i
         is_a_exist = i >= @sample_size
         is_b_exist = !prev.nil?
-        a = is_a_exist ? d.getbyte(i - @sample_size) : 0
+        a = is_a_exist ? data.getbyte(i - @sample_size) : 0
         b = is_b_exist ? prev.getbyte(i) : 0
         c = is_a_exist && is_b_exist ? prev.getbyte(i - @sample_size) : 0
         p = a + b - c
@@ -159,19 +152,18 @@ module PNGlitch
         pb = (p - b).abs
         pc = (p - c).abs
         pr = pa <= pb && pa <= pc ? a : pb <= pc ? b : c
-        d.setbyte i, (x - pr) & 0xff
+        data.setbyte i, (x - pr) & 0xff
       end
-      d
+      data
     end
 
     def decode_paeth data, prev # :nodoc:
       # Recon(x) = Filt(x) + PaethPredictor(Recon(a), Recon(b), Recon(c))
-      d = data.dup
-      d.size.times do |i|
-        x = d.getbyte i
+      data.size.times do |i|
+        x = data.getbyte i
         is_a_exist = i >= @sample_size
         is_b_exist = !prev.nil?
-        a = is_a_exist ? d.getbyte(i - @sample_size) : 0
+        a = is_a_exist ? data.getbyte(i - @sample_size) : 0
         b = is_b_exist ? prev.getbyte(i) : 0
         c = is_a_exist && is_b_exist ? prev.getbyte(i - @sample_size) : 0
         p = a + b - c
@@ -179,9 +171,9 @@ module PNGlitch
         pb = (p - b).abs
         pc = (p - c).abs
         pr = (pa <= pb && pa <= pc) ? a : (pb <= pc ? b : c)
-        d.setbyte i, (x + pr) & 0xff
+        data.setbyte i, (x + pr) & 0xff
       end
-      d
+      data
     end
   end
 end

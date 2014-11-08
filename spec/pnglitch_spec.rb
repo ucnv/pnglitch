@@ -391,17 +391,16 @@ describe PNGlitch do
       end
 
       enc = lambda do |data, prev|
-        d = data.dup
-        d.size.times.reverse_each do |i|
-          x = d.getbyte i
-          a = i >= sample_size ? d.getbyte(i - sample_size - 1) : 0
+        data.size.times.reverse_each do |i|
+          x = data.getbyte i
+          a = i >= sample_size ? data.getbyte(i - sample_size - 1) : 0
           b = !prev.nil? ? prev.getbyte(i - 1) : 0
-          d.setbyte i, (x - ((a + b) / 2)) & 0xff
+          data.setbyte i, (x - ((a + b) / 2)) & 0xff
         end
-        d
+        data
       end
       decoded = PNGlitch::Filter.new(original_filter, sample_size).decode(lines[1], lines[0])
-      encoded = enc.call(decoded, lines[0])
+      encoded = enc.call(decoded.dup, lines[0])
 
       PNGlitch.open infile do |png|
         png.each_scanline.with_index do |s, i|
@@ -418,16 +417,15 @@ describe PNGlitch do
       # ==================================
 
       dec = lambda do |data, prev|
-        d = data.dup
-        d.size.times do |i|
-          x = d.getbyte i
-          a = i >= sample_size ? d.getbyte(i - sample_size - 2) : 0
+        data.size.times do |i|
+          x = data.getbyte i
+          a = i >= sample_size ? data.getbyte(i - sample_size - 2) : 0
           b = !prev.nil? ? prev.getbyte(i - 1) : 0
-          d.setbyte i, (x + ((a + b) / 2)) & 0xff
+          data.setbyte i, (x + ((a + b) / 2)) & 0xff
         end
-        d
+        data
       end
-      decoded = dec.call(lines[1], lines[0])
+      decoded = dec.call(lines[1].dup, lines[0])
       encoded = PNGlitch::Filter.new(original_filter, sample_size).encode(decoded, lines[0])
 
       PNGlitch.open infile do |png|
@@ -444,8 +442,8 @@ describe PNGlitch do
 
       # ==================================
 
-      decoded = dec.call(lines[1], lines[0])
-      encoded = enc.call(decoded, lines[0])
+      decoded = dec.call(lines[1].dup, lines[0])
+      encoded = enc.call(decoded.dup, lines[0])
 
       PNGlitch.open infile do |png|
         png.each_scanline.with_index do |s, i|
@@ -552,17 +550,16 @@ describe PNGlitch do
       end
 
       enc = lambda do |data, prev|
-        d = data.dup
-        d.size.times.reverse_each do |i|
-          x = d.getbyte i
-          a = i >= sample_size ? d.getbyte(i - sample_size - 1) : 0
+        data.size.times.reverse_each do |i|
+          x = data.getbyte i
+          a = i >= sample_size ? data.getbyte(i - sample_size - 1) : 0
           b = !prev.nil? ? prev.getbyte(i - 2) : 0
-          d.setbyte i, (x - ((a + b) / 2)) & 0xff
+          data.setbyte i, (x - ((a + b) / 2)) & 0xff
         end
-        d
+        data
       end
       decoded = PNGlitch::Filter.new(original_filter, sample_size).decode(lines[1], lines[0])
-      encoded = enc.call(decoded, lines[0])
+      encoded = enc.call(decoded.dup, lines[0])
 
       PNGlitch.open infile do |png|
         l = png.scanline_at 100
