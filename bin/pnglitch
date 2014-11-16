@@ -41,9 +41,7 @@ begin
   infile, outfile = ARGV
   PNGlitch.open infile do |png|
     unless filter.nil?
-      png.each_scanline do |line|
-        line.change_filter filter
-      end
+      png.change_all_filters filter
     end
     png.glitch do |data|
       data.gsub /\d/, 'x'

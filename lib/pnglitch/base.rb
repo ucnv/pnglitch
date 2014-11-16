@@ -375,6 +375,17 @@ module PNGlitch
     end
 
     #
+    # Changes filter type values to passed +filter_type+ in all scanlines
+    #
+    def change_all_filters filter_type
+      each_scanline do |line|
+        line.change_filter filter_type
+      end
+      compress
+      self
+    end
+
+    #
     # Rewrites the width value.
     #
     def width= w

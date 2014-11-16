@@ -589,6 +589,23 @@ describe PNGlitch do
     end
   end
 
+  describe '.change_all_filters' do
+    it 'can change filter types with single method' do
+      v = rand(4)
+      PNGlitch.open infile do |p|
+        p.change_all_filters v
+        p.save outfile
+      end
+      PNGlitch.open outfile do |p|
+        p.each_scanline do |l|
+          expect(l.filter_type).to be == v
+        end
+      end
+
+
+    end
+  end
+
   describe '.width and .height' do
     it 'destroy the dimension of the image' do
       w, h = ()
