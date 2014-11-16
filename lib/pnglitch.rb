@@ -222,10 +222,11 @@ module PNGlitch
     # the amount of pixels).
     # To avoid the attack known as "zip bomb", PNGlitch will throw an error when
     # decompressed data goes over twice the expected size. If it's sure that the passed
-    # file is safe, the upper limit of decompressed data size can be set in +open+'s option.
+    # file is safe, the upper limit of decompressed data size can be set in +open+'s option
+    # in bytes.
     # Like:
     #
-    #   PNGlitch.open(infile, limit_of_decompressed_data_size: 1 * 1024 ** 3)
+    #   PNGlitch.open(infile, limit_of_decompressed_data_size: 1024 ** 3)
     #
     def open file, options = {}
       base = Base.new file, options[:limit_of_decompressed_data_size]

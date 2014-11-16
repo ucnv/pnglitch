@@ -466,7 +466,7 @@ module PNGlitch
           With this operation, your changes on the compressed data will be reverted.
           Note that a modification to the compressed data does not reflect to the 
           filtered (decompressed) data.
-          It\'s happened around #{trace.last.to_s}
+          It's happened around #{trace.last.to_s}
         EOL
         message = ["\e[33m",  message, "\e[0m"].join if STDOUT.tty?  # color yellow
         warn ["\n", message, "\n"].join

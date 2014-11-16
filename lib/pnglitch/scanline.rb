@@ -111,7 +111,6 @@ module PNGlitch
     # the specified filter type value. It takes a Proc object or a block.
     #
     def register_filter_decoder decoder = nil, &block
-      @filter_decoder = decoder
       if !decoder.nil? && decoder.is_a?(Proc)
         @filter_codec[:decoder] = decoder
       elsif block_given?
@@ -119,7 +118,6 @@ module PNGlitch
       end
       save
     end
-
 
     #
     # Save the changes.
