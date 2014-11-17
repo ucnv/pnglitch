@@ -375,6 +375,36 @@ describe PNGlitch do
       end
     end
 
+    it 'can change filter type with the name' do
+      t1 = PNGlitch.open infile do |p|
+        p.each_scanline do |l|
+          l.change_filter PNGlitch::Filter::PAETH
+        end
+        p.filter_types
+      end
+      t2 = PNGlitch.open infile do |p|
+        p.each_scanline do |l|
+          l.change_filter :paeth
+        end
+        p.filter_types
+      end
+      t3 = PNGlitch.open infile do |p|
+        p.each_scanline do |l|
+          l.change_filter :sub
+        end
+        p.filter_types
+      end
+      t4 = PNGlitch.open infile do |p|
+        p.each_scanline do |l|
+          l.graft 'Paeth'
+        end
+        p.filter_types
+      end
+      expect(t2).to be == t1
+      expect(t3).not_to be == t1
+      expect(t4).to be == t1
+    end
+
     it 'can apply custom filter method' do
       lines = []
       sample_size = nil
