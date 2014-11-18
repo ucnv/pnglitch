@@ -23,4 +23,10 @@ describe PNGlitch::Filter do
     end
   end
 
+  describe '.guess' do
+    it 'should detect wrong value as nil' do
+      v = PNGlitch::Filter.guess 34
+      expect(v).to be_nil
+    end
+  end
 end

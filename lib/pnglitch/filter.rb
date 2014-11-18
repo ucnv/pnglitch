@@ -19,7 +19,7 @@ module PNGlitch
       type = nil
       if filter_type.is_a?(Numeric) && filter_type.between?(NONE, PAETH)
         type = filter_type.to_i
-      elsif filter_type.to_s =~ /[0-4]/
+      elsif filter_type.is_a?(String) && filter_type =~ /^[0-4]$/
         type = filter_type.to_i
       else
         type = @@types.collect{|c| c.to_s[0] }.index(filter_type.to_s[0].downcase)
