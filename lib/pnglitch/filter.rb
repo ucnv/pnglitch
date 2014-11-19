@@ -31,7 +31,7 @@ module PNGlitch
     attr_accessor :encoder, :decoder
 
     def initialize filter_type, sample_size
-      @filter_type = Filter.guess filter_type || 0
+      @filter_type = Filter.guess(filter_type) || 0
       @filter_type_name = @@types[@filter_type]
       @sample_size = sample_size
       @encoder = self.method ('encode_%s' % @filter_type_name.to_s).to_sym

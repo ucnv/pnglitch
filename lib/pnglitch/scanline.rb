@@ -11,12 +11,11 @@ module PNGlitch
     #
     # Instanciate.
     #
-    def initialize io, start_at, width, sample_size, at
+    def initialize io, start_at, data_size, at
       @index = at
       @io = io
       @start_at = start_at
-      @data_size = width * sample_size
-      @sample_size = sample_size
+      @data_size = data_size
 
       pos = @io.pos
       @io.pos = @start_at
@@ -86,7 +85,7 @@ module PNGlitch
     def change_filter new_filter
       @prev_filter_type = @filter_type
       @filter_type = new_filter
-      save
+      self.save
     end
 
     #

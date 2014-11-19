@@ -69,7 +69,7 @@ describe PNGlitch do
       end
     end
 
-    context('when decompressed data is unexpected size') do
+    context 'when decompressed data is unexpected size' do
       it 'should not raise error for too small size' do
         bomb = infile.dirname.join('ina.png')
         expect {
@@ -96,13 +96,27 @@ describe PNGlitch do
 
     end
 
-    context('when it is not PNG file') do
+    context 'when it is not PNG file' do
       it 'should raise error' do
         file = infile.dirname.join('filter_none')
         expect {
           png = PNGlitch.open file
           png.close
         }.to raise_error PNGlitch::FormatError
+      end
+    end
+
+    context 'with interlaced image' do
+      it 'should check it' do
+        a = PNGlitch.open infile do |p|
+          p.interlaced?
+        end
+        interlace = infile.dirname.join('inc.png')
+        b = PNGlitch.open interlace do |p|
+          p.interlaced?
+        end
+        expect(a).to be false
+        expect(b).to be true
       end
     end
   end
@@ -162,6 +176,19 @@ describe PNGlitch do
       after = Zlib::Inflate.inflate(png.compressed_data.read)
       png.close
       expect(before).to eq after
+    end
+  end
+
+  describe '.apply_filters' do
+    it 'should ignore wrong filter types' do
+      PNGlitch.open infile do |p|
+        io = p.filtered_data
+        io.rewind
+        io << [100].pack('C')
+        expect {
+          p.apply_filters
+        }.not_to raise_error
+      end
     end
   end
 
@@ -300,6 +327,15 @@ describe PNGlitch do
   end
 
   describe '.filter_types' do
+    it 'should be in range between 0 and 4' do
+      png = PNGlitch.open infile
+      types = png.filter_types
+      png.close
+      types.each do |t|
+        expect(t).to be_between(0, 4)
+      end
+    end
+
     it 'should be same size of image height' do
       png = PNGlitch.open infile
       types = png.filter_types
@@ -541,6 +577,7 @@ describe PNGlitch do
         expect(b).not_to eq(a)
       end
     end
+
   end
 
   describe '.scanline_at' do

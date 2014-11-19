@@ -37,6 +37,7 @@ module PNGlitch
             }
             @width = ihdr[:width]
             @height = ihdr[:height]
+            @interlace = ihdr[:interlace_method]
             @sample_size = {0 => 1, 2 => 3, 3 => 1, 4 => 2, 6 => 4}[ihdr[:color_type]]
             io.pos -= 13
           end
@@ -307,28 +308,19 @@ module PNGlitch
     #
     def each_scanline # :yield: scanline
       return enum_for :each_scanline unless block_given?
-
       prev_filters = self.filter_types
       is_refilter_needed = false
       filter_codecs = []
       wrap_with_rewind(@filtered_data) do
-        pos = 0
         at = 0
-        until @filtered_data.eof? do
-          scanline = Scanline.new @filtered_data, pos, @width, @sample_size, at
+        scanline_positions.push(@filtered_data.size).inject do |pos, delimit|
+          scanline = Scanline.new @filtered_data, pos, (delimit - pos - 1), at
           yield scanline
-          unless scanline.prev_filter_type.nil?
-            is_refilter_needed = true
-          else
-            prev_filters[at] = scanline.filter_type  # forget the prev filter when "graft"
-          end
-          filter_codecs << scanline.filter_codec
-          if !filter_codecs.last[:encoder].nil? || !filter_codecs.last[:decoder].nil?
+          if fabricate_scanline(scanline, prev_filters, filter_codecs)
             is_refilter_needed = true
           end
           at += 1
-          pos += @width * @sample_size + 1
-          @filtered_data.pos = pos
+          delimit
         end
       end
       apply_filters(prev_filters, filter_codecs) if is_refilter_needed
@@ -344,34 +336,41 @@ module PNGlitch
     def scanline_at index_or_range
       base = self
       prev_filters = self.filter_types
-      filter_codecs = nil
+      filter_codecs = Array.new(prev_filters.size)
       scanlines = []
       index_or_range = self.filter_types.size - 1 if index_or_range == -1
       range = index_or_range.is_a?(Range) ? index_or_range : [index_or_range]
-      pos = 0
-      self.filter_types.each.with_index do |filter, at|
+
+      at = 0
+      scanline_positions.push(@filtered_data.size).inject do |pos, delimit|
         if range.include? at
-          s = Scanline.new(@filtered_data, pos, @width, @sample_size, at) do |scanline|
-            is_refilter_needed = false
-            unless scanline.prev_filter_type.nil?
-              is_refilter_needed = true
-            else
-              prev_filters[at] = scanline.filter_type
+          s = Scanline.new(@filtered_data, pos, (delimit - pos - 1), at) do |scanline|
+            if base.fabricate_scanline(scanline, prev_filters, filter_codecs)
+              base.apply_filters(prev_filters, filter_codecs)
             end
-            codec = scanline.filter_codec
-            if !codec[:encoder].nil? || !codec[:decoder].nil?
-              filter_codecs = Array.new(prev_filters.size) if filter_codecs.nil?
-              filter_codecs[at] = codec
-              is_refilter_needed = true
-            end
-            base.apply_filters(prev_filters, filter_codecs) if is_refilter_needed
             base.compress
           end
           scanlines << s
         end
-        pos += @width * @sample_size + 1
+        at += 1
+        delimit
       end
       scanlines.size <= 1 ? scanlines.first : scanlines
+    end
+
+    def fabricate_scanline scanline, prev_filters, filter_codecs # :nodoc:
+      at = scanline.index
+      is_refilter_needed = false
+      unless scanline.prev_filter_type.nil?
+        is_refilter_needed = true
+      else
+        prev_filters[at] = scanline.filter_type
+      end
+      codec = filter_codecs[at] = scanline.filter_codec
+      if !codec[:encoder].nil? || !codec[:decoder].nil?
+        is_refilter_needed = true
+      end
+      is_refilter_needed
     end
 
     #
@@ -383,6 +382,13 @@ module PNGlitch
       end
       compress
       self
+    end
+
+    #
+    # Checks if it is interlaced.
+    #
+    def interlaced?
+      @interlace == 1
     end
 
     #
@@ -466,6 +472,21 @@ module PNGlitch
       io.each do |i|
         i.rewind
       end
+    end
+
+    # Calculate positions of scanlines
+    def scanline_positions
+      scanline_pos = [0]
+      amount = @filtered_data.size
+      if self.interlaced?
+        # TODO calc adam7
+      end
+      loop do
+        v = scanline_pos.last + (1 + @width * @sample_size)
+        break if v >= amount
+        scanline_pos << v
+      end
+      scanline_pos
     end
 
     # Makes warning
