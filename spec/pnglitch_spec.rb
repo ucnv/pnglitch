@@ -334,6 +334,12 @@ describe PNGlitch do
       types.each do |t|
         expect(t).to be_between(0, 4)
       end
+      png = PNGlitch.open infile.dirname.join('inc.png')
+      types = png.filter_types
+      png.close
+      types.each do |t|
+        expect(t).to be_between(0, 4)
+      end
     end
 
     it 'should be same size of image height' do
@@ -578,6 +584,21 @@ describe PNGlitch do
       end
     end
 
+    context 'with an interlaced image' do
+      it 'can recognize correct filter types' do
+        img = infile.dirname.join('inc.png')
+        PNGlitch.open img do |p|
+          p.each_scanline do |line|
+            expect(line.filter_type).to be_between(0, 4)
+          end
+          p.change_all_filters 4
+          p.each_scanline do |line|
+            expect(line.filter_type).to be == 4
+          end
+          p.save outfile.dirname.join('i.png')
+        end
+      end
+    end
   end
 
   describe '.scanline_at' do

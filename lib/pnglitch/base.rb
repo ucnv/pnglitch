@@ -96,10 +96,10 @@ module PNGlitch
     def filter_types
       types = []
       wrap_with_rewind(@filtered_data) do
-        until @filtered_data.eof? do
+        scanline_positions.each do |pos|
+          @filtered_data.pos = pos
           byte = @filtered_data.read 1
           types << byte.unpack('C').first
-          @filtered_data.pos += @width * @sample_size
         end
       end
       types
@@ -194,16 +194,25 @@ module PNGlitch
       filter_codecs = [] if filter_codecs.nil?
       current_filters = []
       prev = nil
-      line_size = @width * @sample_size
+      line_sizes = []
+      scanline_positions.push(@filtered_data.size).inject do |m, n|
+        line_sizes << n - m - 1
+        n
+      end
       wrap_with_rewind(@filtered_data) do
         # decode all scanlines
         prev_filters.each_with_index do |type, i|
           byte = @filtered_data.read 1
           current_filters << byte.unpack('C').first
+          line_size = line_sizes[i]
           line = @filtered_data.read line_size
           filter = Filter.new type, @sample_size
           if filter_codecs[i] && filter_codecs[i][:decoder]
             filter.decoder = filter_codecs[i][:decoder]
+          end
+          # TODO make sure prev to be nil if interlace pass is changed
+          if !prev.nil? && line_size != prev.size
+            prev = nil
           end
           decoded = filter.decode line, prev
           @filtered_data.pos -= line_size
@@ -212,16 +221,18 @@ module PNGlitch
         end
         # encode all
         filter_codecs.reverse!
+        line_sizes.reverse!
         data_amount = @filtered_data.pos # should be eof
+        ref = data_amount
         current_filters.reverse_each.with_index do |type, i|
-          pos = data_amount - ((1 + line_size) * i)
-          posa = pos - line_size
-          @filtered_data.pos = posa
+          line_size = line_sizes[i]
+          ref -= line_size + 1
+          @filtered_data.pos = ref + 1
           line = @filtered_data.read line_size
-          posb = pos - (1 + line_size) - line_size
           prev = nil
-          unless posb < 0
-            @filtered_data.pos = posb
+          # TODO make sure prev to be nil if interlace pass is changed
+          if line_size == line_sizes[i + 1]
+            @filtered_data.pos = ref - line_size
             prev = @filtered_data.read line_size
           end
           filter = Filter.new type, @sample_size
@@ -229,7 +240,7 @@ module PNGlitch
             filter.encoder = filter_codecs[i][:encoder]
           end
           encoded = filter.encode line, prev
-          @filtered_data.pos = posa
+          @filtered_data.pos = ref + 1
           @filtered_data << encoded
         end
       end
@@ -479,7 +490,51 @@ module PNGlitch
       scanline_pos = [0]
       amount = @filtered_data.size
       if self.interlaced?
-        # TODO calc adam7
+        @interlace_pass_count = []
+        # Adam7
+        # Pass 1
+        v = 1 + (@width / 8.0).ceil * @sample_size
+        (@height / 8.0).ceil.times do
+          scanline_pos << scanline_pos.last + v
+        end
+        @interlace_pass_count << scanline_pos.size
+        # Pass 2
+        v = 1 + ((@width - 4) / 8.0).ceil * @sample_size
+        (@height / 8.0).ceil.times do
+          scanline_pos << scanline_pos.last + v
+        end
+        @interlace_pass_count << scanline_pos.size
+        # Pass 3
+        v = 1 + (@width / 4.0).ceil * @sample_size
+        ((@height - 4) / 8.0).ceil.times do
+          scanline_pos << scanline_pos.last + v
+        end
+        @interlace_pass_count << scanline_pos.size
+        # Pass 4
+        v = 1 + ((@width - 2) / 4.0).ceil * @sample_size
+        (@height / 4.0).ceil.times do
+          scanline_pos << scanline_pos.last + v
+        end
+        @interlace_pass_count << scanline_pos.size
+        # Pass 5
+        v = 1 + (@width / 2.0).ceil * @sample_size
+        ((@height - 2) / 4.0).ceil.times do
+          scanline_pos << scanline_pos.last + v
+        end
+        @interlace_pass_count << scanline_pos.size
+        # Pass 6
+        v = 1 + ((@width - 1) / 2.0).ceil * @sample_size
+        (@height / 2.0).ceil.times do
+          scanline_pos << scanline_pos.last + v
+        end
+        @interlace_pass_count << scanline_pos.size
+        # Pass 7
+        v = 1 + @width * @sample_size
+        ((@height - 1) / 2.0).ceil.times do
+          scanline_pos << scanline_pos.last + v
+        end
+        scanline_pos.pop  # no need to keep last position
+        @interlace_pass_count << scanline_pos.size
       end
       loop do
         v = scanline_pos.last + (1 + @width * @sample_size)
