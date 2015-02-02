@@ -210,8 +210,7 @@ module PNGlitch
           if filter_codecs[i] && filter_codecs[i][:decoder]
             filter.decoder = filter_codecs[i][:decoder]
           end
-          # TODO make sure prev to be nil if interlace pass is changed
-          if !prev.nil? && line_size != prev.size
+          if !prev.nil? && @interlace_pass_count.include?(i + 1)  # make sure prev to be nil if interlace pass is changed
             prev = nil
           end
           decoded = filter.decode line, prev
@@ -230,10 +229,13 @@ module PNGlitch
           @filtered_data.pos = ref + 1
           line = @filtered_data.read line_size
           prev = nil
-          # TODO make sure prev to be nil if interlace pass is changed
-          if line_size == line_sizes[i + 1]
+          if !line_sizes[i + 1].nil?
             @filtered_data.pos = ref - line_size
             prev = @filtered_data.read line_size
+          end
+          # make sure prev to be nil if interlace pass is changed
+          if @interlace_pass_count.include?(current_filters.size - i)
+            prev = nil
           end
           filter = Filter.new type, @sample_size
           if filter_codecs[i] && filter_codecs[i][:encoder]
@@ -489,8 +491,8 @@ module PNGlitch
     def scanline_positions
       scanline_pos = [0]
       amount = @filtered_data.size
+      @interlace_pass_count = []
       if self.interlaced?
-        @interlace_pass_count = []
         # Adam7
         # Pass 1
         v = 1 + (@width / 8.0).ceil * @sample_size
@@ -534,7 +536,6 @@ module PNGlitch
           scanline_pos << scanline_pos.last + v
         end
         scanline_pos.pop  # no need to keep last position
-        @interlace_pass_count << scanline_pos.size
       end
       loop do
         v = scanline_pos.last + (1 + @width * @sample_size)

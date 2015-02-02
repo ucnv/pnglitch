@@ -334,12 +334,6 @@ describe PNGlitch do
       types.each do |t|
         expect(t).to be_between(0, 4)
       end
-      png = PNGlitch.open infile.dirname.join('inc.png')
-      types = png.filter_types
-      png.close
-      types.each do |t|
-        expect(t).to be_between(0, 4)
-      end
     end
 
     it 'should be same size of image height' do
@@ -349,6 +343,19 @@ describe PNGlitch do
       png.close
       expect(types.size).to eq height
     end
+
+    context 'with interlaced PNG' do
+      it 'should be in range between 0 and 4' do
+        png = PNGlitch.open infile.dirname.join('inc.png')
+        types = png.filter_types
+        png.close
+        types.each do |t|
+          expect(t).to be_between(0, 4)
+        end
+      end
+
+    end
+
   end
 
   describe '.each_scanline' do
