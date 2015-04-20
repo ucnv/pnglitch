@@ -720,7 +720,7 @@ describe PNGlitch do
   end
 
   describe '.idat_chunk_size' do
-    it 'should be controlable' do
+    it 'should be controllable' do
       amount = nil
       out1 = outdir.join 'a.png'
       out2 = outdir.join 'b.png'
