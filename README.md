@@ -12,6 +12,8 @@ Using this library you will see beautiful and various PNG artifacts.
 ## Usage
 
 ```ruby
+    require 'pnglitch'
+
     PNGlitch.open('/path/to/your/image.png') do |p|
       p.glitch do |data|
         data.gsub /\d/, 'x'
