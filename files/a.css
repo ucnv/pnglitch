@@ -142,6 +142,11 @@ figure.catalog {
   float: left;
 }
 
+figure.catalog img {
+  width: 416px;
+  height: 416px;
+}
+
 figure.catalog figcaption {
   font-size: 12px;
   height: 3.5em;
@@ -152,7 +157,7 @@ dt {
   font-family: 'CenturySchlbkMTW01-Bold_706541', serif;
 }
 
-@media only screen and (max-width: 1280px) {
+@media only screen and (max-width: 1308px) {
   section {
     padding: 0 0 0 5px;
     margin: 20px auto;

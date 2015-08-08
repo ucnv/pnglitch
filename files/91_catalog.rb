@@ -13,7 +13,7 @@ infiles.each do |infile|
           options << 'interlace' if interlace
           options << 'compress' if compress
           options << method.to_s
-          outfile = "lena-%02d-%s.png" % [count, options.join('-')]
+          outfile = "lena-%03d-%s.png" % [count, options.join('-')]
           meta = {
             file: outfile,
             method: method,
@@ -24,7 +24,7 @@ infiles.each do |infile|
           }
           template = <<-TEMP
       <figure class="catalog">
-        <img src="files/#{meta[:file]}" alt="">
+        <img src="files/blank.png" data-src="files/#{meta[:file]}" alt="">
         <figcaption>Figure B.#{count}) Glitched PNG<br>
           Glitch method: #{meta[:method].to_s.capitalize } /
           Filter: #{meta[:filter].to_s.capitalize }  /

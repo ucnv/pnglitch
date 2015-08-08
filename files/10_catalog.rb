@@ -20,7 +20,7 @@ infiles.each do |infile|
           options << 'interlace' if interlace
           options << 'compress' if compress
           options << method.to_s
-          outfile = "lena-%02d-%s.png" % [count, options.join('-')]
+          outfile = "lena-%03d-%s.png" % [count, options.join('-')]
           process = lambda do |data, range|
             case method
             when :replace

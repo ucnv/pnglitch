@@ -6,6 +6,8 @@
     <title>The Art of PNG Glitch</title>
     <link type="text/css" rel="stylesheet" href="http://fast.fonts.net/cssapi/0030664d-7879-4e99-a7d8-09ef12870e40.css"/>
     <link rel="stylesheet" href="files/a.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="files/a.js"></script>
   </head>
   <body>
     <h1>The Art of PNG Glitch</h1>
@@ -381,1206 +383,1207 @@ end
       It also shows 120 patterns of combinations of if there is an alpha or not, if it is interlaced or not, and which state was glitched.<br>
       The generating script is shown at the end.
       </p>
+
+
       <figure class="catalog">
-  <img src="files/lena-01-optimized-replace.png" alt="">
-  <figcaption>Figure B.1) Glitched PNG<br>
-    Glitch method: Replace /
-    Filter: Optimized  /
-    Interlace: None /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-02-optimized-transpose.png" alt="">
-  <figcaption>Figure B.2) Glitched PNG<br>
-    Glitch method: Transpose /
-    Filter: Optimized  /
-    Interlace: None /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-03-optimized-defect.png" alt="">
-  <figcaption>Figure B.3) Glitched PNG<br>
-    Glitch method: Defect /
-    Filter: Optimized  /
-    Interlace: None /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-04-sub-replace.png" alt="">
-  <figcaption>Figure B.4) Glitched PNG<br>
-    Glitch method: Replace /
-    Filter: Sub  /
-    Interlace: None /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-05-sub-transpose.png" alt="">
-  <figcaption>Figure B.5) Glitched PNG<br>
-    Glitch method: Transpose /
-    Filter: Sub  /
-    Interlace: None /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-06-sub-defect.png" alt="">
-  <figcaption>Figure B.6) Glitched PNG<br>
-    Glitch method: Defect /
-    Filter: Sub  /
-    Interlace: None /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-07-up-replace.png" alt="">
-  <figcaption>Figure B.7) Glitched PNG<br>
-    Glitch method: Replace /
-    Filter: Up  /
-    Interlace: None /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-08-up-transpose.png" alt="">
-  <figcaption>Figure B.8) Glitched PNG<br>
-    Glitch method: Transpose /
-    Filter: Up  /
-    Interlace: None /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-09-up-defect.png" alt="">
-  <figcaption>Figure B.9) Glitched PNG<br>
-    Glitch method: Defect /
-    Filter: Up  /
-    Interlace: None /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-10-average-replace.png" alt="">
-  <figcaption>Figure B.10) Glitched PNG<br>
-    Glitch method: Replace /
-    Filter: Average  /
-    Interlace: None /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-11-average-transpose.png" alt="">
-  <figcaption>Figure B.11) Glitched PNG<br>
-    Glitch method: Transpose /
-    Filter: Average  /
-    Interlace: None /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-12-average-defect.png" alt="">
-  <figcaption>Figure B.12) Glitched PNG<br>
-    Glitch method: Defect /
-    Filter: Average  /
-    Interlace: None /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-13-paeth-replace.png" alt="">
-  <figcaption>Figure B.13) Glitched PNG<br>
-    Glitch method: Replace /
-    Filter: Paeth  /
-    Interlace: None /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-14-paeth-transpose.png" alt="">
-  <figcaption>Figure B.14) Glitched PNG<br>
-    Glitch method: Transpose /
-    Filter: Paeth  /
-    Interlace: None /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-15-paeth-defect.png" alt="">
-  <figcaption>Figure B.15) Glitched PNG<br>
-    Glitch method: Defect /
-    Filter: Paeth  /
-    Interlace: None /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-16-optimized-interlace-replace.png" alt="">
-  <figcaption>Figure B.16) Glitched PNG<br>
-    Glitch method: Replace /
-    Filter: Optimized  /
-    Interlace: Interlaced /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-17-optimized-interlace-transpose.png" alt="">
-  <figcaption>Figure B.17) Glitched PNG<br>
-    Glitch method: Transpose /
-    Filter: Optimized  /
-    Interlace: Interlaced /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-18-optimized-interlace-defect.png" alt="">
-  <figcaption>Figure B.18) Glitched PNG<br>
-    Glitch method: Defect /
-    Filter: Optimized  /
-    Interlace: Interlaced /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-19-sub-interlace-replace.png" alt="">
-  <figcaption>Figure B.19) Glitched PNG<br>
-    Glitch method: Replace /
-    Filter: Sub  /
-    Interlace: Interlaced /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-20-sub-interlace-transpose.png" alt="">
-  <figcaption>Figure B.20) Glitched PNG<br>
-    Glitch method: Transpose /
-    Filter: Sub  /
-    Interlace: Interlaced /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-21-sub-interlace-defect.png" alt="">
-  <figcaption>Figure B.21) Glitched PNG<br>
-    Glitch method: Defect /
-    Filter: Sub  /
-    Interlace: Interlaced /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-22-up-interlace-replace.png" alt="">
-  <figcaption>Figure B.22) Glitched PNG<br>
-    Glitch method: Replace /
-    Filter: Up  /
-    Interlace: Interlaced /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-23-up-interlace-transpose.png" alt="">
-  <figcaption>Figure B.23) Glitched PNG<br>
-    Glitch method: Transpose /
-    Filter: Up  /
-    Interlace: Interlaced /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-24-up-interlace-defect.png" alt="">
-  <figcaption>Figure B.24) Glitched PNG<br>
-    Glitch method: Defect /
-    Filter: Up  /
-    Interlace: Interlaced /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-25-average-interlace-replace.png" alt="">
-  <figcaption>Figure B.25) Glitched PNG<br>
-    Glitch method: Replace /
-    Filter: Average  /
-    Interlace: Interlaced /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-26-average-interlace-transpose.png" alt="">
-  <figcaption>Figure B.26) Glitched PNG<br>
-    Glitch method: Transpose /
-    Filter: Average  /
-    Interlace: Interlaced /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-27-average-interlace-defect.png" alt="">
-  <figcaption>Figure B.27) Glitched PNG<br>
-    Glitch method: Defect /
-    Filter: Average  /
-    Interlace: Interlaced /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-28-paeth-interlace-replace.png" alt="">
-  <figcaption>Figure B.28) Glitched PNG<br>
-    Glitch method: Replace /
-    Filter: Paeth  /
-    Interlace: Interlaced /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-29-paeth-interlace-transpose.png" alt="">
-  <figcaption>Figure B.29) Glitched PNG<br>
-    Glitch method: Transpose /
-    Filter: Paeth  /
-    Interlace: Interlaced /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-30-paeth-interlace-defect.png" alt="">
-  <figcaption>Figure B.30) Glitched PNG<br>
-    Glitch method: Defect /
-    Filter: Paeth  /
-    Interlace: Interlaced /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-31-optimized-compress-replace.png" alt="">
-  <figcaption>Figure B.31) Glitched PNG<br>
-    Glitch method: Replace /
-    Filter: Optimized  /
-    Interlace: None /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-32-optimized-compress-transpose.png" alt="">
-  <figcaption>Figure B.32) Glitched PNG<br>
-    Glitch method: Transpose /
-    Filter: Optimized  /
-    Interlace: None /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-33-optimized-compress-defect.png" alt="">
-  <figcaption>Figure B.33) Glitched PNG<br>
-    Glitch method: Defect /
-    Filter: Optimized  /
-    Interlace: None /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-34-sub-compress-replace.png" alt="">
-  <figcaption>Figure B.34) Glitched PNG<br>
-    Glitch method: Replace /
-    Filter: Sub  /
-    Interlace: None /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-35-sub-compress-transpose.png" alt="">
-  <figcaption>Figure B.35) Glitched PNG<br>
-    Glitch method: Transpose /
-    Filter: Sub  /
-    Interlace: None /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-36-sub-compress-defect.png" alt="">
-  <figcaption>Figure B.36) Glitched PNG<br>
-    Glitch method: Defect /
-    Filter: Sub  /
-    Interlace: None /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-37-up-compress-replace.png" alt="">
-  <figcaption>Figure B.37) Glitched PNG<br>
-    Glitch method: Replace /
-    Filter: Up  /
-    Interlace: None /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-38-up-compress-transpose.png" alt="">
-  <figcaption>Figure B.38) Glitched PNG<br>
-    Glitch method: Transpose /
-    Filter: Up  /
-    Interlace: None /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-39-up-compress-defect.png" alt="">
-  <figcaption>Figure B.39) Glitched PNG<br>
-    Glitch method: Defect /
-    Filter: Up  /
-    Interlace: None /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-40-average-compress-replace.png" alt="">
-  <figcaption>Figure B.40) Glitched PNG<br>
-    Glitch method: Replace /
-    Filter: Average  /
-    Interlace: None /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-41-average-compress-transpose.png" alt="">
-  <figcaption>Figure B.41) Glitched PNG<br>
-    Glitch method: Transpose /
-    Filter: Average  /
-    Interlace: None /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-42-average-compress-defect.png" alt="">
-  <figcaption>Figure B.42) Glitched PNG<br>
-    Glitch method: Defect /
-    Filter: Average  /
-    Interlace: None /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-43-paeth-compress-replace.png" alt="">
-  <figcaption>Figure B.43) Glitched PNG<br>
-    Glitch method: Replace /
-    Filter: Paeth  /
-    Interlace: None /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-44-paeth-compress-transpose.png" alt="">
-  <figcaption>Figure B.44) Glitched PNG<br>
-    Glitch method: Transpose /
-    Filter: Paeth  /
-    Interlace: None /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-45-paeth-compress-defect.png" alt="">
-  <figcaption>Figure B.45) Glitched PNG<br>
-    Glitch method: Defect /
-    Filter: Paeth  /
-    Interlace: None /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-46-optimized-interlace-compress-replace.png" alt="">
-  <figcaption>Figure B.46) Glitched PNG<br>
-    Glitch method: Replace /
-    Filter: Optimized  /
-    Interlace: Interlaced /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-47-optimized-interlace-compress-transpose.png" alt="">
-  <figcaption>Figure B.47) Glitched PNG<br>
-    Glitch method: Transpose /
-    Filter: Optimized  /
-    Interlace: Interlaced /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-48-optimized-interlace-compress-defect.png" alt="">
-  <figcaption>Figure B.48) Glitched PNG<br>
-    Glitch method: Defect /
-    Filter: Optimized  /
-    Interlace: Interlaced /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-49-sub-interlace-compress-replace.png" alt="">
-  <figcaption>Figure B.49) Glitched PNG<br>
-    Glitch method: Replace /
-    Filter: Sub  /
-    Interlace: Interlaced /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-50-sub-interlace-compress-transpose.png" alt="">
-  <figcaption>Figure B.50) Glitched PNG<br>
-    Glitch method: Transpose /
-    Filter: Sub  /
-    Interlace: Interlaced /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-51-sub-interlace-compress-defect.png" alt="">
-  <figcaption>Figure B.51) Glitched PNG<br>
-    Glitch method: Defect /
-    Filter: Sub  /
-    Interlace: Interlaced /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-52-up-interlace-compress-replace.png" alt="">
-  <figcaption>Figure B.52) Glitched PNG<br>
-    Glitch method: Replace /
-    Filter: Up  /
-    Interlace: Interlaced /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-53-up-interlace-compress-transpose.png" alt="">
-  <figcaption>Figure B.53) Glitched PNG<br>
-    Glitch method: Transpose /
-    Filter: Up  /
-    Interlace: Interlaced /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-54-up-interlace-compress-defect.png" alt="">
-  <figcaption>Figure B.54) Glitched PNG<br>
-    Glitch method: Defect /
-    Filter: Up  /
-    Interlace: Interlaced /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-55-average-interlace-compress-replace.png" alt="">
-  <figcaption>Figure B.55) Glitched PNG<br>
-    Glitch method: Replace /
-    Filter: Average  /
-    Interlace: Interlaced /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-56-average-interlace-compress-transpose.png" alt="">
-  <figcaption>Figure B.56) Glitched PNG<br>
-    Glitch method: Transpose /
-    Filter: Average  /
-    Interlace: Interlaced /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-57-average-interlace-compress-defect.png" alt="">
-  <figcaption>Figure B.57) Glitched PNG<br>
-    Glitch method: Defect /
-    Filter: Average  /
-    Interlace: Interlaced /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-58-paeth-interlace-compress-replace.png" alt="">
-  <figcaption>Figure B.58) Glitched PNG<br>
-    Glitch method: Replace /
-    Filter: Paeth  /
-    Interlace: Interlaced /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-59-paeth-interlace-compress-transpose.png" alt="">
-  <figcaption>Figure B.59) Glitched PNG<br>
-    Glitch method: Transpose /
-    Filter: Paeth  /
-    Interlace: Interlaced /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-60-paeth-interlace-compress-defect.png" alt="">
-  <figcaption>Figure B.60) Glitched PNG<br>
-    Glitch method: Defect /
-    Filter: Paeth  /
-    Interlace: Interlaced /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-61-optimized-alpha-replace.png" alt="">
-  <figcaption>Figure B.61) Glitched PNG<br>
-    Glitch method: Replace /
-    Filter: Optimized  /
-    Interlace: None /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-62-optimized-alpha-transpose.png" alt="">
-  <figcaption>Figure B.62) Glitched PNG<br>
-    Glitch method: Transpose /
-    Filter: Optimized  /
-    Interlace: None /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-63-optimized-alpha-defect.png" alt="">
-  <figcaption>Figure B.63) Glitched PNG<br>
-    Glitch method: Defect /
-    Filter: Optimized  /
-    Interlace: None /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-64-sub-alpha-replace.png" alt="">
-  <figcaption>Figure B.64) Glitched PNG<br>
-    Glitch method: Replace /
-    Filter: Sub  /
-    Interlace: None /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-65-sub-alpha-transpose.png" alt="">
-  <figcaption>Figure B.65) Glitched PNG<br>
-    Glitch method: Transpose /
-    Filter: Sub  /
-    Interlace: None /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-66-sub-alpha-defect.png" alt="">
-  <figcaption>Figure B.66) Glitched PNG<br>
-    Glitch method: Defect /
-    Filter: Sub  /
-    Interlace: None /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-67-up-alpha-replace.png" alt="">
-  <figcaption>Figure B.67) Glitched PNG<br>
-    Glitch method: Replace /
-    Filter: Up  /
-    Interlace: None /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-68-up-alpha-transpose.png" alt="">
-  <figcaption>Figure B.68) Glitched PNG<br>
-    Glitch method: Transpose /
-    Filter: Up  /
-    Interlace: None /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-69-up-alpha-defect.png" alt="">
-  <figcaption>Figure B.69) Glitched PNG<br>
-    Glitch method: Defect /
-    Filter: Up  /
-    Interlace: None /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-70-average-alpha-replace.png" alt="">
-  <figcaption>Figure B.70) Glitched PNG<br>
-    Glitch method: Replace /
-    Filter: Average  /
-    Interlace: None /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-71-average-alpha-transpose.png" alt="">
-  <figcaption>Figure B.71) Glitched PNG<br>
-    Glitch method: Transpose /
-    Filter: Average  /
-    Interlace: None /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-72-average-alpha-defect.png" alt="">
-  <figcaption>Figure B.72) Glitched PNG<br>
-    Glitch method: Defect /
-    Filter: Average  /
-    Interlace: None /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-73-paeth-alpha-replace.png" alt="">
-  <figcaption>Figure B.73) Glitched PNG<br>
-    Glitch method: Replace /
-    Filter: Paeth  /
-    Interlace: None /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-74-paeth-alpha-transpose.png" alt="">
-  <figcaption>Figure B.74) Glitched PNG<br>
-    Glitch method: Transpose /
-    Filter: Paeth  /
-    Interlace: None /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-75-paeth-alpha-defect.png" alt="">
-  <figcaption>Figure B.75) Glitched PNG<br>
-    Glitch method: Defect /
-    Filter: Paeth  /
-    Interlace: None /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-76-optimized-alpha-interlace-replace.png" alt="">
-  <figcaption>Figure B.76) Glitched PNG<br>
-    Glitch method: Replace /
-    Filter: Optimized  /
-    Interlace: Interlaced /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-77-optimized-alpha-interlace-transpose.png" alt="">
-  <figcaption>Figure B.77) Glitched PNG<br>
-    Glitch method: Transpose /
-    Filter: Optimized  /
-    Interlace: Interlaced /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-78-optimized-alpha-interlace-defect.png" alt="">
-  <figcaption>Figure B.78) Glitched PNG<br>
-    Glitch method: Defect /
-    Filter: Optimized  /
-    Interlace: Interlaced /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-79-sub-alpha-interlace-replace.png" alt="">
-  <figcaption>Figure B.79) Glitched PNG<br>
-    Glitch method: Replace /
-    Filter: Sub  /
-    Interlace: Interlaced /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-80-sub-alpha-interlace-transpose.png" alt="">
-  <figcaption>Figure B.80) Glitched PNG<br>
-    Glitch method: Transpose /
-    Filter: Sub  /
-    Interlace: Interlaced /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-81-sub-alpha-interlace-defect.png" alt="">
-  <figcaption>Figure B.81) Glitched PNG<br>
-    Glitch method: Defect /
-    Filter: Sub  /
-    Interlace: Interlaced /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-82-up-alpha-interlace-replace.png" alt="">
-  <figcaption>Figure B.82) Glitched PNG<br>
-    Glitch method: Replace /
-    Filter: Up  /
-    Interlace: Interlaced /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-83-up-alpha-interlace-transpose.png" alt="">
-  <figcaption>Figure B.83) Glitched PNG<br>
-    Glitch method: Transpose /
-    Filter: Up  /
-    Interlace: Interlaced /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-84-up-alpha-interlace-defect.png" alt="">
-  <figcaption>Figure B.84) Glitched PNG<br>
-    Glitch method: Defect /
-    Filter: Up  /
-    Interlace: Interlaced /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-85-average-alpha-interlace-replace.png" alt="">
-  <figcaption>Figure B.85) Glitched PNG<br>
-    Glitch method: Replace /
-    Filter: Average  /
-    Interlace: Interlaced /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-86-average-alpha-interlace-transpose.png" alt="">
-  <figcaption>Figure B.86) Glitched PNG<br>
-    Glitch method: Transpose /
-    Filter: Average  /
-    Interlace: Interlaced /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-87-average-alpha-interlace-defect.png" alt="">
-  <figcaption>Figure B.87) Glitched PNG<br>
-    Glitch method: Defect /
-    Filter: Average  /
-    Interlace: Interlaced /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-88-paeth-alpha-interlace-replace.png" alt="">
-  <figcaption>Figure B.88) Glitched PNG<br>
-    Glitch method: Replace /
-    Filter: Paeth  /
-    Interlace: Interlaced /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-89-paeth-alpha-interlace-transpose.png" alt="">
-  <figcaption>Figure B.89) Glitched PNG<br>
-    Glitch method: Transpose /
-    Filter: Paeth  /
-    Interlace: Interlaced /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-90-paeth-alpha-interlace-defect.png" alt="">
-  <figcaption>Figure B.90) Glitched PNG<br>
-    Glitch method: Defect /
-    Filter: Paeth  /
-    Interlace: Interlaced /
-    Glitched on: Filtered data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-91-optimized-alpha-compress-replace.png" alt="">
-  <figcaption>Figure B.91) Glitched PNG<br>
-    Glitch method: Replace /
-    Filter: Optimized  /
-    Interlace: None /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-92-optimized-alpha-compress-transpose.png" alt="">
-  <figcaption>Figure B.92) Glitched PNG<br>
-    Glitch method: Transpose /
-    Filter: Optimized  /
-    Interlace: None /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-93-optimized-alpha-compress-defect.png" alt="">
-  <figcaption>Figure B.93) Glitched PNG<br>
-    Glitch method: Defect /
-    Filter: Optimized  /
-    Interlace: None /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-94-sub-alpha-compress-replace.png" alt="">
-  <figcaption>Figure B.94) Glitched PNG<br>
-    Glitch method: Replace /
-    Filter: Sub  /
-    Interlace: None /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-95-sub-alpha-compress-transpose.png" alt="">
-  <figcaption>Figure B.95) Glitched PNG<br>
-    Glitch method: Transpose /
-    Filter: Sub  /
-    Interlace: None /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-96-sub-alpha-compress-defect.png" alt="">
-  <figcaption>Figure B.96) Glitched PNG<br>
-    Glitch method: Defect /
-    Filter: Sub  /
-    Interlace: None /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-97-up-alpha-compress-replace.png" alt="">
-  <figcaption>Figure B.97) Glitched PNG<br>
-    Glitch method: Replace /
-    Filter: Up  /
-    Interlace: None /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-98-up-alpha-compress-transpose.png" alt="">
-  <figcaption>Figure B.98) Glitched PNG<br>
-    Glitch method: Transpose /
-    Filter: Up  /
-    Interlace: None /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-99-up-alpha-compress-defect.png" alt="">
-  <figcaption>Figure B.99) Glitched PNG<br>
-    Glitch method: Defect /
-    Filter: Up  /
-    Interlace: None /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-100-average-alpha-compress-replace.png" alt="">
-  <figcaption>Figure B.100) Glitched PNG<br>
-    Glitch method: Replace /
-    Filter: Average  /
-    Interlace: None /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-101-average-alpha-compress-transpose.png" alt="">
-  <figcaption>Figure B.101) Glitched PNG<br>
-    Glitch method: Transpose /
-    Filter: Average  /
-    Interlace: None /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-102-average-alpha-compress-defect.png" alt="">
-  <figcaption>Figure B.102) Glitched PNG<br>
-    Glitch method: Defect /
-    Filter: Average  /
-    Interlace: None /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-103-paeth-alpha-compress-replace.png" alt="">
-  <figcaption>Figure B.103) Glitched PNG<br>
-    Glitch method: Replace /
-    Filter: Paeth  /
-    Interlace: None /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-104-paeth-alpha-compress-transpose.png" alt="">
-  <figcaption>Figure B.104) Glitched PNG<br>
-    Glitch method: Transpose /
-    Filter: Paeth  /
-    Interlace: None /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-105-paeth-alpha-compress-defect.png" alt="">
-  <figcaption>Figure B.105) Glitched PNG<br>
-    Glitch method: Defect /
-    Filter: Paeth  /
-    Interlace: None /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-106-optimized-alpha-interlace-compress-replace.png" alt="">
-  <figcaption>Figure B.106) Glitched PNG<br>
-    Glitch method: Replace /
-    Filter: Optimized  /
-    Interlace: Interlaced /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-107-optimized-alpha-interlace-compress-transpose.png" alt="">
-  <figcaption>Figure B.107) Glitched PNG<br>
-    Glitch method: Transpose /
-    Filter: Optimized  /
-    Interlace: Interlaced /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-108-optimized-alpha-interlace-compress-defect.png" alt="">
-  <figcaption>Figure B.108) Glitched PNG<br>
-    Glitch method: Defect /
-    Filter: Optimized  /
-    Interlace: Interlaced /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-109-sub-alpha-interlace-compress-replace.png" alt="">
-  <figcaption>Figure B.109) Glitched PNG<br>
-    Glitch method: Replace /
-    Filter: Sub  /
-    Interlace: Interlaced /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-110-sub-alpha-interlace-compress-transpose.png" alt="">
-  <figcaption>Figure B.110) Glitched PNG<br>
-    Glitch method: Transpose /
-    Filter: Sub  /
-    Interlace: Interlaced /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-111-sub-alpha-interlace-compress-defect.png" alt="">
-  <figcaption>Figure B.111) Glitched PNG<br>
-    Glitch method: Defect /
-    Filter: Sub  /
-    Interlace: Interlaced /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-112-up-alpha-interlace-compress-replace.png" alt="">
-  <figcaption>Figure B.112) Glitched PNG<br>
-    Glitch method: Replace /
-    Filter: Up  /
-    Interlace: Interlaced /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-113-up-alpha-interlace-compress-transpose.png" alt="">
-  <figcaption>Figure B.113) Glitched PNG<br>
-    Glitch method: Transpose /
-    Filter: Up  /
-    Interlace: Interlaced /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-114-up-alpha-interlace-compress-defect.png" alt="">
-  <figcaption>Figure B.114) Glitched PNG<br>
-    Glitch method: Defect /
-    Filter: Up  /
-    Interlace: Interlaced /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-115-average-alpha-interlace-compress-replace.png" alt="">
-  <figcaption>Figure B.115) Glitched PNG<br>
-    Glitch method: Replace /
-    Filter: Average  /
-    Interlace: Interlaced /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-116-average-alpha-interlace-compress-transpose.png" alt="">
-  <figcaption>Figure B.116) Glitched PNG<br>
-    Glitch method: Transpose /
-    Filter: Average  /
-    Interlace: Interlaced /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-117-average-alpha-interlace-compress-defect.png" alt="">
-  <figcaption>Figure B.117) Glitched PNG<br>
-    Glitch method: Defect /
-    Filter: Average  /
-    Interlace: Interlaced /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-118-paeth-alpha-interlace-compress-replace.png" alt="">
-  <figcaption>Figure B.118) Glitched PNG<br>
-    Glitch method: Replace /
-    Filter: Paeth  /
-    Interlace: Interlaced /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-119-paeth-alpha-interlace-compress-transpose.png" alt="">
-  <figcaption>Figure B.119) Glitched PNG<br>
-    Glitch method: Transpose /
-    Filter: Paeth  /
-    Interlace: Interlaced /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
-<figure class="catalog">
-  <img src="files/lena-120-paeth-alpha-interlace-compress-defect.png" alt="">
-  <figcaption>Figure B.120) Glitched PNG<br>
-    Glitch method: Defect /
-    Filter: Paeth  /
-    Interlace: Interlaced /
-    Glitched on: Compressed data
-  </figcaption>
-</figure>
-
+        <img src="files/blank.png" data-src="files/lena-001-optimized-replace.png" alt="">
+        <figcaption>Figure B.1) Glitched PNG<br>
+          Glitch method: Replace /
+          Filter: Optimized  /
+          Interlace: None /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-002-optimized-transpose.png" alt="">
+        <figcaption>Figure B.2) Glitched PNG<br>
+          Glitch method: Transpose /
+          Filter: Optimized  /
+          Interlace: None /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-003-optimized-defect.png" alt="">
+        <figcaption>Figure B.3) Glitched PNG<br>
+          Glitch method: Defect /
+          Filter: Optimized  /
+          Interlace: None /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-004-sub-replace.png" alt="">
+        <figcaption>Figure B.4) Glitched PNG<br>
+          Glitch method: Replace /
+          Filter: Sub  /
+          Interlace: None /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-005-sub-transpose.png" alt="">
+        <figcaption>Figure B.5) Glitched PNG<br>
+          Glitch method: Transpose /
+          Filter: Sub  /
+          Interlace: None /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-006-sub-defect.png" alt="">
+        <figcaption>Figure B.6) Glitched PNG<br>
+          Glitch method: Defect /
+          Filter: Sub  /
+          Interlace: None /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-007-up-replace.png" alt="">
+        <figcaption>Figure B.7) Glitched PNG<br>
+          Glitch method: Replace /
+          Filter: Up  /
+          Interlace: None /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-008-up-transpose.png" alt="">
+        <figcaption>Figure B.8) Glitched PNG<br>
+          Glitch method: Transpose /
+          Filter: Up  /
+          Interlace: None /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-009-up-defect.png" alt="">
+        <figcaption>Figure B.9) Glitched PNG<br>
+          Glitch method: Defect /
+          Filter: Up  /
+          Interlace: None /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-010-average-replace.png" alt="">
+        <figcaption>Figure B.10) Glitched PNG<br>
+          Glitch method: Replace /
+          Filter: Average  /
+          Interlace: None /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-011-average-transpose.png" alt="">
+        <figcaption>Figure B.11) Glitched PNG<br>
+          Glitch method: Transpose /
+          Filter: Average  /
+          Interlace: None /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-012-average-defect.png" alt="">
+        <figcaption>Figure B.12) Glitched PNG<br>
+          Glitch method: Defect /
+          Filter: Average  /
+          Interlace: None /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-013-paeth-replace.png" alt="">
+        <figcaption>Figure B.13) Glitched PNG<br>
+          Glitch method: Replace /
+          Filter: Paeth  /
+          Interlace: None /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-014-paeth-transpose.png" alt="">
+        <figcaption>Figure B.14) Glitched PNG<br>
+          Glitch method: Transpose /
+          Filter: Paeth  /
+          Interlace: None /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-015-paeth-defect.png" alt="">
+        <figcaption>Figure B.15) Glitched PNG<br>
+          Glitch method: Defect /
+          Filter: Paeth  /
+          Interlace: None /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-016-optimized-interlace-replace.png" alt="">
+        <figcaption>Figure B.16) Glitched PNG<br>
+          Glitch method: Replace /
+          Filter: Optimized  /
+          Interlace: Interlaced /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-017-optimized-interlace-transpose.png" alt="">
+        <figcaption>Figure B.17) Glitched PNG<br>
+          Glitch method: Transpose /
+          Filter: Optimized  /
+          Interlace: Interlaced /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-018-optimized-interlace-defect.png" alt="">
+        <figcaption>Figure B.18) Glitched PNG<br>
+          Glitch method: Defect /
+          Filter: Optimized  /
+          Interlace: Interlaced /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-019-sub-interlace-replace.png" alt="">
+        <figcaption>Figure B.19) Glitched PNG<br>
+          Glitch method: Replace /
+          Filter: Sub  /
+          Interlace: Interlaced /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-020-sub-interlace-transpose.png" alt="">
+        <figcaption>Figure B.20) Glitched PNG<br>
+          Glitch method: Transpose /
+          Filter: Sub  /
+          Interlace: Interlaced /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-021-sub-interlace-defect.png" alt="">
+        <figcaption>Figure B.21) Glitched PNG<br>
+          Glitch method: Defect /
+          Filter: Sub  /
+          Interlace: Interlaced /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-022-up-interlace-replace.png" alt="">
+        <figcaption>Figure B.22) Glitched PNG<br>
+          Glitch method: Replace /
+          Filter: Up  /
+          Interlace: Interlaced /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-023-up-interlace-transpose.png" alt="">
+        <figcaption>Figure B.23) Glitched PNG<br>
+          Glitch method: Transpose /
+          Filter: Up  /
+          Interlace: Interlaced /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-024-up-interlace-defect.png" alt="">
+        <figcaption>Figure B.24) Glitched PNG<br>
+          Glitch method: Defect /
+          Filter: Up  /
+          Interlace: Interlaced /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-025-average-interlace-replace.png" alt="">
+        <figcaption>Figure B.25) Glitched PNG<br>
+          Glitch method: Replace /
+          Filter: Average  /
+          Interlace: Interlaced /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-026-average-interlace-transpose.png" alt="">
+        <figcaption>Figure B.26) Glitched PNG<br>
+          Glitch method: Transpose /
+          Filter: Average  /
+          Interlace: Interlaced /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-027-average-interlace-defect.png" alt="">
+        <figcaption>Figure B.27) Glitched PNG<br>
+          Glitch method: Defect /
+          Filter: Average  /
+          Interlace: Interlaced /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-028-paeth-interlace-replace.png" alt="">
+        <figcaption>Figure B.28) Glitched PNG<br>
+          Glitch method: Replace /
+          Filter: Paeth  /
+          Interlace: Interlaced /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-029-paeth-interlace-transpose.png" alt="">
+        <figcaption>Figure B.29) Glitched PNG<br>
+          Glitch method: Transpose /
+          Filter: Paeth  /
+          Interlace: Interlaced /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-030-paeth-interlace-defect.png" alt="">
+        <figcaption>Figure B.30) Glitched PNG<br>
+          Glitch method: Defect /
+          Filter: Paeth  /
+          Interlace: Interlaced /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-031-optimized-compress-replace.png" alt="">
+        <figcaption>Figure B.31) Glitched PNG<br>
+          Glitch method: Replace /
+          Filter: Optimized  /
+          Interlace: None /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-032-optimized-compress-transpose.png" alt="">
+        <figcaption>Figure B.32) Glitched PNG<br>
+          Glitch method: Transpose /
+          Filter: Optimized  /
+          Interlace: None /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-033-optimized-compress-defect.png" alt="">
+        <figcaption>Figure B.33) Glitched PNG<br>
+          Glitch method: Defect /
+          Filter: Optimized  /
+          Interlace: None /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-034-sub-compress-replace.png" alt="">
+        <figcaption>Figure B.34) Glitched PNG<br>
+          Glitch method: Replace /
+          Filter: Sub  /
+          Interlace: None /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-035-sub-compress-transpose.png" alt="">
+        <figcaption>Figure B.35) Glitched PNG<br>
+          Glitch method: Transpose /
+          Filter: Sub  /
+          Interlace: None /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-036-sub-compress-defect.png" alt="">
+        <figcaption>Figure B.36) Glitched PNG<br>
+          Glitch method: Defect /
+          Filter: Sub  /
+          Interlace: None /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-037-up-compress-replace.png" alt="">
+        <figcaption>Figure B.37) Glitched PNG<br>
+          Glitch method: Replace /
+          Filter: Up  /
+          Interlace: None /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-038-up-compress-transpose.png" alt="">
+        <figcaption>Figure B.38) Glitched PNG<br>
+          Glitch method: Transpose /
+          Filter: Up  /
+          Interlace: None /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-039-up-compress-defect.png" alt="">
+        <figcaption>Figure B.39) Glitched PNG<br>
+          Glitch method: Defect /
+          Filter: Up  /
+          Interlace: None /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-040-average-compress-replace.png" alt="">
+        <figcaption>Figure B.40) Glitched PNG<br>
+          Glitch method: Replace /
+          Filter: Average  /
+          Interlace: None /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-041-average-compress-transpose.png" alt="">
+        <figcaption>Figure B.41) Glitched PNG<br>
+          Glitch method: Transpose /
+          Filter: Average  /
+          Interlace: None /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-042-average-compress-defect.png" alt="">
+        <figcaption>Figure B.42) Glitched PNG<br>
+          Glitch method: Defect /
+          Filter: Average  /
+          Interlace: None /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-043-paeth-compress-replace.png" alt="">
+        <figcaption>Figure B.43) Glitched PNG<br>
+          Glitch method: Replace /
+          Filter: Paeth  /
+          Interlace: None /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-044-paeth-compress-transpose.png" alt="">
+        <figcaption>Figure B.44) Glitched PNG<br>
+          Glitch method: Transpose /
+          Filter: Paeth  /
+          Interlace: None /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-045-paeth-compress-defect.png" alt="">
+        <figcaption>Figure B.45) Glitched PNG<br>
+          Glitch method: Defect /
+          Filter: Paeth  /
+          Interlace: None /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-046-optimized-interlace-compress-replace.png" alt="">
+        <figcaption>Figure B.46) Glitched PNG<br>
+          Glitch method: Replace /
+          Filter: Optimized  /
+          Interlace: Interlaced /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-047-optimized-interlace-compress-transpose.png" alt="">
+        <figcaption>Figure B.47) Glitched PNG<br>
+          Glitch method: Transpose /
+          Filter: Optimized  /
+          Interlace: Interlaced /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-048-optimized-interlace-compress-defect.png" alt="">
+        <figcaption>Figure B.48) Glitched PNG<br>
+          Glitch method: Defect /
+          Filter: Optimized  /
+          Interlace: Interlaced /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-049-sub-interlace-compress-replace.png" alt="">
+        <figcaption>Figure B.49) Glitched PNG<br>
+          Glitch method: Replace /
+          Filter: Sub  /
+          Interlace: Interlaced /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-050-sub-interlace-compress-transpose.png" alt="">
+        <figcaption>Figure B.50) Glitched PNG<br>
+          Glitch method: Transpose /
+          Filter: Sub  /
+          Interlace: Interlaced /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-051-sub-interlace-compress-defect.png" alt="">
+        <figcaption>Figure B.51) Glitched PNG<br>
+          Glitch method: Defect /
+          Filter: Sub  /
+          Interlace: Interlaced /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-052-up-interlace-compress-replace.png" alt="">
+        <figcaption>Figure B.52) Glitched PNG<br>
+          Glitch method: Replace /
+          Filter: Up  /
+          Interlace: Interlaced /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-053-up-interlace-compress-transpose.png" alt="">
+        <figcaption>Figure B.53) Glitched PNG<br>
+          Glitch method: Transpose /
+          Filter: Up  /
+          Interlace: Interlaced /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-054-up-interlace-compress-defect.png" alt="">
+        <figcaption>Figure B.54) Glitched PNG<br>
+          Glitch method: Defect /
+          Filter: Up  /
+          Interlace: Interlaced /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-055-average-interlace-compress-replace.png" alt="">
+        <figcaption>Figure B.55) Glitched PNG<br>
+          Glitch method: Replace /
+          Filter: Average  /
+          Interlace: Interlaced /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-056-average-interlace-compress-transpose.png" alt="">
+        <figcaption>Figure B.56) Glitched PNG<br>
+          Glitch method: Transpose /
+          Filter: Average  /
+          Interlace: Interlaced /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-057-average-interlace-compress-defect.png" alt="">
+        <figcaption>Figure B.57) Glitched PNG<br>
+          Glitch method: Defect /
+          Filter: Average  /
+          Interlace: Interlaced /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-058-paeth-interlace-compress-replace.png" alt="">
+        <figcaption>Figure B.58) Glitched PNG<br>
+          Glitch method: Replace /
+          Filter: Paeth  /
+          Interlace: Interlaced /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-059-paeth-interlace-compress-transpose.png" alt="">
+        <figcaption>Figure B.59) Glitched PNG<br>
+          Glitch method: Transpose /
+          Filter: Paeth  /
+          Interlace: Interlaced /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-060-paeth-interlace-compress-defect.png" alt="">
+        <figcaption>Figure B.60) Glitched PNG<br>
+          Glitch method: Defect /
+          Filter: Paeth  /
+          Interlace: Interlaced /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-061-optimized-alpha-replace.png" alt="">
+        <figcaption>Figure B.61) Glitched PNG<br>
+          Glitch method: Replace /
+          Filter: Optimized  /
+          Interlace: None /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-062-optimized-alpha-transpose.png" alt="">
+        <figcaption>Figure B.62) Glitched PNG<br>
+          Glitch method: Transpose /
+          Filter: Optimized  /
+          Interlace: None /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-063-optimized-alpha-defect.png" alt="">
+        <figcaption>Figure B.63) Glitched PNG<br>
+          Glitch method: Defect /
+          Filter: Optimized  /
+          Interlace: None /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-064-sub-alpha-replace.png" alt="">
+        <figcaption>Figure B.64) Glitched PNG<br>
+          Glitch method: Replace /
+          Filter: Sub  /
+          Interlace: None /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-065-sub-alpha-transpose.png" alt="">
+        <figcaption>Figure B.65) Glitched PNG<br>
+          Glitch method: Transpose /
+          Filter: Sub  /
+          Interlace: None /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-066-sub-alpha-defect.png" alt="">
+        <figcaption>Figure B.66) Glitched PNG<br>
+          Glitch method: Defect /
+          Filter: Sub  /
+          Interlace: None /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-067-up-alpha-replace.png" alt="">
+        <figcaption>Figure B.67) Glitched PNG<br>
+          Glitch method: Replace /
+          Filter: Up  /
+          Interlace: None /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-068-up-alpha-transpose.png" alt="">
+        <figcaption>Figure B.68) Glitched PNG<br>
+          Glitch method: Transpose /
+          Filter: Up  /
+          Interlace: None /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-069-up-alpha-defect.png" alt="">
+        <figcaption>Figure B.69) Glitched PNG<br>
+          Glitch method: Defect /
+          Filter: Up  /
+          Interlace: None /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-070-average-alpha-replace.png" alt="">
+        <figcaption>Figure B.70) Glitched PNG<br>
+          Glitch method: Replace /
+          Filter: Average  /
+          Interlace: None /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-071-average-alpha-transpose.png" alt="">
+        <figcaption>Figure B.71) Glitched PNG<br>
+          Glitch method: Transpose /
+          Filter: Average  /
+          Interlace: None /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-072-average-alpha-defect.png" alt="">
+        <figcaption>Figure B.72) Glitched PNG<br>
+          Glitch method: Defect /
+          Filter: Average  /
+          Interlace: None /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-073-paeth-alpha-replace.png" alt="">
+        <figcaption>Figure B.73) Glitched PNG<br>
+          Glitch method: Replace /
+          Filter: Paeth  /
+          Interlace: None /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-074-paeth-alpha-transpose.png" alt="">
+        <figcaption>Figure B.74) Glitched PNG<br>
+          Glitch method: Transpose /
+          Filter: Paeth  /
+          Interlace: None /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-075-paeth-alpha-defect.png" alt="">
+        <figcaption>Figure B.75) Glitched PNG<br>
+          Glitch method: Defect /
+          Filter: Paeth  /
+          Interlace: None /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-076-optimized-alpha-interlace-replace.png" alt="">
+        <figcaption>Figure B.76) Glitched PNG<br>
+          Glitch method: Replace /
+          Filter: Optimized  /
+          Interlace: Interlaced /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-077-optimized-alpha-interlace-transpose.png" alt="">
+        <figcaption>Figure B.77) Glitched PNG<br>
+          Glitch method: Transpose /
+          Filter: Optimized  /
+          Interlace: Interlaced /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-078-optimized-alpha-interlace-defect.png" alt="">
+        <figcaption>Figure B.78) Glitched PNG<br>
+          Glitch method: Defect /
+          Filter: Optimized  /
+          Interlace: Interlaced /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-079-sub-alpha-interlace-replace.png" alt="">
+        <figcaption>Figure B.79) Glitched PNG<br>
+          Glitch method: Replace /
+          Filter: Sub  /
+          Interlace: Interlaced /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-080-sub-alpha-interlace-transpose.png" alt="">
+        <figcaption>Figure B.80) Glitched PNG<br>
+          Glitch method: Transpose /
+          Filter: Sub  /
+          Interlace: Interlaced /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-081-sub-alpha-interlace-defect.png" alt="">
+        <figcaption>Figure B.81) Glitched PNG<br>
+          Glitch method: Defect /
+          Filter: Sub  /
+          Interlace: Interlaced /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-082-up-alpha-interlace-replace.png" alt="">
+        <figcaption>Figure B.82) Glitched PNG<br>
+          Glitch method: Replace /
+          Filter: Up  /
+          Interlace: Interlaced /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-083-up-alpha-interlace-transpose.png" alt="">
+        <figcaption>Figure B.83) Glitched PNG<br>
+          Glitch method: Transpose /
+          Filter: Up  /
+          Interlace: Interlaced /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-084-up-alpha-interlace-defect.png" alt="">
+        <figcaption>Figure B.84) Glitched PNG<br>
+          Glitch method: Defect /
+          Filter: Up  /
+          Interlace: Interlaced /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-085-average-alpha-interlace-replace.png" alt="">
+        <figcaption>Figure B.85) Glitched PNG<br>
+          Glitch method: Replace /
+          Filter: Average  /
+          Interlace: Interlaced /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-086-average-alpha-interlace-transpose.png" alt="">
+        <figcaption>Figure B.86) Glitched PNG<br>
+          Glitch method: Transpose /
+          Filter: Average  /
+          Interlace: Interlaced /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-087-average-alpha-interlace-defect.png" alt="">
+        <figcaption>Figure B.87) Glitched PNG<br>
+          Glitch method: Defect /
+          Filter: Average  /
+          Interlace: Interlaced /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-088-paeth-alpha-interlace-replace.png" alt="">
+        <figcaption>Figure B.88) Glitched PNG<br>
+          Glitch method: Replace /
+          Filter: Paeth  /
+          Interlace: Interlaced /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-089-paeth-alpha-interlace-transpose.png" alt="">
+        <figcaption>Figure B.89) Glitched PNG<br>
+          Glitch method: Transpose /
+          Filter: Paeth  /
+          Interlace: Interlaced /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-090-paeth-alpha-interlace-defect.png" alt="">
+        <figcaption>Figure B.90) Glitched PNG<br>
+          Glitch method: Defect /
+          Filter: Paeth  /
+          Interlace: Interlaced /
+          Glitched on: Filtered data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-091-optimized-alpha-compress-replace.png" alt="">
+        <figcaption>Figure B.91) Glitched PNG<br>
+          Glitch method: Replace /
+          Filter: Optimized  /
+          Interlace: None /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-092-optimized-alpha-compress-transpose.png" alt="">
+        <figcaption>Figure B.92) Glitched PNG<br>
+          Glitch method: Transpose /
+          Filter: Optimized  /
+          Interlace: None /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-093-optimized-alpha-compress-defect.png" alt="">
+        <figcaption>Figure B.93) Glitched PNG<br>
+          Glitch method: Defect /
+          Filter: Optimized  /
+          Interlace: None /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-094-sub-alpha-compress-replace.png" alt="">
+        <figcaption>Figure B.94) Glitched PNG<br>
+          Glitch method: Replace /
+          Filter: Sub  /
+          Interlace: None /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-095-sub-alpha-compress-transpose.png" alt="">
+        <figcaption>Figure B.95) Glitched PNG<br>
+          Glitch method: Transpose /
+          Filter: Sub  /
+          Interlace: None /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-096-sub-alpha-compress-defect.png" alt="">
+        <figcaption>Figure B.96) Glitched PNG<br>
+          Glitch method: Defect /
+          Filter: Sub  /
+          Interlace: None /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-097-up-alpha-compress-replace.png" alt="">
+        <figcaption>Figure B.97) Glitched PNG<br>
+          Glitch method: Replace /
+          Filter: Up  /
+          Interlace: None /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-098-up-alpha-compress-transpose.png" alt="">
+        <figcaption>Figure B.98) Glitched PNG<br>
+          Glitch method: Transpose /
+          Filter: Up  /
+          Interlace: None /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-099-up-alpha-compress-defect.png" alt="">
+        <figcaption>Figure B.99) Glitched PNG<br>
+          Glitch method: Defect /
+          Filter: Up  /
+          Interlace: None /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-100-average-alpha-compress-replace.png" alt="">
+        <figcaption>Figure B.100) Glitched PNG<br>
+          Glitch method: Replace /
+          Filter: Average  /
+          Interlace: None /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-101-average-alpha-compress-transpose.png" alt="">
+        <figcaption>Figure B.101) Glitched PNG<br>
+          Glitch method: Transpose /
+          Filter: Average  /
+          Interlace: None /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-102-average-alpha-compress-defect.png" alt="">
+        <figcaption>Figure B.102) Glitched PNG<br>
+          Glitch method: Defect /
+          Filter: Average  /
+          Interlace: None /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-103-paeth-alpha-compress-replace.png" alt="">
+        <figcaption>Figure B.103) Glitched PNG<br>
+          Glitch method: Replace /
+          Filter: Paeth  /
+          Interlace: None /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-104-paeth-alpha-compress-transpose.png" alt="">
+        <figcaption>Figure B.104) Glitched PNG<br>
+          Glitch method: Transpose /
+          Filter: Paeth  /
+          Interlace: None /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-105-paeth-alpha-compress-defect.png" alt="">
+        <figcaption>Figure B.105) Glitched PNG<br>
+          Glitch method: Defect /
+          Filter: Paeth  /
+          Interlace: None /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-106-optimized-alpha-interlace-compress-replace.png" alt="">
+        <figcaption>Figure B.106) Glitched PNG<br>
+          Glitch method: Replace /
+          Filter: Optimized  /
+          Interlace: Interlaced /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-107-optimized-alpha-interlace-compress-transpose.png" alt="">
+        <figcaption>Figure B.107) Glitched PNG<br>
+          Glitch method: Transpose /
+          Filter: Optimized  /
+          Interlace: Interlaced /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-108-optimized-alpha-interlace-compress-defect.png" alt="">
+        <figcaption>Figure B.108) Glitched PNG<br>
+          Glitch method: Defect /
+          Filter: Optimized  /
+          Interlace: Interlaced /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-109-sub-alpha-interlace-compress-replace.png" alt="">
+        <figcaption>Figure B.109) Glitched PNG<br>
+          Glitch method: Replace /
+          Filter: Sub  /
+          Interlace: Interlaced /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-110-sub-alpha-interlace-compress-transpose.png" alt="">
+        <figcaption>Figure B.110) Glitched PNG<br>
+          Glitch method: Transpose /
+          Filter: Sub  /
+          Interlace: Interlaced /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-111-sub-alpha-interlace-compress-defect.png" alt="">
+        <figcaption>Figure B.111) Glitched PNG<br>
+          Glitch method: Defect /
+          Filter: Sub  /
+          Interlace: Interlaced /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-112-up-alpha-interlace-compress-replace.png" alt="">
+        <figcaption>Figure B.112) Glitched PNG<br>
+          Glitch method: Replace /
+          Filter: Up  /
+          Interlace: Interlaced /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-113-up-alpha-interlace-compress-transpose.png" alt="">
+        <figcaption>Figure B.113) Glitched PNG<br>
+          Glitch method: Transpose /
+          Filter: Up  /
+          Interlace: Interlaced /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-114-up-alpha-interlace-compress-defect.png" alt="">
+        <figcaption>Figure B.114) Glitched PNG<br>
+          Glitch method: Defect /
+          Filter: Up  /
+          Interlace: Interlaced /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-115-average-alpha-interlace-compress-replace.png" alt="">
+        <figcaption>Figure B.115) Glitched PNG<br>
+          Glitch method: Replace /
+          Filter: Average  /
+          Interlace: Interlaced /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-116-average-alpha-interlace-compress-transpose.png" alt="">
+        <figcaption>Figure B.116) Glitched PNG<br>
+          Glitch method: Transpose /
+          Filter: Average  /
+          Interlace: Interlaced /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-117-average-alpha-interlace-compress-defect.png" alt="">
+        <figcaption>Figure B.117) Glitched PNG<br>
+          Glitch method: Defect /
+          Filter: Average  /
+          Interlace: Interlaced /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-118-paeth-alpha-interlace-compress-replace.png" alt="">
+        <figcaption>Figure B.118) Glitched PNG<br>
+          Glitch method: Replace /
+          Filter: Paeth  /
+          Interlace: Interlaced /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-119-paeth-alpha-interlace-compress-transpose.png" alt="">
+        <figcaption>Figure B.119) Glitched PNG<br>
+          Glitch method: Transpose /
+          Filter: Paeth  /
+          Interlace: Interlaced /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
+
+      <figure class="catalog">
+        <img src="files/blank.png" data-src="files/lena-120-paeth-alpha-interlace-compress-defect.png" alt="">
+        <figcaption>Figure B.120) Glitched PNG<br>
+          Glitch method: Defect /
+          Filter: Paeth  /
+          Interlace: Interlaced /
+          Glitched on: Compressed data
+        </figcaption>
+      </figure>
 
       <p>
         <code>
@@ -1607,7 +1610,7 @@ infiles.each do |infile|
           options << 'interlace' if interlace
           options << 'compress' if compress
           options << method.to_s
-          outfile = "lena-%02d-%s.png" % [count, options.join('-')]
+          outfile = "lena-%03d-%s.png" % [count, options.join('-')]
           process = lambda do |data, range|
             case method
             when :replace
@@ -1784,7 +1787,9 @@ end
     </section>
     <footer>
       <hr>
-      2015 ucnv &lt;ucnvvv at gmail dot com&gt;
+      <p>2015 ucnv &lt;ucnvvv at gmail dot com&gt;</p>
+
+
     </footer>
   </body>
 </html>
