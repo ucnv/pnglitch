@@ -1,0 +1,1790 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=850">
+    <title>The Art of PNG Glitch</title>
+    <link type="text/css" rel="stylesheet" href="http://fast.fonts.net/cssapi/0030664d-7879-4e99-a7d8-09ef12870e40.css"/>
+    <link rel="stylesheet" href="files/a.css">
+  </head>
+  <body>
+    <h1>The Art of PNG Glitch</h1>
+    <section>
+      <h2>Overview</h2>
+      <p>
+      PNG is an image format that has a history of development beginning in 1995, and it is still a popular, long living format. Generally, it is known for its features such as lossless compression and  the ability to handle transparent pixels. <br>
+      However, we do not look at image formats from a general point of view, but rather think of ways to glitch them. When we look at PNG from the point of view of glitch, what kind of peculiarity does it have?
+      </p>
+      <h3>Checksum</h3>
+      <p>
+      We should first look into the checksum system of the CRC32 algorithm. It is used to confirm corrupted images, and when it detects corruption in an image file, normal viewer applications refuse to display it. Therefore, it is impossible to generate glitches using simple methods such as rewriting part of the binary data using text editors or binary editors (you will completely fail). In other words, the PNG format is difficult to glitch. <br>
+      We need to create glitches accordingly to the PNG specification in order to avoid this failure. This means that we must re-wright the data after decoding CRC32, re-calculate it and attach it to the edited data.
+      </p>
+
+      <h3>State</h3>
+      <p>
+      Next we want to look at the transcode process of PNG. The chart shown below is a simplified explanation of how PNG encoding flows.
+      </p>
+      <figure>
+        <img src="files/states.png" alt="Figure 1)  PNG encoding flow">
+        <figcaption>Figure 1) PNG encoding flow</figcaption>
+      </figure>
+
+
+      <p>
+      Each of the four states that are shown above can be glitch targets. However, glitching the the first “Raw Data” is the same as glitching BMP, so it technically isn’t a PNG glitch (at the end, it is the same as PNG with the None filter applied. I will explain this in the next section). The final “Formatted PNG” glitch will not work because of the checksum system I mentioned above.<br>
+      This means that PNG glitches can be made when the “Filtered Data” or “Compressed Data” is manipulated. I will explain about filters in the following subsection. When “Filtered Data” is glitched, it shows a distinctive effect; patterns that look like flower petals scatter around the image. The difference between the filters become clear when the “Filtered Data” is glitched. On the other hand, “Compressed Data” glitches are flavored by their own compression algorithm, which is Deflate compression. It shows an effect similar to a snow noise image.
+      </p>
+      <p>
+      There are elements else besides the transcoding process that could also influence the appearance of glitches such as transparent pixels and interlaces.
+      </p>
+      <h3>Five filters</h3>
+      <p>
+      The factor that characterizes the appearance of glitches the most is the process called filter. The filter converts the uncompressed pixel data of each scanline using a certain algorithm in order to improve the compression efficiency. There are five types of filters that include four algorithms called Sub, Up, Average and Paeth, and also None (which means no filter applied). PNG images are usually compressed after the most suitable filter is applied to each scanline, and therefore all five filters are combined when PNG images are made.<br>
+      These five filters usually only contribute to the compression efficiency, so the output result is always the same no matter which filter is applied. However, a clear difference appears in the output result when the filtered data is damaged. It is difficult to recognize the difference of the filters when an image is optimized and has all five filters combined, but the difference becomes obvious when an image is glitched when the same, single filter is applied to each scanline.<br>
+      I will show the difference of the effect that each filter has later on, but when we look close into the results, we will understand which filter is causing which part of the beauty of PNG glitches (yes, they are beautiful) to occur.
+      </p>
+      <p>
+        I will show the actual glitch results in the next section.
+      </p>
+
+      <h2>Glitching: In practice</h2>
+
+      <figure class="full">
+        <a href="files/png.png"><img src="files/png.png" alt="Figure 2) Original PNG image"></a>
+        <figcaption>Figure 2) Original PNG image</figcaption>
+      </figure>
+      <figure class="full">
+        <a href="files/png-glitch-optimized.png"><img src="files/png-glitch-optimized.png" alt="Figure 3) Glitched PNG image"></a>
+        <figcaption>Figure 3) Glitched PNG image</figcaption>
+      </figure>
+      <p>
+      I have shown two PNG images above: one is an image before it has been glitched, and one is an image that has been glitched.<br>
+      This is a Filtered Data glitch, which I explained in the previous section.<br>
+      The original PNG has optimized filters applied to each scanline, and all of the five filters have been combined. The glitch reveals how the five filters were balanced when they were the combined.
+      </p>
+      <h3>Difference between filters</h3>
+      <p>
+      Lets look into the difference between each filter type.
+      </p>
+
+      <figure class="full">
+        <a href="files/png-glitch-none.png"><img src="files/png-glitch-none.png" alt="Figure 4) Glitched PNG, filtered with None"></a>
+        <figcaption>Figure 4) Glitched PNG, filtered with None</figcaption>
+      </figure>
+
+      <figure class="detail">
+        <img src="files/png-glitch-none-detail.png" alt="Figure 5) Detail of">
+        <figcaption>Figure 5) Detail of</figcaption>
+      </figure>
+      <p class="detail">
+      The image above has applied “None (no filter)”, meaning that it is a raw data glitch. Each pixel stands alone in this state and does not have any relationship with the others, so a single re-wrote byte does not have a wide range influence.
+      </p>
+
+      <figure class="full">
+        <a href="files/png-glitch-sub.png"><img src="files/png-glitch-sub.png" alt="Figure 6) Glitched PNG, filtered with Sub"></a>
+        <figcaption>Figure 6) Glitched PNG, filtered with Sub</figcaption>
+      </figure>
+
+      <figure class="detail">
+        <img src="files/png-glitch-sub-detail.png" alt="Figure 7) Detail of">
+        <figcaption>Figure 7) Detail of</figcaption>
+      </figure>
+      <p class="detail">
+      This is a glitched image that has the filter “Sub” applied to each scanline. When the Sub algorythm is applied, the target pixel rewrites itself by refering to the pixel that is right next to it. This is why the glitch pattern avalanches towards the right side.
+      </p>
+
+      <figure class="full">
+        <a href="files/png-glitch-up.png"><img src="files/png-glitch-up.png" alt="Figure 8) Glitched PNG, filtered with Up"></a>
+        <figcaption>Figure 8) Glitched PNG, filtered with Up</figcaption>
+      </figure>
+
+      <figure class="detail">
+        <img src="files/png-glitch-up-detail.png" alt="Figure 9) Detail of">
+        <figcaption>Figure 9) Detail of</figcaption>
+      </figure>
+      <p class="detail">
+      This is the filter “Up”. This filter is similar to Sub, but its reference direction is the top and bottom.
+      </p>
+
+      <figure class="full">
+        <a href="files/png-glitch-average.png"><img src="files/png-glitch-average.png" alt="Figure 10) Glitched PNG, filtered with Average"></a>
+        <figcaption>Figure 10) Glitched PNG, filtered with Average</figcaption>
+      </figure>
+
+      <figure class="detail">
+        <img src="files/png-glitch-average-detail.png" alt="Figure 11) Detail of">
+        <figcaption>Figure 11) Detail of</figcaption>
+      </figure>
+      <p class="detail">
+      The filter “Average” refers to a diagonal direction. It shows a meteor like tail that starts from the damaged pixel. The soft gradation effect is also one of the peculiarities of this filter. The result of a PNG glitch when the Average filter is applied is a glitch that lacks glitchiness, and is also the most delicate portion of PNG glitching.
+      </p>
+
+      <figure class="full">
+        <a href="files/png-glitch-paeth.png"><img src="files/png-glitch-paeth.png" alt="Figure 12) Glitched PNG, filtered with Paeth"></a>
+        <figcaption>Figure 12) Glitched PNG, filtered with Paeth</figcaption>
+      </figure>
+
+      <figure class="detail">
+        <img src="files/png-glitch-paeth-detail.png" alt="Figure 13) Detail of">
+        <figcaption>Figure 13) Detail of</figcaption>
+      </figure>
+      <p class="detail">
+      The filter “Paeth” has the most complicated algorithm when compared with the others. It also has the most complicated glitch effect. The glitch will affect a wide range of areas even with the least byte re-writing. The keynote effect of PNG glitch is caused by this filter; the figure shown in the original image is maintained, but is intensely destroyed at the same time.
+      </p>
+
+      <h3>Glitch after compression</h3>
+
+      <figure class="full">
+        <a href="files/png-glitch-compressed.png"><img src="files/png-glitch-compressed.png" alt="Figure 14) Glitched PNG, after compressed"></a>
+        <figcaption>Figure 14) Glitched PNG, after compressed</figcaption>
+      </figure>
+
+      <figure class="detail">
+        <img src="files/png-glitch-compressed-detail.png" alt="Figure 15) Detail of">
+        <figcaption>Figure 15) Detail of</figcaption>
+      </figure>
+      <p class="detail">
+      This is a glitch of the state that I referred to as Compressed Data in the previous section. A snowstorm effect appears, and the original icon get hard to be recognized. The image is often completely destroyed.
+      </p>
+　
+      <h3>Transparence</h3>
+      <p>
+      Lets look into what happens when an image that includes transparent pixels is glitched.
+      </p>
+
+      <figure class="full">
+        <a href="files/png-alpha.png"><img src="files/png-alpha.png" alt="Figure 16) Original PNG image"></a>
+        <figcaption>Figure 16) Original PNG image</figcaption>
+      </figure>
+      <figure class="full">
+        <a href="files/png-glitch-alpha.png"><img src="files/png-glitch-alpha.png" alt="Figure 17) Glitched PNG, with alpha pixels"></a>
+        <figcaption>Figure 17) Glitched PNG, with alpha pixels</figcaption>
+      </figure>
+      <p>
+      A 100% gathering of transparent pixels is handled in the same way as a solid colored section. You can tell that the filter “Up” is often applied to solid colored sections.<br>
+      (There is a possibility that newer general-purpose image formats switch their compression scheme of each part depending on if the image is a solid colored section, or else a complicated image such as photographs. The use of images that include solid colored sections for testing glitches is an effective method. One example is a WebP. )
+      </p>
+
+      <h3>Interlace</h3>
+
+      <figure class="full">
+        <a href="files/png-glitch-interlace.png"><img src="files/png-glitch-interlace.png" alt="Figure 18) Glitched PNG, with interlace"></a>
+        <figcaption>Figure 18) Glitched PNG, with interlace</figcaption>
+      </figure>
+      <p>
+        PNG interlaces are divided into seven passes, using the Adam7 algorithm based on 8x8 pixels. We are able to visualy observe that algorithm when an interlaced PNG is glitched. We can also confirm a stitched effect, and that its angle of the Average filter effect has become narrow (see appendix B).
+      </p>
+
+      <h2>Conclusion</h2>
+      <p>
+      PNG is a very simple format compared to JPEG or other new image formats. The filter algorithms are like toys, and its compression method is the same as oldschool Zip compression. However, this simple image format shows a surprisingly wide range of glitch variations. We would perhaps only need one example to explain a JPEG glitch, but we need many different types of samples in order to explain what a PNG glitch is.<br>
+      PNG was developed as an alternative format of GIF. However, when it comes to glitching, GIF is a format that is too poor to be compared with PNG. PNG has prepared surprisingly rich results that have been concealed by the checksum barrier for a long time.
+      </p>
+
+
+      <hr>
+    </section>
+    <section class="appendix">
+
+      <h2><a name="appendix-a"></a>Appendix A: PNGlitch library</h2>
+      <p>
+      The author released <a href="http://www.jarchive.org/akami/aka018.html">a tiny script for PNG glitch</a> in 2009. Back then, it only removed the CRC32 and added it back again after the internal data was glitched.<br>
+      Since then, the author has continued to rewrite the script and make improved versions of it for the purpose of using it in his own work, but he decided to make a library that adopts his know-how in 2014. The Ruby library PNGlitch came out as the result.<br>
+      Every glitch image that appears in this article is made by using this library.
+      </p>
+      <p>
+      Appendix A explains how to use the PNGlitch library.<br>
+      (The user must have a certain level of knowledge of the Ruby language in order to understand the code snippet samples.)
+      </p>
+
+      <h3>How to use this library: The Simple Way</h3>
+      <code>
+        <pre>
+png = PNGlitch.open '/path/to/your/image.png'
+png.glitch do |data|
+  data.gsub /\d/, 'x'
+end
+png.save '/path/to/broken/image.png'
+png.close
+        </pre>
+      </code>
+      <p>
+        The code above can also be written in a different way, like the one below.
+      </p>
+      <code>
+        <pre>
+PNGlitch.open('/path/to/your/image.png') do |png|
+  png.glitch do |data|
+    data.gsub /\d/, 'x'
+  end
+  png.save '/path/to/broken/image.png'
+end
+        </pre>
+      </code>
+
+      <p>
+      The <code>glitch</code> method handles compressed and decompressed data as a single string instance. It is handy, but on the other hand the memory usage amount can become enormous. When the memory usage is an issue, the user can write a code that uses <code>IO</code> instead of <code>String</code> like the one below.
+      </p>
+
+      <code>
+        <pre>
+PNGlitch.open('/path/to/your/image.png') do |png|
+  buf = 2 ** 18
+  png.glitch_as_io do |io|
+    until io.eof? do
+      d = io.read(buf)
+      io.pos -= d.size
+      io.print(d.gsub(/\d/, 'x'))
+    end
+  end
+  png.save '/path/to/broken/image.png'
+end
+        </pre>
+      </code>
+
+      <p>
+      PNGlitch also provides a method to manipulate each scanline.
+      </p>
+
+      <code>
+        <pre>
+PNGlitch.open('/path/to/your/image.png') do |png|
+  png.each_scanline do |scanline|
+    scanline.gsub! /\d/, 'x'
+  end
+  png.save '/path/to/broken/image.png'
+end
+        </pre>
+      </code>
+
+      <p>
+      The first example that uses the <code>glitch</code> method sometimes destroys bytes that express the filter type, so it might output a file that cannot be opened by certain viewer applications. The <code>each_scanline</code> method is much safer, and the memory usage is also low. It is a thorough method, but it takes more time than the <code>glitch</code> method.
+      </p>
+
+
+      <h3>How to use this library: Complex Manipulatin</h3>
+
+      <p>Scanline data is made out of pixel data and the filter type value.
+      </p>
+
+      <p>The user can also rewrite pixel data using <code>Scanline#replace_data</code>.
+      </p>
+
+      <code>
+        <pre>
+png.each_scanline do |scanline|
+  data = scanline.data
+  scanline.replace_data(data.gsub(/\d/, 'x'))
+end
+        </pre>
+      </code>
+
+      <p>
+      The user can also use <code>Scanline#gsub!</code> and do treatments like <code>String#gsub!</code>.
+      </p>
+
+      <code>
+        <pre>
+png.each_scanline do |scanline|
+  scanline.gsub! /\d/, 'x'
+end
+        </pre>
+      </code>
+
+      <p>
+      The user can confirm the filter type of the PNG file by running the command below.  Internally, the filter types None, Sub, Up, Average and Paeth are all expressed by numeric values between 0 and 4.
+      </p>
+
+      <code>
+        <pre>
+puts png.filter_types
+        </pre>
+      </code>
+
+      <p>The user can also check each filter type using <code>each_scanline</code>.
+      </p>
+
+      <code>
+        <pre>
+png.each_scanline do |scanline|
+  puts scanline.filter_type
+  scanline.change_filter 3
+end
+        </pre>
+      </code>
+
+      <p>
+      The sample above has had each filter type changed to 3 (Average). <code>change_filter</code> properly applies the new filter type. This treatment will not cause glitches to occur because the filter is re-calculated and the PNG will properly be formatted. This also means that the resulting image will appear as the same to our eyes.
+      </p>
+
+      <p>However, the difference of each filter has a large influence on the glitches.
+      </p>
+
+      <code>
+        <pre>
+PNGlitch.open(infile) do |png|
+  png.each_scanline do |scanline|
+    scanline.change_filter 3
+  end
+  png.glitch do |data|
+    data.gsub /\d/, 'x'
+  end
+  png.save outfile1
+end
+
+PNGlitch.open(infile) do |png|
+  png.each_scanline do |scanline|
+    scanline.change_filter 4
+  end
+  png.glitch do |data|
+    data.gsub /\d/, 'x'
+  end
+  png.save outfile2
+end
+        </pre>
+      </code>
+
+      <p>The output results of the two samples above are completely different. The difference is in the filters.
+      </p>
+
+      <p>The code examples that I have explained are all manipulations done to the “Filtered Data” state. When the users want to glitch “Compressed Data” in PNGlitch, they must use the <code>glitch_after_compress</code> method.
+      </p>
+
+      <code>
+        <pre>
+png.glitch_after_compress do |data|
+  data[rand(data.size)] = 'x'
+  data
+end
+        </pre>
+      </code>
+
+      <p>The PNGlitch library is published as an open source software.<br>
+        <a href="https://github.com/ucnv/pnglitch">https://github.com/ucnv/pnglitch</a>
+      </p>
+
+
+      <h2><a name="appendix-b"></a>Appendix B: PNG glitch catalogue</h2>
+
+      <p>
+      Appendix B includes a list of glitch variations that were not covered in the main article. This catalogue will reveal how wide the variety of PNG glitch expressions can be. <br>
+      I will define 3 simple methods to destroy data.
+      </p>
+      <dl>
+        <dt>Replace: </dt><dd>Randomly rewrite the byte string.</dd>
+        <dt>Transpose: </dt><dd>Divide the byte string into large chunks and re-arrange them.</dd>
+        <dt>Defect: </dt><dd>Randomly delete the byte string (to rewrite as an empty string).</dd>
+      </dl>
+      <p>
+      It mentions five types of filters which are: Sub, Up, Average, Paeth, and the optimized and combined filter.<br>
+      It also shows 120 patterns of combinations of if there is an alpha or not, if it is interlaced or not, and which state was glitched.<br>
+      The generating script is shown at the end.
+      </p>
+      <figure class="catalog">
+  <img src="files/lena-01-optimized-replace.png" alt="">
+  <figcaption>Figure B.1) Glitched PNG<br>
+    Glitch method: Replace /
+    Filter: Optimized  /
+    Interlace: None /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-02-optimized-transpose.png" alt="">
+  <figcaption>Figure B.2) Glitched PNG<br>
+    Glitch method: Transpose /
+    Filter: Optimized  /
+    Interlace: None /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-03-optimized-defect.png" alt="">
+  <figcaption>Figure B.3) Glitched PNG<br>
+    Glitch method: Defect /
+    Filter: Optimized  /
+    Interlace: None /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-04-sub-replace.png" alt="">
+  <figcaption>Figure B.4) Glitched PNG<br>
+    Glitch method: Replace /
+    Filter: Sub  /
+    Interlace: None /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-05-sub-transpose.png" alt="">
+  <figcaption>Figure B.5) Glitched PNG<br>
+    Glitch method: Transpose /
+    Filter: Sub  /
+    Interlace: None /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-06-sub-defect.png" alt="">
+  <figcaption>Figure B.6) Glitched PNG<br>
+    Glitch method: Defect /
+    Filter: Sub  /
+    Interlace: None /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-07-up-replace.png" alt="">
+  <figcaption>Figure B.7) Glitched PNG<br>
+    Glitch method: Replace /
+    Filter: Up  /
+    Interlace: None /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-08-up-transpose.png" alt="">
+  <figcaption>Figure B.8) Glitched PNG<br>
+    Glitch method: Transpose /
+    Filter: Up  /
+    Interlace: None /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-09-up-defect.png" alt="">
+  <figcaption>Figure B.9) Glitched PNG<br>
+    Glitch method: Defect /
+    Filter: Up  /
+    Interlace: None /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-10-average-replace.png" alt="">
+  <figcaption>Figure B.10) Glitched PNG<br>
+    Glitch method: Replace /
+    Filter: Average  /
+    Interlace: None /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-11-average-transpose.png" alt="">
+  <figcaption>Figure B.11) Glitched PNG<br>
+    Glitch method: Transpose /
+    Filter: Average  /
+    Interlace: None /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-12-average-defect.png" alt="">
+  <figcaption>Figure B.12) Glitched PNG<br>
+    Glitch method: Defect /
+    Filter: Average  /
+    Interlace: None /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-13-paeth-replace.png" alt="">
+  <figcaption>Figure B.13) Glitched PNG<br>
+    Glitch method: Replace /
+    Filter: Paeth  /
+    Interlace: None /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-14-paeth-transpose.png" alt="">
+  <figcaption>Figure B.14) Glitched PNG<br>
+    Glitch method: Transpose /
+    Filter: Paeth  /
+    Interlace: None /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-15-paeth-defect.png" alt="">
+  <figcaption>Figure B.15) Glitched PNG<br>
+    Glitch method: Defect /
+    Filter: Paeth  /
+    Interlace: None /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-16-optimized-interlace-replace.png" alt="">
+  <figcaption>Figure B.16) Glitched PNG<br>
+    Glitch method: Replace /
+    Filter: Optimized  /
+    Interlace: Interlaced /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-17-optimized-interlace-transpose.png" alt="">
+  <figcaption>Figure B.17) Glitched PNG<br>
+    Glitch method: Transpose /
+    Filter: Optimized  /
+    Interlace: Interlaced /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-18-optimized-interlace-defect.png" alt="">
+  <figcaption>Figure B.18) Glitched PNG<br>
+    Glitch method: Defect /
+    Filter: Optimized  /
+    Interlace: Interlaced /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-19-sub-interlace-replace.png" alt="">
+  <figcaption>Figure B.19) Glitched PNG<br>
+    Glitch method: Replace /
+    Filter: Sub  /
+    Interlace: Interlaced /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-20-sub-interlace-transpose.png" alt="">
+  <figcaption>Figure B.20) Glitched PNG<br>
+    Glitch method: Transpose /
+    Filter: Sub  /
+    Interlace: Interlaced /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-21-sub-interlace-defect.png" alt="">
+  <figcaption>Figure B.21) Glitched PNG<br>
+    Glitch method: Defect /
+    Filter: Sub  /
+    Interlace: Interlaced /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-22-up-interlace-replace.png" alt="">
+  <figcaption>Figure B.22) Glitched PNG<br>
+    Glitch method: Replace /
+    Filter: Up  /
+    Interlace: Interlaced /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-23-up-interlace-transpose.png" alt="">
+  <figcaption>Figure B.23) Glitched PNG<br>
+    Glitch method: Transpose /
+    Filter: Up  /
+    Interlace: Interlaced /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-24-up-interlace-defect.png" alt="">
+  <figcaption>Figure B.24) Glitched PNG<br>
+    Glitch method: Defect /
+    Filter: Up  /
+    Interlace: Interlaced /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-25-average-interlace-replace.png" alt="">
+  <figcaption>Figure B.25) Glitched PNG<br>
+    Glitch method: Replace /
+    Filter: Average  /
+    Interlace: Interlaced /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-26-average-interlace-transpose.png" alt="">
+  <figcaption>Figure B.26) Glitched PNG<br>
+    Glitch method: Transpose /
+    Filter: Average  /
+    Interlace: Interlaced /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-27-average-interlace-defect.png" alt="">
+  <figcaption>Figure B.27) Glitched PNG<br>
+    Glitch method: Defect /
+    Filter: Average  /
+    Interlace: Interlaced /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-28-paeth-interlace-replace.png" alt="">
+  <figcaption>Figure B.28) Glitched PNG<br>
+    Glitch method: Replace /
+    Filter: Paeth  /
+    Interlace: Interlaced /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-29-paeth-interlace-transpose.png" alt="">
+  <figcaption>Figure B.29) Glitched PNG<br>
+    Glitch method: Transpose /
+    Filter: Paeth  /
+    Interlace: Interlaced /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-30-paeth-interlace-defect.png" alt="">
+  <figcaption>Figure B.30) Glitched PNG<br>
+    Glitch method: Defect /
+    Filter: Paeth  /
+    Interlace: Interlaced /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-31-optimized-compress-replace.png" alt="">
+  <figcaption>Figure B.31) Glitched PNG<br>
+    Glitch method: Replace /
+    Filter: Optimized  /
+    Interlace: None /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-32-optimized-compress-transpose.png" alt="">
+  <figcaption>Figure B.32) Glitched PNG<br>
+    Glitch method: Transpose /
+    Filter: Optimized  /
+    Interlace: None /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-33-optimized-compress-defect.png" alt="">
+  <figcaption>Figure B.33) Glitched PNG<br>
+    Glitch method: Defect /
+    Filter: Optimized  /
+    Interlace: None /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-34-sub-compress-replace.png" alt="">
+  <figcaption>Figure B.34) Glitched PNG<br>
+    Glitch method: Replace /
+    Filter: Sub  /
+    Interlace: None /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-35-sub-compress-transpose.png" alt="">
+  <figcaption>Figure B.35) Glitched PNG<br>
+    Glitch method: Transpose /
+    Filter: Sub  /
+    Interlace: None /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-36-sub-compress-defect.png" alt="">
+  <figcaption>Figure B.36) Glitched PNG<br>
+    Glitch method: Defect /
+    Filter: Sub  /
+    Interlace: None /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-37-up-compress-replace.png" alt="">
+  <figcaption>Figure B.37) Glitched PNG<br>
+    Glitch method: Replace /
+    Filter: Up  /
+    Interlace: None /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-38-up-compress-transpose.png" alt="">
+  <figcaption>Figure B.38) Glitched PNG<br>
+    Glitch method: Transpose /
+    Filter: Up  /
+    Interlace: None /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-39-up-compress-defect.png" alt="">
+  <figcaption>Figure B.39) Glitched PNG<br>
+    Glitch method: Defect /
+    Filter: Up  /
+    Interlace: None /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-40-average-compress-replace.png" alt="">
+  <figcaption>Figure B.40) Glitched PNG<br>
+    Glitch method: Replace /
+    Filter: Average  /
+    Interlace: None /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-41-average-compress-transpose.png" alt="">
+  <figcaption>Figure B.41) Glitched PNG<br>
+    Glitch method: Transpose /
+    Filter: Average  /
+    Interlace: None /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-42-average-compress-defect.png" alt="">
+  <figcaption>Figure B.42) Glitched PNG<br>
+    Glitch method: Defect /
+    Filter: Average  /
+    Interlace: None /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-43-paeth-compress-replace.png" alt="">
+  <figcaption>Figure B.43) Glitched PNG<br>
+    Glitch method: Replace /
+    Filter: Paeth  /
+    Interlace: None /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-44-paeth-compress-transpose.png" alt="">
+  <figcaption>Figure B.44) Glitched PNG<br>
+    Glitch method: Transpose /
+    Filter: Paeth  /
+    Interlace: None /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-45-paeth-compress-defect.png" alt="">
+  <figcaption>Figure B.45) Glitched PNG<br>
+    Glitch method: Defect /
+    Filter: Paeth  /
+    Interlace: None /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-46-optimized-interlace-compress-replace.png" alt="">
+  <figcaption>Figure B.46) Glitched PNG<br>
+    Glitch method: Replace /
+    Filter: Optimized  /
+    Interlace: Interlaced /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-47-optimized-interlace-compress-transpose.png" alt="">
+  <figcaption>Figure B.47) Glitched PNG<br>
+    Glitch method: Transpose /
+    Filter: Optimized  /
+    Interlace: Interlaced /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-48-optimized-interlace-compress-defect.png" alt="">
+  <figcaption>Figure B.48) Glitched PNG<br>
+    Glitch method: Defect /
+    Filter: Optimized  /
+    Interlace: Interlaced /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-49-sub-interlace-compress-replace.png" alt="">
+  <figcaption>Figure B.49) Glitched PNG<br>
+    Glitch method: Replace /
+    Filter: Sub  /
+    Interlace: Interlaced /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-50-sub-interlace-compress-transpose.png" alt="">
+  <figcaption>Figure B.50) Glitched PNG<br>
+    Glitch method: Transpose /
+    Filter: Sub  /
+    Interlace: Interlaced /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-51-sub-interlace-compress-defect.png" alt="">
+  <figcaption>Figure B.51) Glitched PNG<br>
+    Glitch method: Defect /
+    Filter: Sub  /
+    Interlace: Interlaced /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-52-up-interlace-compress-replace.png" alt="">
+  <figcaption>Figure B.52) Glitched PNG<br>
+    Glitch method: Replace /
+    Filter: Up  /
+    Interlace: Interlaced /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-53-up-interlace-compress-transpose.png" alt="">
+  <figcaption>Figure B.53) Glitched PNG<br>
+    Glitch method: Transpose /
+    Filter: Up  /
+    Interlace: Interlaced /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-54-up-interlace-compress-defect.png" alt="">
+  <figcaption>Figure B.54) Glitched PNG<br>
+    Glitch method: Defect /
+    Filter: Up  /
+    Interlace: Interlaced /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-55-average-interlace-compress-replace.png" alt="">
+  <figcaption>Figure B.55) Glitched PNG<br>
+    Glitch method: Replace /
+    Filter: Average  /
+    Interlace: Interlaced /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-56-average-interlace-compress-transpose.png" alt="">
+  <figcaption>Figure B.56) Glitched PNG<br>
+    Glitch method: Transpose /
+    Filter: Average  /
+    Interlace: Interlaced /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-57-average-interlace-compress-defect.png" alt="">
+  <figcaption>Figure B.57) Glitched PNG<br>
+    Glitch method: Defect /
+    Filter: Average  /
+    Interlace: Interlaced /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-58-paeth-interlace-compress-replace.png" alt="">
+  <figcaption>Figure B.58) Glitched PNG<br>
+    Glitch method: Replace /
+    Filter: Paeth  /
+    Interlace: Interlaced /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-59-paeth-interlace-compress-transpose.png" alt="">
+  <figcaption>Figure B.59) Glitched PNG<br>
+    Glitch method: Transpose /
+    Filter: Paeth  /
+    Interlace: Interlaced /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-60-paeth-interlace-compress-defect.png" alt="">
+  <figcaption>Figure B.60) Glitched PNG<br>
+    Glitch method: Defect /
+    Filter: Paeth  /
+    Interlace: Interlaced /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-61-optimized-alpha-replace.png" alt="">
+  <figcaption>Figure B.61) Glitched PNG<br>
+    Glitch method: Replace /
+    Filter: Optimized  /
+    Interlace: None /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-62-optimized-alpha-transpose.png" alt="">
+  <figcaption>Figure B.62) Glitched PNG<br>
+    Glitch method: Transpose /
+    Filter: Optimized  /
+    Interlace: None /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-63-optimized-alpha-defect.png" alt="">
+  <figcaption>Figure B.63) Glitched PNG<br>
+    Glitch method: Defect /
+    Filter: Optimized  /
+    Interlace: None /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-64-sub-alpha-replace.png" alt="">
+  <figcaption>Figure B.64) Glitched PNG<br>
+    Glitch method: Replace /
+    Filter: Sub  /
+    Interlace: None /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-65-sub-alpha-transpose.png" alt="">
+  <figcaption>Figure B.65) Glitched PNG<br>
+    Glitch method: Transpose /
+    Filter: Sub  /
+    Interlace: None /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-66-sub-alpha-defect.png" alt="">
+  <figcaption>Figure B.66) Glitched PNG<br>
+    Glitch method: Defect /
+    Filter: Sub  /
+    Interlace: None /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-67-up-alpha-replace.png" alt="">
+  <figcaption>Figure B.67) Glitched PNG<br>
+    Glitch method: Replace /
+    Filter: Up  /
+    Interlace: None /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-68-up-alpha-transpose.png" alt="">
+  <figcaption>Figure B.68) Glitched PNG<br>
+    Glitch method: Transpose /
+    Filter: Up  /
+    Interlace: None /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-69-up-alpha-defect.png" alt="">
+  <figcaption>Figure B.69) Glitched PNG<br>
+    Glitch method: Defect /
+    Filter: Up  /
+    Interlace: None /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-70-average-alpha-replace.png" alt="">
+  <figcaption>Figure B.70) Glitched PNG<br>
+    Glitch method: Replace /
+    Filter: Average  /
+    Interlace: None /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-71-average-alpha-transpose.png" alt="">
+  <figcaption>Figure B.71) Glitched PNG<br>
+    Glitch method: Transpose /
+    Filter: Average  /
+    Interlace: None /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-72-average-alpha-defect.png" alt="">
+  <figcaption>Figure B.72) Glitched PNG<br>
+    Glitch method: Defect /
+    Filter: Average  /
+    Interlace: None /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-73-paeth-alpha-replace.png" alt="">
+  <figcaption>Figure B.73) Glitched PNG<br>
+    Glitch method: Replace /
+    Filter: Paeth  /
+    Interlace: None /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-74-paeth-alpha-transpose.png" alt="">
+  <figcaption>Figure B.74) Glitched PNG<br>
+    Glitch method: Transpose /
+    Filter: Paeth  /
+    Interlace: None /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-75-paeth-alpha-defect.png" alt="">
+  <figcaption>Figure B.75) Glitched PNG<br>
+    Glitch method: Defect /
+    Filter: Paeth  /
+    Interlace: None /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-76-optimized-alpha-interlace-replace.png" alt="">
+  <figcaption>Figure B.76) Glitched PNG<br>
+    Glitch method: Replace /
+    Filter: Optimized  /
+    Interlace: Interlaced /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-77-optimized-alpha-interlace-transpose.png" alt="">
+  <figcaption>Figure B.77) Glitched PNG<br>
+    Glitch method: Transpose /
+    Filter: Optimized  /
+    Interlace: Interlaced /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-78-optimized-alpha-interlace-defect.png" alt="">
+  <figcaption>Figure B.78) Glitched PNG<br>
+    Glitch method: Defect /
+    Filter: Optimized  /
+    Interlace: Interlaced /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-79-sub-alpha-interlace-replace.png" alt="">
+  <figcaption>Figure B.79) Glitched PNG<br>
+    Glitch method: Replace /
+    Filter: Sub  /
+    Interlace: Interlaced /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-80-sub-alpha-interlace-transpose.png" alt="">
+  <figcaption>Figure B.80) Glitched PNG<br>
+    Glitch method: Transpose /
+    Filter: Sub  /
+    Interlace: Interlaced /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-81-sub-alpha-interlace-defect.png" alt="">
+  <figcaption>Figure B.81) Glitched PNG<br>
+    Glitch method: Defect /
+    Filter: Sub  /
+    Interlace: Interlaced /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-82-up-alpha-interlace-replace.png" alt="">
+  <figcaption>Figure B.82) Glitched PNG<br>
+    Glitch method: Replace /
+    Filter: Up  /
+    Interlace: Interlaced /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-83-up-alpha-interlace-transpose.png" alt="">
+  <figcaption>Figure B.83) Glitched PNG<br>
+    Glitch method: Transpose /
+    Filter: Up  /
+    Interlace: Interlaced /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-84-up-alpha-interlace-defect.png" alt="">
+  <figcaption>Figure B.84) Glitched PNG<br>
+    Glitch method: Defect /
+    Filter: Up  /
+    Interlace: Interlaced /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-85-average-alpha-interlace-replace.png" alt="">
+  <figcaption>Figure B.85) Glitched PNG<br>
+    Glitch method: Replace /
+    Filter: Average  /
+    Interlace: Interlaced /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-86-average-alpha-interlace-transpose.png" alt="">
+  <figcaption>Figure B.86) Glitched PNG<br>
+    Glitch method: Transpose /
+    Filter: Average  /
+    Interlace: Interlaced /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-87-average-alpha-interlace-defect.png" alt="">
+  <figcaption>Figure B.87) Glitched PNG<br>
+    Glitch method: Defect /
+    Filter: Average  /
+    Interlace: Interlaced /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-88-paeth-alpha-interlace-replace.png" alt="">
+  <figcaption>Figure B.88) Glitched PNG<br>
+    Glitch method: Replace /
+    Filter: Paeth  /
+    Interlace: Interlaced /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-89-paeth-alpha-interlace-transpose.png" alt="">
+  <figcaption>Figure B.89) Glitched PNG<br>
+    Glitch method: Transpose /
+    Filter: Paeth  /
+    Interlace: Interlaced /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-90-paeth-alpha-interlace-defect.png" alt="">
+  <figcaption>Figure B.90) Glitched PNG<br>
+    Glitch method: Defect /
+    Filter: Paeth  /
+    Interlace: Interlaced /
+    Glitched on: Filtered data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-91-optimized-alpha-compress-replace.png" alt="">
+  <figcaption>Figure B.91) Glitched PNG<br>
+    Glitch method: Replace /
+    Filter: Optimized  /
+    Interlace: None /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-92-optimized-alpha-compress-transpose.png" alt="">
+  <figcaption>Figure B.92) Glitched PNG<br>
+    Glitch method: Transpose /
+    Filter: Optimized  /
+    Interlace: None /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-93-optimized-alpha-compress-defect.png" alt="">
+  <figcaption>Figure B.93) Glitched PNG<br>
+    Glitch method: Defect /
+    Filter: Optimized  /
+    Interlace: None /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-94-sub-alpha-compress-replace.png" alt="">
+  <figcaption>Figure B.94) Glitched PNG<br>
+    Glitch method: Replace /
+    Filter: Sub  /
+    Interlace: None /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-95-sub-alpha-compress-transpose.png" alt="">
+  <figcaption>Figure B.95) Glitched PNG<br>
+    Glitch method: Transpose /
+    Filter: Sub  /
+    Interlace: None /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-96-sub-alpha-compress-defect.png" alt="">
+  <figcaption>Figure B.96) Glitched PNG<br>
+    Glitch method: Defect /
+    Filter: Sub  /
+    Interlace: None /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-97-up-alpha-compress-replace.png" alt="">
+  <figcaption>Figure B.97) Glitched PNG<br>
+    Glitch method: Replace /
+    Filter: Up  /
+    Interlace: None /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-98-up-alpha-compress-transpose.png" alt="">
+  <figcaption>Figure B.98) Glitched PNG<br>
+    Glitch method: Transpose /
+    Filter: Up  /
+    Interlace: None /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-99-up-alpha-compress-defect.png" alt="">
+  <figcaption>Figure B.99) Glitched PNG<br>
+    Glitch method: Defect /
+    Filter: Up  /
+    Interlace: None /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-100-average-alpha-compress-replace.png" alt="">
+  <figcaption>Figure B.100) Glitched PNG<br>
+    Glitch method: Replace /
+    Filter: Average  /
+    Interlace: None /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-101-average-alpha-compress-transpose.png" alt="">
+  <figcaption>Figure B.101) Glitched PNG<br>
+    Glitch method: Transpose /
+    Filter: Average  /
+    Interlace: None /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-102-average-alpha-compress-defect.png" alt="">
+  <figcaption>Figure B.102) Glitched PNG<br>
+    Glitch method: Defect /
+    Filter: Average  /
+    Interlace: None /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-103-paeth-alpha-compress-replace.png" alt="">
+  <figcaption>Figure B.103) Glitched PNG<br>
+    Glitch method: Replace /
+    Filter: Paeth  /
+    Interlace: None /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-104-paeth-alpha-compress-transpose.png" alt="">
+  <figcaption>Figure B.104) Glitched PNG<br>
+    Glitch method: Transpose /
+    Filter: Paeth  /
+    Interlace: None /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-105-paeth-alpha-compress-defect.png" alt="">
+  <figcaption>Figure B.105) Glitched PNG<br>
+    Glitch method: Defect /
+    Filter: Paeth  /
+    Interlace: None /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-106-optimized-alpha-interlace-compress-replace.png" alt="">
+  <figcaption>Figure B.106) Glitched PNG<br>
+    Glitch method: Replace /
+    Filter: Optimized  /
+    Interlace: Interlaced /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-107-optimized-alpha-interlace-compress-transpose.png" alt="">
+  <figcaption>Figure B.107) Glitched PNG<br>
+    Glitch method: Transpose /
+    Filter: Optimized  /
+    Interlace: Interlaced /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-108-optimized-alpha-interlace-compress-defect.png" alt="">
+  <figcaption>Figure B.108) Glitched PNG<br>
+    Glitch method: Defect /
+    Filter: Optimized  /
+    Interlace: Interlaced /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-109-sub-alpha-interlace-compress-replace.png" alt="">
+  <figcaption>Figure B.109) Glitched PNG<br>
+    Glitch method: Replace /
+    Filter: Sub  /
+    Interlace: Interlaced /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-110-sub-alpha-interlace-compress-transpose.png" alt="">
+  <figcaption>Figure B.110) Glitched PNG<br>
+    Glitch method: Transpose /
+    Filter: Sub  /
+    Interlace: Interlaced /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-111-sub-alpha-interlace-compress-defect.png" alt="">
+  <figcaption>Figure B.111) Glitched PNG<br>
+    Glitch method: Defect /
+    Filter: Sub  /
+    Interlace: Interlaced /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-112-up-alpha-interlace-compress-replace.png" alt="">
+  <figcaption>Figure B.112) Glitched PNG<br>
+    Glitch method: Replace /
+    Filter: Up  /
+    Interlace: Interlaced /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-113-up-alpha-interlace-compress-transpose.png" alt="">
+  <figcaption>Figure B.113) Glitched PNG<br>
+    Glitch method: Transpose /
+    Filter: Up  /
+    Interlace: Interlaced /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-114-up-alpha-interlace-compress-defect.png" alt="">
+  <figcaption>Figure B.114) Glitched PNG<br>
+    Glitch method: Defect /
+    Filter: Up  /
+    Interlace: Interlaced /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-115-average-alpha-interlace-compress-replace.png" alt="">
+  <figcaption>Figure B.115) Glitched PNG<br>
+    Glitch method: Replace /
+    Filter: Average  /
+    Interlace: Interlaced /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-116-average-alpha-interlace-compress-transpose.png" alt="">
+  <figcaption>Figure B.116) Glitched PNG<br>
+    Glitch method: Transpose /
+    Filter: Average  /
+    Interlace: Interlaced /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-117-average-alpha-interlace-compress-defect.png" alt="">
+  <figcaption>Figure B.117) Glitched PNG<br>
+    Glitch method: Defect /
+    Filter: Average  /
+    Interlace: Interlaced /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-118-paeth-alpha-interlace-compress-replace.png" alt="">
+  <figcaption>Figure B.118) Glitched PNG<br>
+    Glitch method: Replace /
+    Filter: Paeth  /
+    Interlace: Interlaced /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-119-paeth-alpha-interlace-compress-transpose.png" alt="">
+  <figcaption>Figure B.119) Glitched PNG<br>
+    Glitch method: Transpose /
+    Filter: Paeth  /
+    Interlace: Interlaced /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+<figure class="catalog">
+  <img src="files/lena-120-paeth-alpha-interlace-compress-defect.png" alt="">
+  <figcaption>Figure B.120) Glitched PNG<br>
+    Glitch method: Defect /
+    Filter: Paeth  /
+    Interlace: Interlaced /
+    Glitched on: Compressed data
+  </figcaption>
+</figure>
+
+
+      <p>
+        <code>
+          <pre>
+require 'pnglitch'
+
+count = 0
+infiles = %w(lena.png lena-alpha.png)
+infiles.each do |infile|
+  alpha = /alpha/ =~ infile
+  [false, true].each do |compress|
+    [false, true].each do |interlace|
+      if interlace
+        system("convert -interlace plane %s tmp.png" % infile)
+        infile = 'tmp.png'
+      end
+      [:optimized, :sub, :up, :average, :paeth].each do |filter|
+        [:replace, :transpose, :defect].each do |method|
+          count += 1
+          png = PNGlitch.open infile
+          png.change_all_filters filter unless filter == :optimized
+          options = [filter.to_s]
+          options << 'alpha' if alpha
+          options << 'interlace' if interlace
+          options << 'compress' if compress
+          options << method.to_s
+          outfile = "lena-%02d-%s.png" % [count, options.join('-')]
+          process = lambda do |data, range|
+            case method
+            when :replace
+              range.times do
+                data[rand(data.size)] = 'x'
+              end
+              data
+            when :transpose
+              x = data.size / 4
+              data[0, x] + data[x * 2, x] + data[x * 1, x] + data[x * 3..-1]
+            when :defect
+              range.times do
+                data[rand(data.size)] = ''
+              end
+              data
+            end
+          end
+          unless compress
+            png.glitch do |data|
+              process.call data, 150
+            end
+          else
+            png.glitch_after_compress do |data|
+              process.call data, 10
+            end
+          end
+          png.save outfile
+          png.close
+        end
+      end
+    end
+  end
+end
+File.unlink 'tmp.png'
+          </pre>
+        </code>
+      </p>
+      <h2><a name="appendix-c"></a>Appendix C: Incorrect filters</h2>
+
+      <p>
+      A PNG scanline consists of a combination of a filter type byte and filtered pixel data. Deliberately making an incorrect combination is another technique in PNG glitching.
+      </p>
+
+      <figure class="full">
+        <a href="files/png-glitch-graft.png"><img src="files/png-glitch-graft.png" alt="Figure C.1) "></a>
+        <figcaption>Figure C.1) PNG applied wrong filter types</figcaption>
+      </figure>
+      <p>
+      The image above is generated with the code below.
+      </p>
+
+      <code>
+        <pre>
+require 'pnglitch'
+PNGlitch.open('png.png') do |png|
+  png.each_scanline do |line|
+    line.graft rand(5)
+  end
+  png.save 'png-glitch-graft.png'
+end
+        </pre>
+      </code>
+
+
+      <h3>Implementation of an incorrect filter</h3>
+      <p>
+      What will happen if an incorrect filter is implemented? PNGlitch is designed to allow the user to freely change filter methods, so the user can test what happens at that state. A normal viewer application that uses a standard filter method is decoding a PNG image that is encoded by a distinctive filter method. This will perhaps generate an algorithmic glitch (I will not argue about if we should call that a glitch or not). The images below are part of such generated images.
+      </p>
+      <figure class="full">
+        <a href="files/png-incorrect-filter01.png"><img src="files/png-incorrect-filter01.png" alt="Figure C.2) PNG encoded with an incorrect filter 1"></a>
+        <figcaption>Figure C.2) PNG encoded with an incorrect filter 1</figcaption>
+      </figure>
+      <code>
+        <pre>
+require 'pnglitch'
+PNGlitch.open('png.png') do |p|
+  p.each_scanline do |l|
+    l.register_filter_encoder do |data, prev|
+      data.size.times.reverse_each do |i|
+        x = data.getbyte(i)
+        v = prev ? prev.getbyte(i - 1) : 0
+        data.setbyte(i, (x - v) & 0xff)
+      end
+      data
+    end
+  end
+  p.output 'png-incorrect-filter01.png'
+end
+        </pre>
+      </code>
+
+      <figure class="full">
+        <a href="files/png-incorrect-filter02.png"><img src="files/png-incorrect-filter02.png" alt="Figure C.3) PNG encoded with an incorrect filter 2"></a>
+        <figcaption>Figure C.3) PNG encoded with an incorrect filter 2</figcaption>
+      </figure>
+      <code>
+        <pre>
+require 'pnglitch'
+PNGlitch.open('png.png') do |p|
+  p.change_all_filters 4
+  p.each_scanline do |l|
+    l.register_filter_encoder do |data, prev|
+      data.size.times.reverse_each do |i|
+        x = data.getbyte(i)
+        v = prev ? prev.getbyte(i - 6) : 0
+        data.setbyte(i, (x - v) & 0xff)
+      end
+      data
+    end
+  end
+  p.output 'png-incorrect-filter02.png'
+end
+        </pre>
+      </code>
+
+      <figure class="full">
+        <a href="files/png-incorrect-filter03.png"><img src="files/png-incorrect-filter03.png" alt="Figure C.4) PNG encoded with an incorrect filter 3"></a>
+        <figcaption>Figure C.4) PNG encoded with an incorrect filter 3</figcaption>
+      </figure>
+      <code>
+        <pre>
+require 'pnglitch'
+PNGlitch.open('png.png') do |png|
+  png.change_all_filters 4
+  sample_size = png.sample_size
+  png.each_scanline do |l|
+    l.register_filter_encoder do |data, prev|
+      data.size.times.reverse_each do |i|
+        x = data.getbyte i
+        is_a_exist = i >= sample_size
+        is_b_exist = !prev.nil?
+        a = is_a_exist ? data.getbyte(i - sample_size) : 0
+        b = is_b_exist ? prev.getbyte(i) : 0
+        c = is_a_exist && is_b_exist ? prev.getbyte(i - sample_size) : 0
+        p =  a + b - c
+        pa = (p - a).abs
+        pb = (p - b).abs
+        pc = (p - c).abs
+        pr = pa <= pb && pa <= pc ? a : pb <= pc ? b : c
+        data.setbyte i, (x - pr) & 0xfe
+      end
+      data
+    end
+  end
+  png.output 'png-incorrect-filter03.png'
+end
+        </pre>
+      </code>
+
+      <figure class="full">
+        <a href="files/png-incorrect-filter04.png"><img src="files/png-incorrect-filter04.png" alt="Figure C.5) PNG encoded with an incorrect filter 4"></a>
+        <figcaption>Figure C.5) PNG encoded with an incorrect filter 4</figcaption>
+      </figure>
+      <code>
+        <pre>
+require 'pnglitch'
+PNGlitch.open('png.png') do |p|
+  p.change_all_filters 2
+  p.each_scanline do |l|
+    l.register_filter_encoder do |data, prev|
+      data.size.times.reverse_each do |i|
+        x = data.getbyte(i)
+        v = prev ? prev.getbyte(i) : 0
+        data.setbyte(i, (x - v) & 0xfe)
+      end
+      data
+    end
+  end
+  p.output 'png-incorrect-filter04.png'
+end
+        </pre>
+      </code>
+
+    </section>
+    <footer>
+      <hr>
+      2015 ucnv &lt;ucnvvv at gmail dot com&gt;
+    </footer>
+  </body>
+</html>

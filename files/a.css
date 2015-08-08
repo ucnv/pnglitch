@@ -1,0 +1,198 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,700|Source+Code+Pro);
+
+body {
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+  padding: 0;
+  color: #000;
+  background-color: #ccc;
+  font-family: 'Century Schoolbook W01', serif;
+  line-height: 1.4;
+}
+
+a {
+  color: slateblue;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+hr {
+  margin: 150px 0 90px 0;
+  border-top: 1px solid #888;
+  position: relative;
+  height: 1px;
+}
+
+hr::before {
+  margin-left: -32px;
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  width: 64px;
+  line-height: 1;
+  content: "*";
+  color: #999;
+  background-color: #ccc;
+  font-size: 42px;
+  text-align: center;
+  font-family: 'Century Schoolbook W01', serif;
+	text-shadow: 0px 1px 0px #fff;
+}
+
+section {
+  padding: 0 15px;
+  margin: 20px auto;
+  max-width: 1280px;
+}
+
+footer {
+  margin: 20px auto;
+  max-width: 1280px;
+  font-size: 18px;
+  padding: 0 0 50px 0;
+}
+
+p, dl {
+  font-size: 18px;
+  text-indent: 3em each-line;
+}
+
+p, h2, h3 {
+  clear: both;
+  font-weight: 400;
+}
+
+h1 {
+  margin: 0 0 80px 0;
+  height: 390px;
+  padding-top: 290px;
+  font-size: 65px;
+  color: #fff;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+  text-align: center;
+  background: #c5c5c5 url(header.jpg) center top;
+}
+
+h2 {
+  margin: 60px 0 40px 0;
+  padding: 15px 2px;
+  font-size: 26px;
+  border-bottom: 1px solid #999;
+}
+
+h3 {
+  margin: 40px 0 15px 0;
+  padding: 10px 2px;
+  font-size: 22px;
+}
+
+h2, h3 {
+  font-family: 'CenturySchlbkMTW01-Bold_706541', serif;
+}
+
+p.detail {
+  clear: none;
+}
+
+pre {
+  font-size: 16px;
+  border-left: 5px solid #c5c5c5;
+  padding: 0 30px;
+  margin: 15px 0 25px 0;
+  line-height: 1.6;
+}
+
+code {
+  font-family: 'Source Code Pro', monospace;
+  color: #555;
+}
+
+p code {
+  font-size: 16px;
+}
+
+figure {
+  margin: .5em 0 1.5em 0;
+}
+
+figure a {
+  pointer-events: none;
+  cursor: default;
+  line-height: 0;
+}
+
+figure figcaption {
+  margin-top: 8px;
+  font-size: 16px;
+  font-family: 'CenturySchlbkMTW01-Bold_706541', serif;
+  text-align: center;
+}
+
+figure.detail {
+  float: left;
+  margin: 0 1em 2em 0;
+}
+
+figure.catalog {
+  margin-right: 10px;
+  width: 416px;
+  float: left;
+}
+
+figure.catalog figcaption {
+  font-size: 12px;
+  height: 3.5em;
+  text-align: left;
+}
+
+dt {
+  font-family: 'CenturySchlbkMTW01-Bold_706541', serif;
+}
+
+@media only screen and (max-width: 1280px) {
+  section {
+    padding: 0 0 0 5px;
+    margin: 20px auto;
+    max-width: 850px;
+  }
+
+  footer {
+    max-width: 850px;
+  }
+
+  p, h2, h3, dl {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  figure.full {
+  }
+
+  figure.full img {
+    position: relative;
+    left: -215px;
+  }
+
+  figure.full a {
+    pointer-events: auto;
+    cursor: pointer;
+    display: block;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    width: 835px;
+    border: 3px solid blue;
+  }
+
+  pre {
+    overflow: scroll;
+    border-left: 10px solid #ccc;
+  }
+
+  figure.catalog {
+    margin-right: 6px;
+  }
+}
