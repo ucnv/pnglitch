@@ -19,7 +19,7 @@ a:hover {
 }
 
 hr {
-  margin: 150px 0 90px 0;
+  margin: 150px auto 90px;
   border-top: 1px solid #888;
   position: relative;
   height: 1px;
@@ -37,7 +37,7 @@ hr::before {
   background-color: #ccc;
   font-size: 42px;
   text-align: center;
-  font-family: 'Century Schoolbook W01', serif;
+  font-family: Georgia, 'Times New Roman' serif;
 	text-shadow: 0px 1px 0px #fff;
 }
 
@@ -47,16 +47,8 @@ section {
   max-width: 1280px;
 }
 
-footer {
-  margin: 20px auto;
-  max-width: 1280px;
-  font-size: 18px;
-  padding: 0 0 50px 0;
-}
-
 p, dl {
   font-size: 18px;
-  text-indent: 3em each-line;
 }
 
 p, h2, h3 {
@@ -80,7 +72,7 @@ h2 {
   margin: 60px 0 40px 0;
   padding: 15px 2px;
   font-size: 26px;
-  border-bottom: 1px solid #999;
+  border-bottom: 1px dotted #999;
 }
 
 h3 {
@@ -93,7 +85,7 @@ h2, h3 {
   font-family: 'CenturySchlbkMTW01-Bold_706541', serif;
 }
 
-p.detail {
+p.description {
   clear: none;
 }
 
@@ -131,6 +123,11 @@ figure figcaption {
   text-align: center;
 }
 
+figure.full img {
+  width: 1280px;
+  height: 854px;
+}
+
 figure.detail {
   float: left;
   margin: 0 1em 2em 0;
@@ -148,6 +145,7 @@ figure.catalog img {
 }
 
 figure.catalog figcaption {
+  margin-top: 0;
   font-size: 12px;
   height: 3.5em;
   text-align: left;
@@ -157,18 +155,43 @@ dt {
   font-family: 'CenturySchlbkMTW01-Bold_706541', serif;
 }
 
+footer {
+  margin: 20px auto;
+  max-width: 1280px;
+  padding: 0 0 50px 0;
+}
+
+footer h4 {
+  font-family: 'CenturySchlbkMTW01-Bold_706541', serif;
+  font-weight: 400;
+  font-size: 18px;
+  margin: 30px 0 0;
+}
+
+footer p {
+  font-family: 'CenturySchlbkMTW01-Ital', serif;
+  font-size: 16px;
+  margin: .5em 0;
+}
+
+footer .signature {
+  font-size: 18px;
+  font-family: 'Century Schoolbook W01', serif;
+  margin: 80px 0 10px;
+}
+
 @media only screen and (max-width: 1308px) {
   section {
     padding: 0 0 0 5px;
     margin: 20px auto;
-    max-width: 850px;
+    width: 850px;
   }
 
   footer {
     max-width: 850px;
   }
 
-  p, h2, h3, dl {
+  p, h2, h3, h4, dl {
     padding-left: 10px;
     padding-right: 10px;
   }
@@ -199,5 +222,16 @@ dt {
 
   figure.catalog {
     margin-right: 6px;
+  }
+
+  hr {
+    width: 98%;
+  }
+}
+
+@media only screen and (max-width: 850px) {
+  figure.detail figcaption {
+    -webkit-text-size-adjust: 100%;
+    font-size: 23px;
   }
 }

@@ -53,11 +53,11 @@
       <h2>Glitching: In practice</h2>
 
       <figure class="full">
-        <a href="files/png.png"><img src="files/png.png" alt="Figure 2) Original PNG image"></a>
+        <a href="files/png.png"><img src="files/blank.png" data-src="files/png.png" alt="Figure 2) Original PNG image"></a>
         <figcaption>Figure 2) Original PNG image</figcaption>
       </figure>
       <figure class="full">
-        <a href="files/png-glitch-optimized.png"><img src="files/png-glitch-optimized.png" alt="Figure 3) Glitched PNG image"></a>
+        <a href="files/png-glitch-optimized.png"><img src="files/blank.png" data-src="files/png-glitch-optimized.png" alt="Figure 3) Glitched PNG image"></a>
         <figcaption>Figure 3) Glitched PNG image</figcaption>
       </figure>
       <p>
@@ -71,7 +71,7 @@
       </p>
 
       <figure class="full">
-        <a href="files/png-glitch-none.png"><img src="files/png-glitch-none.png" alt="Figure 4) Glitched PNG, filtered with None"></a>
+        <a href="files/png-glitch-none.png"><img src="files/blank.png" data-src="files/png-glitch-none.png" alt="Figure 4) Glitched PNG, filtered with None"></a>
         <figcaption>Figure 4) Glitched PNG, filtered with None</figcaption>
       </figure>
 
@@ -79,12 +79,12 @@
         <img src="files/png-glitch-none-detail.png" alt="Figure 5) Detail of">
         <figcaption>Figure 5) Detail of</figcaption>
       </figure>
-      <p class="detail">
+      <p class="description">
       The image above has applied “None (no filter)”, meaning that it is a raw data glitch. Each pixel stands alone in this state and does not have any relationship with the others, so a single re-wrote byte does not have a wide range influence.
       </p>
 
       <figure class="full">
-        <a href="files/png-glitch-sub.png"><img src="files/png-glitch-sub.png" alt="Figure 6) Glitched PNG, filtered with Sub"></a>
+        <a href="files/png-glitch-sub.png"><img src="files/blank.png" data-src="files/png-glitch-sub.png" alt="Figure 6) Glitched PNG, filtered with Sub"></a>
         <figcaption>Figure 6) Glitched PNG, filtered with Sub</figcaption>
       </figure>
 
@@ -92,12 +92,12 @@
         <img src="files/png-glitch-sub-detail.png" alt="Figure 7) Detail of">
         <figcaption>Figure 7) Detail of</figcaption>
       </figure>
-      <p class="detail">
+      <p class="description">
       This is a glitched image that has the filter “Sub” applied to each scanline. When the Sub algorythm is applied, the target pixel rewrites itself by refering to the pixel that is right next to it. This is why the glitch pattern avalanches towards the right side.
       </p>
 
       <figure class="full">
-        <a href="files/png-glitch-up.png"><img src="files/png-glitch-up.png" alt="Figure 8) Glitched PNG, filtered with Up"></a>
+        <a href="files/png-glitch-up.png"><img src="files/blank.png" data-src="files/png-glitch-up.png" alt="Figure 8) Glitched PNG, filtered with Up"></a>
         <figcaption>Figure 8) Glitched PNG, filtered with Up</figcaption>
       </figure>
 
@@ -105,12 +105,12 @@
         <img src="files/png-glitch-up-detail.png" alt="Figure 9) Detail of">
         <figcaption>Figure 9) Detail of</figcaption>
       </figure>
-      <p class="detail">
+      <p class="description">
       This is the filter “Up”. This filter is similar to Sub, but its reference direction is the top and bottom.
       </p>
 
       <figure class="full">
-        <a href="files/png-glitch-average.png"><img src="files/png-glitch-average.png" alt="Figure 10) Glitched PNG, filtered with Average"></a>
+        <a href="files/png-glitch-average.png"><img src="files/blank.png" data-src="files/png-glitch-average.png" alt="Figure 10) Glitched PNG, filtered with Average"></a>
         <figcaption>Figure 10) Glitched PNG, filtered with Average</figcaption>
       </figure>
 
@@ -118,12 +118,12 @@
         <img src="files/png-glitch-average-detail.png" alt="Figure 11) Detail of">
         <figcaption>Figure 11) Detail of</figcaption>
       </figure>
-      <p class="detail">
+      <p class="description">
       The filter “Average” refers to a diagonal direction. It shows a meteor like tail that starts from the damaged pixel. The soft gradation effect is also one of the peculiarities of this filter. The result of a PNG glitch when the Average filter is applied is a glitch that lacks glitchiness, and is also the most delicate portion of PNG glitching.
       </p>
 
       <figure class="full">
-        <a href="files/png-glitch-paeth.png"><img src="files/png-glitch-paeth.png" alt="Figure 12) Glitched PNG, filtered with Paeth"></a>
+        <a href="files/png-glitch-paeth.png"><img src="files/blank.png" data-src="files/png-glitch-paeth.png" alt="Figure 12) Glitched PNG, filtered with Paeth"></a>
         <figcaption>Figure 12) Glitched PNG, filtered with Paeth</figcaption>
       </figure>
 
@@ -131,14 +131,14 @@
         <img src="files/png-glitch-paeth-detail.png" alt="Figure 13) Detail of">
         <figcaption>Figure 13) Detail of</figcaption>
       </figure>
-      <p class="detail">
+      <p class="description">
       The filter “Paeth” has the most complicated algorithm when compared with the others. It also has the most complicated glitch effect. The glitch will affect a wide range of areas even with the least byte re-writing. The keynote effect of PNG glitch is caused by this filter; the figure shown in the original image is maintained, but is intensely destroyed at the same time.
       </p>
 
       <h3>Glitch after compression</h3>
 
       <figure class="full">
-        <a href="files/png-glitch-compressed.png"><img src="files/png-glitch-compressed.png" alt="Figure 14) Glitched PNG, after compressed"></a>
+        <a href="files/png-glitch-compressed.png"><img src="files/blank.png" data-src="files/png-glitch-compressed.png" alt="Figure 14) Glitched PNG, after compressed"></a>
         <figcaption>Figure 14) Glitched PNG, after compressed</figcaption>
       </figure>
 
@@ -146,8 +146,8 @@
         <img src="files/png-glitch-compressed-detail.png" alt="Figure 15) Detail of">
         <figcaption>Figure 15) Detail of</figcaption>
       </figure>
-      <p class="detail">
-      This is a glitch of the state that I referred to as Compressed Data in the previous section. A snowstorm effect appears, and the original icon get hard to be recognized. The image is often completely destroyed.
+      <p class="description">
+      This is a glitch of the state that I referred to as Compressed Data in the previous section. A snowstorm effect appears, and the original icon get hard to be recognized. It infrequently remains to show effects of the filters. The image is often completely destroyed.
       </p>
 　
       <h3>Transparence</h3>
@@ -156,14 +156,15 @@
       </p>
 
       <figure class="full">
-        <a href="files/png-alpha.png"><img src="files/png-alpha.png" alt="Figure 16) Original PNG image"></a>
-        <figcaption>Figure 16) Original PNG image</figcaption>
+        <a href="files/png-alpha.png"><img src="files/blank.png" data-src="files/png-alpha.png" alt="Figure 16) Original PNG image"></a>
+        <figcaption>Figure 16) Original PNG image with alpha pixels</figcaption>
       </figure>
       <figure class="full">
-        <a href="files/png-glitch-alpha.png"><img src="files/png-glitch-alpha.png" alt="Figure 17) Glitched PNG, with alpha pixels"></a>
+        <a href="files/png-glitch-alpha.png"><img src="files/blank.png" data-src="files/png-glitch-alpha.png" alt="Figure 17) Glitched PNG, with alpha pixels"></a>
         <figcaption>Figure 17) Glitched PNG, with alpha pixels</figcaption>
       </figure>
       <p>
+      The transparency comes as an effect. Especially the filter “Average” seems to blend transparent pixels gradually.
       A 100% gathering of transparent pixels is handled in the same way as a solid colored section. You can tell that the filter “Up” is often applied to solid colored sections.<br>
       (There is a possibility that newer general-purpose image formats switch their compression scheme of each part depending on if the image is a solid colored section, or else a complicated image such as photographs. The use of images that include solid colored sections for testing glitches is an effective method. One example is a WebP. )
       </p>
@@ -171,10 +172,14 @@
       <h3>Interlace</h3>
 
       <figure class="full">
-        <a href="files/png-glitch-interlace.png"><img src="files/png-glitch-interlace.png" alt="Figure 18) Glitched PNG, with interlace"></a>
+        <a href="files/png-glitch-interlace.png"><img src="files/blank.png" data-src="files/png-glitch-interlace.png" alt="Figure 18) Glitched PNG, with interlace"></a>
         <figcaption>Figure 18) Glitched PNG, with interlace</figcaption>
       </figure>
-      <p>
+      <figure class="detail">
+        <img src="files/png-glitch-interlace-detail.png" alt="Figure 19) Detail of">
+        <figcaption>Figure 19) Detail of</figcaption>
+      </figure>
+      <p class="description">
         PNG interlaces are divided into seven passes, using the Adam7 algorithm based on 8x8 pixels. We are able to visualy observe that algorithm when an interlaced PNG is glitched. We can also confirm a stitched effect, and that its angle of the Average filter effect has become narrow (see appendix B).
       </p>
 
@@ -191,7 +196,7 @@
 
       <h2><a name="appendix-a"></a>Appendix A: PNGlitch library</h2>
       <p>
-      The author released <a href="http://www.jarchive.org/akami/aka018.html">a tiny script for PNG glitch</a> in 2009. Back then, it only removed the CRC32 and added it back again after the internal data was glitched.<br>
+      The author released <a href="http://www.jarchive.org/akami/aka018.html">a tiny script for PNG glitch</a> in 2010. Back then, it only removed the CRC32 and added it back again after the internal data was glitched.<br>
       Since then, the author has continued to rewrite the script and make improved versions of it for the purpose of using it in his own work, but he decided to make a library that adopts his know-how in 2014. The Ruby library PNGlitch came out as the result.<br>
       Every glitch image that appears in this article is made by using this library.
       </p>
@@ -362,7 +367,7 @@ end
         </pre>
       </code>
 
-      <p>The PNGlitch library is published as an open source software.<br>
+      <p>The PNGlitch library is released as an open source.<br>
         <a href="https://github.com/ucnv/pnglitch">https://github.com/ucnv/pnglitch</a>
       </p>
 
@@ -1655,7 +1660,7 @@ File.unlink 'tmp.png'
       </p>
 
       <figure class="full">
-        <a href="files/png-glitch-graft.png"><img src="files/png-glitch-graft.png" alt="Figure C.1) "></a>
+        <a href="files/png-glitch-graft.png"><img src="files/blank.png" data-src="files/png-glitch-graft.png" alt="Figure C.1) "></a>
         <figcaption>Figure C.1) PNG applied wrong filter types</figcaption>
       </figure>
       <p>
@@ -1680,7 +1685,7 @@ end
       What will happen if an incorrect filter is implemented? PNGlitch is designed to allow the user to freely change filter methods, so the user can test what happens at that state. A normal viewer application that uses a standard filter method is decoding a PNG image that is encoded by a distinctive filter method. This will perhaps generate an algorithmic glitch (I will not argue about if we should call that a glitch or not). The images below are part of such generated images.
       </p>
       <figure class="full">
-        <a href="files/png-incorrect-filter01.png"><img src="files/png-incorrect-filter01.png" alt="Figure C.2) PNG encoded with an incorrect filter 1"></a>
+        <a href="files/png-incorrect-filter01.png"><img src="files/blank.png" data-src="files/png-incorrect-filter01.png" alt="Figure C.2) PNG encoded with an incorrect filter 1"></a>
         <figcaption>Figure C.2) PNG encoded with an incorrect filter 1</figcaption>
       </figure>
       <code>
@@ -1703,7 +1708,7 @@ end
       </code>
 
       <figure class="full">
-        <a href="files/png-incorrect-filter02.png"><img src="files/png-incorrect-filter02.png" alt="Figure C.3) PNG encoded with an incorrect filter 2"></a>
+        <a href="files/png-incorrect-filter02.png"><img src="files/blank.png" data-src="files/png-incorrect-filter02.png" alt="Figure C.3) PNG encoded with an incorrect filter 2"></a>
         <figcaption>Figure C.3) PNG encoded with an incorrect filter 2</figcaption>
       </figure>
       <code>
@@ -1727,7 +1732,7 @@ end
       </code>
 
       <figure class="full">
-        <a href="files/png-incorrect-filter03.png"><img src="files/png-incorrect-filter03.png" alt="Figure C.4) PNG encoded with an incorrect filter 3"></a>
+        <a href="files/png-incorrect-filter03.png"><img src="files/blank.png" data-src="files/png-incorrect-filter03.png" alt="Figure C.4) PNG encoded with an incorrect filter 3"></a>
         <figcaption>Figure C.4) PNG encoded with an incorrect filter 3</figcaption>
       </figure>
       <code>
@@ -1761,7 +1766,7 @@ end
       </code>
 
       <figure class="full">
-        <a href="files/png-incorrect-filter04.png"><img src="files/png-incorrect-filter04.png" alt="Figure C.5) PNG encoded with an incorrect filter 4"></a>
+        <a href="files/png-incorrect-filter04.png"><img src="files/blank.png" data-src="files/png-incorrect-filter04.png" alt="Figure C.5) PNG encoded with an incorrect filter 4"></a>
         <figcaption>Figure C.5) PNG encoded with an incorrect filter 4</figcaption>
       </figure>
       <code>
@@ -1787,9 +1792,19 @@ end
     </section>
     <footer>
       <hr>
-      <p>2015 ucnv &lt;ucnvvv at gmail dot com&gt;</p>
+      <h4 class="author">About the author</h4>
+      <p class="author">
+        UCNV<br>
+        He is a programmer and an artist based in Tokyo. He develops programs to damage images and movies, and creates visual works and gives performances with them.<br>
+        <a href="http://ucnv.org/">http://ucnv.org/</a>
+      </p>
+      <h4 class="acknowledgement">Acknowledgment</h4>
+      <p class="acknowledgment">
+        Original photography by Takehiro Goto, and the Lena on the catalogue<br>
+        Support for Japanese-English translation by Makoto Oshiro
+      </p>
 
-
+      <p class="signature">2015 UCNV &lt;ucnvvv at gmail dot com&gt;</p>
     </footer>
   </body>
 </html>
