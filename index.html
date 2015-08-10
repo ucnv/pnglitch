@@ -197,7 +197,7 @@
       <h2><a name="appendix-a"></a>Appendix A: PNGlitch library</h2>
       <p>
       The author released <a href="http://www.jarchive.org/akami/aka018.html">a tiny script for PNG glitch</a> in 2010. Back then, it only removed the CRC32 and added it back again after the internal data was glitched.<br>
-      Since then, the author has continued to rewrite the script and make improved versions of it for the purpose of using it in his own work, but he decided to make a library that adopts his know-how in 2014. The Ruby library PNGlitch came out as the result.<br>
+      Since then, the author has continued to rewrite the script and make improved versions of it for the purpose of using it in his own work, but he decided to make a library that adopts his know-how in 2014. The Ruby library <a href="https://github.com/ucnv/pnglitch">PNGlitch</a> came out as the result.<br>
       Every glitch image that appears in this article is made by using this library.
       </p>
       <p>
@@ -1627,7 +1627,7 @@ infiles.each do |infile|
               x = data.size / 4
               data[0, x] + data[x * 2, x] + data[x * 1, x] + data[x * 3..-1]
             when :defect
-              range.times do
+              (range / 5).times do
                 data[rand(data.size)] = ''
               end
               data
@@ -1635,7 +1635,7 @@ infiles.each do |infile|
           end
           unless compress
             png.glitch do |data|
-              process.call data, 150
+              process.call data, 50
             end
           else
             png.glitch_after_compress do |data|
@@ -1663,8 +1663,9 @@ File.unlink 'tmp.png'
         <a href="files/png-glitch-graft.png"><img src="files/blank.png" data-src="files/png-glitch-graft.png" alt="Figure C.1) "></a>
         <figcaption>Figure C.1) PNG applied wrong filter types</figcaption>
       </figure>
+
       <p>
-      The image above is generated with the code below.
+      The image above is generated with the code below.<br> In PNGlitch, the method <code>graft</code> is prepared for attaching a wrong filter type to a scanline.
       </p>
 
       <code>
@@ -1674,7 +1675,45 @@ PNGlitch.open('png.png') do |png|
   png.each_scanline do |line|
     line.graft rand(5)
   end
-  png.save 'png-glitch-graft.png'
+  png.save "png-glitch-graft.png"
+end
+        </pre>
+      </code>
+
+      <p>
+        This technique is convenient, even for checking how different glitching effect of the filters is. Next five images is the results that applied one particular filter type byte on every scanline, without modifying scanline data.
+      </p>
+
+      <figure class="full">
+        <a href="files/png-glitch-graft-0.png"><img src="files/blank.png" data-src="files/png-glitch-graft-0.png" alt="Figure C.2) "></a>
+        <figcaption>Figure C.2) PNG applied wrong filter types, changing every filter type as None</figcaption>
+      </figure>
+      <figure class="full">
+        <a href="files/png-glitch-graft-1.png"><img src="files/blank.png" data-src="files/png-glitch-graft-1.png" alt="Figure C.3) "></a>
+        <figcaption>Figure C.3) PNG applied wrong filter types, changing every filter type as Sub</figcaption>
+      </figure>
+      <figure class="full">
+        <a href="files/png-glitch-graft-2.png"><img src="files/blank.png" data-src="files/png-glitch-graft-2.png" alt="Figure C.4) "></a>
+        <figcaption>Figure C.4) PNG applied wrong filter types, changing every filter type as Up</figcaption>
+      </figure>
+      <figure class="full">
+        <a href="files/png-glitch-graft-3.png"><img src="files/blank.png" data-src="files/png-glitch-graft-3.png" alt="Figure C.5) "></a>
+        <figcaption>Figure C.5) PNG applied wrong filter types, changing every filter type as Average </figcaption>
+      </figure>
+      <figure class="full">
+        <a href="files/png-glitch-graft-4.png"><img src="files/blank.png" data-src="files/png-glitch-graft-4.png" alt="Figure C.6) "></a>
+        <figcaption>Figure C.6) PNG applied wrong filter types, changing every filter type as Paeth </figcaption>
+      </figure>
+
+      <code>
+        <pre>
+require 'pnglitch'
+filter = ARGV.shift.to_i
+PNGlitch.open('png.png') do |png|
+  png.each_scanline do |line|
+    line.graft filter
+  end
+  png.save("png-glitch-graft-%i.png" % filter)
 end
         </pre>
       </code>
@@ -1685,8 +1724,8 @@ end
       What will happen if an incorrect filter is implemented? PNGlitch is designed to allow the user to freely change filter methods, so the user can test what happens at that state. A normal viewer application that uses a standard filter method is decoding a PNG image that is encoded by a distinctive filter method. This will perhaps generate an algorithmic glitch (I will not argue about if we should call that a glitch or not). The images below are part of such generated images.
       </p>
       <figure class="full">
-        <a href="files/png-incorrect-filter01.png"><img src="files/blank.png" data-src="files/png-incorrect-filter01.png" alt="Figure C.2) PNG encoded with an incorrect filter 1"></a>
-        <figcaption>Figure C.2) PNG encoded with an incorrect filter 1</figcaption>
+        <a href="files/png-incorrect-filter01.png"><img src="files/blank.png" data-src="files/png-incorrect-filter01.png" alt="Figure C.7) PNG encoded with an incorrect filter 1"></a>
+        <figcaption>Figure C.7) PNG encoded with an incorrect filter 1</figcaption>
       </figure>
       <code>
         <pre>
@@ -1708,8 +1747,8 @@ end
       </code>
 
       <figure class="full">
-        <a href="files/png-incorrect-filter02.png"><img src="files/blank.png" data-src="files/png-incorrect-filter02.png" alt="Figure C.3) PNG encoded with an incorrect filter 2"></a>
-        <figcaption>Figure C.3) PNG encoded with an incorrect filter 2</figcaption>
+        <a href="files/png-incorrect-filter02.png"><img src="files/blank.png" data-src="files/png-incorrect-filter02.png" alt="Figure C.8) PNG encoded with an incorrect filter 2"></a>
+        <figcaption>Figure C.8) PNG encoded with an incorrect filter 2</figcaption>
       </figure>
       <code>
         <pre>
@@ -1732,8 +1771,8 @@ end
       </code>
 
       <figure class="full">
-        <a href="files/png-incorrect-filter03.png"><img src="files/blank.png" data-src="files/png-incorrect-filter03.png" alt="Figure C.4) PNG encoded with an incorrect filter 3"></a>
-        <figcaption>Figure C.4) PNG encoded with an incorrect filter 3</figcaption>
+        <a href="files/png-incorrect-filter03.png"><img src="files/blank.png" data-src="files/png-incorrect-filter03.png" alt="Figure C.9) PNG encoded with an incorrect filter 3"></a>
+        <figcaption>Figure C.9) PNG encoded with an incorrect filter 3</figcaption>
       </figure>
       <code>
         <pre>
@@ -1766,8 +1805,8 @@ end
       </code>
 
       <figure class="full">
-        <a href="files/png-incorrect-filter04.png"><img src="files/blank.png" data-src="files/png-incorrect-filter04.png" alt="Figure C.5) PNG encoded with an incorrect filter 4"></a>
-        <figcaption>Figure C.5) PNG encoded with an incorrect filter 4</figcaption>
+        <a href="files/png-incorrect-filter04.png"><img src="files/blank.png" data-src="files/png-incorrect-filter04.png" alt="Figure C.10) PNG encoded with an incorrect filter 4"></a>
+        <figcaption>Figure C.10) PNG encoded with an incorrect filter 4</figcaption>
       </figure>
       <code>
         <pre>
