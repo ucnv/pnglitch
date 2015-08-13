@@ -56,6 +56,11 @@ p, h2, h3 {
   font-weight: 400;
 }
 
+header .forkme {
+  position: absolute;
+  right: 0;
+}
+
 h1 {
   margin: 0 0 80px 0;
   height: 390px;
