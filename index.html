@@ -10,7 +10,10 @@
     <script src="files/a.js"></script>
   </head>
   <body>
-    <h1>The Art of PNG Glitch</h1>
+    <header>
+      <a class="forkme" title="PNGlitch" href="https://github.com/ucnv/pnglitch/"><img src="files/forkme.png" alt="PNGlitch"></a>
+      <h1>The Art of PNG Glitch</h1>
+    </header>
     <section>
       <h2>Overview</h2>
       <p>
@@ -1708,12 +1711,13 @@ end
       <code>
         <pre>
 require 'pnglitch'
-filter = ARGV.shift.to_i
-PNGlitch.open('png.png') do |png|
-  png.each_scanline do |line|
-    line.graft filter
+(0..4).each do |filter|
+  PNGlitch.open('png.png') do |png|
+    png.each_scanline do |line|
+      line.graft filter
+    end
+    png.save "png-glitch-graft-#{filter}.png"
   end
-  png.save("png-glitch-graft-%i.png" % filter)
 end
         </pre>
       </code>
@@ -1843,7 +1847,7 @@ end
         Support for Japanese-English translation by Makoto Oshiro
       </p>
 
-      <p class="signature">2015 UCNV &lt;ucnvvv at gmail dot com&gt;</p>
+      <p class="signature">2015 UCNV</p>
     </footer>
   </body>
 </html>
