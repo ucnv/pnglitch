@@ -1600,10 +1600,11 @@ require 'pnglitch'
 
 count = 0
 infiles = %w(lena.png lena-alpha.png)
-infiles.each do |infile|
-  alpha = /alpha/ =~ infile
+infiles.each do |file|
+  alpha = /alpha/ =~ file
   [false, true].each do |compress|
     [false, true].each do |interlace|
+      infile = file
       if interlace
         system("convert -interlace plane %s tmp.png" % infile)
         infile = 'tmp.png'

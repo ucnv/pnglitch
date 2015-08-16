@@ -2,10 +2,11 @@ require 'pnglitch'
 
 count = 0
 infiles = %w(lena.png lena-alpha.png)
-infiles.each do |infile|
-  alpha = /alpha/ =~ infile
+infiles.each do |file|
+  alpha = /alpha/ =~ file
   [false, true].each do |compress|
     [false, true].each do |interlace|
+      infile = file
       if interlace
         system("convert -interlace plane %s tmp.png" % infile)
         infile = 'tmp.png'
@@ -32,7 +33,7 @@ infiles.each do |infile|
               x = data.size / 4
               data[0, x] + data[x * 2, x] + data[x * 1, x] + data[x * 3..-1]
             when :defect
-              range.times do
+              (range / 5).times do
                 data[rand(data.size)] = ''
               end
               data
@@ -40,7 +41,7 @@ infiles.each do |infile|
           end
           unless compress
             png.glitch do |data|
-              process.call data, 150
+              process.call data, 50
             end
           else
             png.glitch_after_compress do |data|
@@ -54,4 +55,4 @@ infiles.each do |infile|
     end
   end
 end
-system "rm tmp.png"
+File.unlink 'tmp.png'
