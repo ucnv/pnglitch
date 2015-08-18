@@ -4,7 +4,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=850">
     <title>The Art of PNG Glitch</title>
-    <link type="text/css" rel="stylesheet" href="http://fast.fonts.net/cssapi/0030664d-7879-4e99-a7d8-09ef12870e40.css"/>
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="The Art of PNG Glitch">
+    <meta property="og:type" content="website">
+    <meta property="og:description" content="A documentation for all about glitching PNG.">
+    <meta property="og:url" content="http://ucnv.github.io/pnglitch/">
+    <meta property="og:title" content="The Art of PNG Glitch">
+    <meta property="og:image" content="http://ucnv.github.io/pnglitch/files/header.jpg">
     <link rel="stylesheet" href="files/a.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="files/a.js"></script>
@@ -79,11 +85,11 @@
       </figure>
 
       <figure class="detail">
-        <img src="files/png-glitch-none-detail.png" alt="Figure 5) Detail of">
-        <figcaption>Figure 5) Detail of</figcaption>
+        <img src="files/png-glitch-none-detail.png" alt="Figure 5) Magnified view of fig. 4">
+        <figcaption>Figure 5) Magnified view of fig. 4</figcaption>
       </figure>
       <p class="description">
-      The image above has applied “None (no filter)”, meaning that it is a raw data glitch. Each pixel stands alone in this state and does not have any relationship with the others, so a single re-wrote byte does not have a wide range influence.
+      The image above has applied “None (no filter)”, meaning that it is a raw data glitch. Each pixel stands alone in this state and do not have any relationship with the others, so a single re-wrote byte does not have a wide range influence.
       </p>
 
       <figure class="full">
@@ -92,8 +98,8 @@
       </figure>
 
       <figure class="detail">
-        <img src="files/png-glitch-sub-detail.png" alt="Figure 7) Detail of">
-        <figcaption>Figure 7) Detail of</figcaption>
+        <img src="files/png-glitch-sub-detail.png" alt="Figure 7) Magnified view of fig. 6">
+        <figcaption>Figure 7) Magnified view of fig. 6</figcaption>
       </figure>
       <p class="description">
       This is a glitched image that has the filter “Sub” applied to each scanline. When the Sub algorythm is applied, the target pixel rewrites itself by refering to the pixel that is right next to it. This is why the glitch pattern avalanches towards the right side.
@@ -105,8 +111,8 @@
       </figure>
 
       <figure class="detail">
-        <img src="files/png-glitch-up-detail.png" alt="Figure 9) Detail of">
-        <figcaption>Figure 9) Detail of</figcaption>
+        <img src="files/png-glitch-up-detail.png" alt="Figure 9) Magnified view of fig. 8">
+        <figcaption>Figure 9) Magnified view of fig. 8</figcaption>
       </figure>
       <p class="description">
       This is the filter “Up”. This filter is similar to Sub, but its reference direction is the top and bottom.
@@ -118,8 +124,8 @@
       </figure>
 
       <figure class="detail">
-        <img src="files/png-glitch-average-detail.png" alt="Figure 11) Detail of">
-        <figcaption>Figure 11) Detail of</figcaption>
+        <img src="files/png-glitch-average-detail.png" alt="Figure 11) Magnified view of fig. 10">
+        <figcaption>Figure 11) Magnified view of fig. 10</figcaption>
       </figure>
       <p class="description">
       The filter “Average” refers to a diagonal direction. It shows a meteor like tail that starts from the damaged pixel. The soft gradation effect is also one of the peculiarities of this filter. The result of a PNG glitch when the Average filter is applied is a glitch that lacks glitchiness, and is also the most delicate portion of PNG glitching.
@@ -131,8 +137,8 @@
       </figure>
 
       <figure class="detail">
-        <img src="files/png-glitch-paeth-detail.png" alt="Figure 13) Detail of">
-        <figcaption>Figure 13) Detail of</figcaption>
+        <img src="files/png-glitch-paeth-detail.png" alt="Figure 13) Magnified view of fig. 12">
+        <figcaption>Figure 13) Magnified view of fig. 12</figcaption>
       </figure>
       <p class="description">
       The filter “Paeth” has the most complicated algorithm when compared with the others. It also has the most complicated glitch effect. The glitch will affect a wide range of areas even with the least byte re-writing. The keynote effect of PNG glitch is caused by this filter; the figure shown in the original image is maintained, but is intensely destroyed at the same time.
@@ -146,11 +152,11 @@
       </figure>
 
       <figure class="detail">
-        <img src="files/png-glitch-compressed-detail.png" alt="Figure 15) Detail of">
-        <figcaption>Figure 15) Detail of</figcaption>
+        <img src="files/png-glitch-compressed-detail.png" alt="Figure 15) Magnified view of fig. 14">
+        <figcaption>Figure 15) Magnified view of fig. 14</figcaption>
       </figure>
       <p class="description">
-      This is a glitch of the state that I referred to as Compressed Data in the previous section. A snowstorm effect appears, and the original icon get hard to be recognized. It infrequently remains to show effects of the filters. The image is often completely destroyed.
+      This is a glitch of the state that I referred to as Compressed Data in the previous section. A snowstorm effect appears, and it is difficult to recognize the original figure in the image. It infrequently remains to show effects of the filters. The image is often completely destroyed.
       </p>
 　
       <h3>Transparence</h3>
@@ -179,11 +185,11 @@
         <figcaption>Figure 18) Glitched PNG, with interlace</figcaption>
       </figure>
       <figure class="detail">
-        <img src="files/png-glitch-interlace-detail.png" alt="Figure 19) Detail of">
-        <figcaption>Figure 19) Detail of</figcaption>
+        <img src="files/png-glitch-interlace-detail.png" alt="Figure 19) Magnified view of fig. 18">
+        <figcaption>Figure 19) Magnified view of fig. 18</figcaption>
       </figure>
       <p class="description">
-        PNG interlaces are divided into seven passes, using the Adam7 algorithm based on 8x8 pixels. We are able to visualy observe that algorithm when an interlaced PNG is glitched. We can also confirm a stitched effect, and that its angle of the Average filter effect has become narrow (see appendix B).
+        PNG interlaces are divided into seven passes, using the Adam7 algorithm based on 8x8 pixels. We are able to visualy observe that algorithm when an interlaced PNG is glitched. We can also confirm a stitched effect, and that its angle has become narrow towards the Average filter(see appendix B).
       </p>
 
       <h2>Conclusion</h2>
@@ -325,7 +331,7 @@ end
       </code>
 
       <p>
-      The sample above has had each filter type changed to 3 (Average). <code>change_filter</code> properly applies the new filter type. This treatment will not cause glitches to occur because the filter is re-calculated and the PNG will properly be formatted. This also means that the resulting image will appear as the same to our eyes.
+      The sample above has had each filter type changed to 3 (Average). <code>change_filter</code> properly applies the new filter type. This treatment will not cause glitches to occur because the filter is re-calculated and the PNG will be properly formatted. This also means that the resulting image will appear as the same to our eyes.
       </p>
 
       <p>However, the difference of each filter has a large influence on the glitches.
@@ -370,7 +376,8 @@ end
         </pre>
       </code>
 
-      <p>The PNGlitch library is released as an open source.<br>
+      <p>
+        "The PNGlitch library is released as open source.<br>
         <a href="https://github.com/ucnv/pnglitch">https://github.com/ucnv/pnglitch</a>
       </p>
 
@@ -1669,7 +1676,8 @@ File.unlink 'tmp.png'
       </figure>
 
       <p>
-      The image above is generated with the code below.<br> In PNGlitch, the method <code>graft</code> is prepared for attaching a wrong filter type to a scanline.
+      The image above is generated by the code below.<br>
+      In PNGlitch, the method <code>graft</code> is prepared so that the user can attach an incorrect filter type to a scanline.
       </p>
 
       <code>
@@ -1685,7 +1693,7 @@ end
       </code>
 
       <p>
-        This technique is convenient, even for checking how different the glitching effect for each filter is. Next five images are the results that applied one particular filter type byte on every scanline, without modifying scanline data.
+        This technique is convenient, even for checking how different the glitching effect of each filter is. Next five images are the results that applied one particular filter type byte to every scanline, without modifying scanline data.
       </p>
 
       <figure class="full">
