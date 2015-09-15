@@ -1,7 +1,7 @@
 require 'pnglitch'
 
 count = 0
-infiles = %w(lena.png lena-alpha.png)
+infiles = %w(boat.png boat-alpha.png)
 infiles.each do |file|
   alpha = /alpha/ =~ file
   [false, true].each do |compress|
@@ -21,7 +21,7 @@ infiles.each do |file|
           options << 'interlace' if interlace
           options << 'compress' if compress
           options << method.to_s
-          outfile = "lena-%03d-%s.png" % [count, options.join('-')]
+          outfile = "boat-%03d-%s.png" % [count, options.join('-')]
           process = lambda do |data, range|
             case method
             when :replace
