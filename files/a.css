@@ -185,6 +185,11 @@ footer p {
   margin: .5em 0;
 }
 
+footer p.edit {
+  margin-top: 30px;
+  font-family: 'Century Schoolbook W01', serif;
+}
+
 footer .signature {
   font-size: 18px;
   font-family: 'Century Schoolbook W01', serif;
