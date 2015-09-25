@@ -190,6 +190,11 @@ footer p.edit {
   font-family: 'Century Schoolbook W01', serif;
 }
 
+footer p strong {
+  font-family: 'CenturySchlbkMTW01-Bold_706541', serif;
+  font-weight: normal;
+}
+
 footer .signature {
   font-size: 18px;
   font-family: 'Century Schoolbook W01', serif;
