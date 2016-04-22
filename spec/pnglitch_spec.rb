@@ -401,6 +401,9 @@ describe PNGlitch do
       }.not_to raise_error
 
       if system('which convert > /dev/null')
+        pending '`convert` can be incorrect in PNG filters'
+        fail
+        
         out1 = outdir.join('a.png')
         out2 = outdir.join('b.png')
         fx = 4
