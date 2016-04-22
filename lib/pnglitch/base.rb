@@ -20,11 +20,19 @@ module PNGlitch
       @filtered_data = Tempfile.new 'filtered', encoding: 'ascii-8bit'
       @idat_chunk_size = nil
 
+      @head_data.binmode
+      @tail_data.binmode
+      @compressed_data.binmode
+      @filtered_data.binmode
+
       open(path, 'rb') do |io|
         idat_sizes = []
         @head_data << io.read(8) # signature
         while bytes = io.read(8)
           length, type = bytes.unpack 'Na*'
+          if length > io.size - io.pos
+              raise FormatError.new path.to_s
+          end
           if type == 'IHDR'
             ihdr = {
               width:              io.read(4).unpack('N').first,
@@ -123,7 +131,7 @@ module PNGlitch
     # glitching but some viewer applications might deny to process those results.
     # To be polite to the filter types, use +each_scanline+ instead.
     #
-    # Since this method sets the decompressed data into String, it may use a massive amount of 
+    # Since this method sets the decompressed data into String, it may use a massive amount of
     # memory. To decrease the memory usage, treat the data as IO through +glitch_as_io+ instead.
     #
     def glitch &block   # :yield: data
@@ -158,8 +166,8 @@ module PNGlitch
     # To set a glitched result, return the modified value in the block.
     #
     # Once the compressed data is glitched, PNGlitch will warn about modifications to
-    # filtered (decompressed) data because this method does not decompress the glitched 
-    # compressed data again. It means that calling +glitch+ after +glitch_after_compress+ 
+    # filtered (decompressed) data because this method does not decompress the glitched
+    # compressed data again. It means that calling +glitch+ after +glitch_after_compress+
     # will make the result overwritten and forgotten.
     #
     # This operation will often destroy PNG image completely.
@@ -276,7 +284,7 @@ module PNGlitch
     end
 
     #
-    # Process each scanlines.
+    # Process each scanline.
     #
     # It takes a block with a parameter. The parameter must be an instance of
     # PNGlitch::Scanline and it provides ways to edit the filter type and the data
@@ -449,7 +457,7 @@ module PNGlitch
     #
     def save file
       wrap_with_rewind(@head_data, @tail_data, @compressed_data) do
-        open(file, 'w') do |io|
+        open(file, 'wb') do |io|
           io << @head_data.read
           chunk_size = @idat_chunk_size || @compressed_data.size
           type = 'IDAT'
@@ -552,7 +560,7 @@ module PNGlitch
         message = <<-EOL.gsub(/^\s*/, '')
           WARNING: `#{trace.first.label}' is called after a modification to the compressed data.
           With this operation, your changes on the compressed data will be reverted.
-          Note that a modification to the compressed data does not reflect to the 
+          Note that a modification to the compressed data does not reflect to the
           filtered (decompressed) data.
           It's happened around #{trace.last.to_s}
         EOL
