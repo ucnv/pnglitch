@@ -400,31 +400,6 @@ describe PNGlitch do
         ChunkyPNG::Image.from_file outfile
       }.not_to raise_error
 
-      if system('which convert > /dev/null')
-        pending '`convert` can be incorrect in PNG filters'
-        fail
-        
-        out1 = outdir.join('a.png')
-        out2 = outdir.join('b.png')
-        fx = 4
-        png = PNGlitch.open infile
-        png.each_scanline do |line|
-          line.change_filter fx
-        end
-        png.output out1
-        png.close
-        system('convert -quality %d %s %s' % [fx, infile, out2])
-        png1 = PNGlitch.open out1
-        png2 = PNGlitch.open out2
-        d1 = png1.filtered_data.read
-        d2 = png2.filtered_data.read
-        f1 = png1.filter_types
-        f2 = png2.filter_types
-        png1.close
-        png2.close
-        expect(f1).to eq(f2)
-        expect(d1).to eq(d2)
-      end
     end
 
     it 'can change filter type with the name' do
@@ -669,22 +644,6 @@ describe PNGlitch do
       end
     end
 
-    it 'should finalize the instance' do
-      PNGlitch.open infile do
-        lines = scanline_at 1..100
-      end
-      GC.start
-      count = ObjectSpace.each_object(PNGlitch::Scanline).count
-      expect(count).to be < 100
-
-      png = PNGlitch.open infile
-      lines = png.scanline_at 1..100
-      png.close
-      lines = nil
-      GC.start
-      count = ObjectSpace.each_object(PNGlitch::Scanline).count
-      expect(count).to be < 100
-    end
   end
 
   describe '.change_all_filters' do
