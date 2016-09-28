@@ -1,31 +1,32 @@
 # coding: utf-8
+# frozen_string_literal: true
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'pnglitch'
 
 Gem::Specification.new do |spec|
-  spec.name          = "pnglitch"
+  spec.name          = 'pnglitch'
   spec.version       = PNGlitch::VERSION
-  spec.authors       = ["ucnv"]
-  spec.email         = ["ucnvvv@gmail.com"]
-  spec.description   = %q{A Ruby library to glitch PNG images.}
+  spec.authors       = ['ucnv']
+  spec.email         = ['ucnvvv@gmail.com']
+  spec.description   = 'A Ruby library to glitch PNG images.'
   spec.summary       = <<-EOL.gsub(/^\s*/, '')
     PNGlitch is a Ruby library to destroy your PNG images.
     With normal data-bending technique, a glitch against PNG will easily fail
     because of the checksum function. We provide a fail-proof destruction for it.
     Using this library you will see beautiful and various PNG artifacts.
   EOL
-  spec.homepage      = "https://github.com/ucnv/pnglitch"
-  spec.license       = "MIT"
+  spec.homepage      = 'https://github.com/ucnv/pnglitch'
+  spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0")
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
-  spec.require_paths = ["lib"]
+  spec.require_paths = ['lib']
 
   spec.required_ruby_version = '>= 2.0.0'
 
-  spec.add_development_dependency "bundler", "~> 1.7"
-  spec.add_development_dependency "rake", "~> 10.0"
-  spec.add_development_dependency "rspec"
+  spec.add_development_dependency 'bundler', '~> 1.7'
+  spec.add_development_dependency 'rake', '~> 10.0'
+  spec.add_development_dependency 'rspec'
 end

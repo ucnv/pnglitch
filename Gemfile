@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 source 'https://rubygems.org'
 gemspec
 
@@ -10,4 +11,3 @@ end
 group :doc do
   gem 'yard'
 end
-

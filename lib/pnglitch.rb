@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'pathname'
 require 'stringio'
 require 'tempfile'
@@ -12,7 +13,7 @@ require 'pnglitch/base'
 # Since PNG has CRC checksum in the spec, the viewer applications always detect it
 # and reject to display broken PNGs. It is why a simple glitching with a text or binary editor
 # gets easily failed, differently from images like JPEG.
-# This library provides the fix to take the total failure of glitching out, and to keep 
+# This library provides the fix to take the total failure of glitching out, and to keep
 # your PNG undead.
 #
 # Also it provides options to generate varied glitch results.
@@ -20,7 +21,7 @@ require 'pnglitch/base'
 # = Usage
 #
 # == Simple glitch
-# 
+#
 #    png = PNGlitch.open '/path/to/your/image.png'
 #    png.glitch do |data|
 #      data.gsub /\d/, 'x'
@@ -127,7 +128,7 @@ require 'pnglitch/base'
 #      end
 #      png.save outfile1
 #    end
-#    
+#
 #    PNGlitch.open(infile) do |png|
 #      png.each_scanline do |scanline|
 #        scanline.change_filter 4
@@ -195,7 +196,6 @@ module PNGlitch
   VERSION = '0.0.2'
 
   class << self
-
     #
     # Opens a passed PNG file and returns Base instance.
     #
@@ -228,7 +228,7 @@ module PNGlitch
     #
     #   PNGlitch.open(infile, limit_of_decompressed_data_size: 1024 ** 3)
     #
-    def open file, options = {}
+    def open(file, options = {})
       base = Base.new file, options[:limit_of_decompressed_data_size]
       if block_given?
         begin
@@ -246,5 +246,4 @@ module PNGlitch
       end
     end
   end
-
 end

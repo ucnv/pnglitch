@@ -1,17 +1,16 @@
+# frozen_string_literal: true
 module PNGlitch
-
   # Scanline is the class that represents a particular PNG image scanline.
   #
   # It consists of a filter type and a filtered pixel data.
   #
   class Scanline
-
     attr_reader :index, :filter_type, :prev_filter_type, :filter_codec
 
     #
     # Instanciate.
     #
-    def initialize io, start_at, data_size, at
+    def initialize(io, start_at, data_size, at)
       @index = at
       @io = io
       @start_at = start_at
@@ -26,9 +25,7 @@ module PNGlitch
       @prev_filter_type = nil
       @filter_codec = { encoder: nil, decoder: nil }
 
-      if block_given?
-        @callback = Proc.new
-      end
+      @callback = Proc.new if block_given?
     end
 
     #
@@ -51,8 +48,8 @@ module PNGlitch
     # When the data size has changed, the data will be chopped or padded with null string
     # in original size.
     #
-    def gsub! pattern, replacement
-      self.replace_data self.data.gsub(pattern, replacement)
+    def gsub!(pattern, replacement)
+      replace_data data.gsub(pattern, replacement)
     end
 
     #
@@ -61,7 +58,7 @@ module PNGlitch
     # When its size has changed, the data will be chopped or padded with null string
     # in original size.
     #
-    def replace_data new_data
+    def replace_data(new_data)
       @data = new_data
       save
     end
@@ -72,7 +69,7 @@ module PNGlitch
     # It means the scanline might get wrong filter type. It will be the efficient way to
     # break the PNG image.
     #
-    def graft new_filter
+    def graft(new_filter)
       @filter_type = new_filter
       save
     end
@@ -82,19 +79,19 @@ module PNGlitch
     #
     # This operation will be a legal way to change filter types.
     #
-    def change_filter new_filter
+    def change_filter(new_filter)
       @prev_filter_type = @filter_type
       @filter_type = new_filter
-      self.save
+      save
     end
 
     #
     # Registers a custom filter function to encode data.
     #
-    # With this operation, it will be able to change filter encoding behavior despite 
+    # With this operation, it will be able to change filter encoding behavior despite
     # the specified filter type value. It takes a Proc object or a block.
     #
-    def register_filter_encoder encoder = nil, &block
+    def register_filter_encoder(encoder = nil, &block)
       if !encoder.nil? && encoder.is_a?(Proc)
         @filter_codec[:encoder] = encoder
       elsif block_given?
@@ -106,10 +103,10 @@ module PNGlitch
     #
     # Registers a custom filter function to decode data.
     #
-    # With this operation, it will be able to change filter decoding behavior despite 
+    # With this operation, it will be able to change filter decoding behavior despite
     # the specified filter type value. It takes a Proc object or a block.
     #
-    def register_filter_decoder decoder = nil, &block
+    def register_filter_decoder(decoder = nil, &block)
       if !decoder.nil? && decoder.is_a?(Proc)
         @filter_codec[:decoder] = decoder
       elsif block_given?
@@ -125,7 +122,7 @@ module PNGlitch
       pos = @io.pos
       @io.pos = @start_at
       @io << [Filter.guess(@filter_type)].pack('C')
-      @io << self.data.slice(0, @data_size).ljust(@data_size, "\0")
+      @io << data.slice(0, @data_size).ljust(@data_size, "\0")
       @io.pos = pos
       @callback.call(self) unless @callback.nil?
       self
@@ -133,6 +130,5 @@ module PNGlitch
 
     alias data= replace_data
     alias filter_type= change_filter
-
   end
 end
