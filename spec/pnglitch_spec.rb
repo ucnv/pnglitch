@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
 describe PNGlitch do
@@ -24,30 +25,30 @@ describe PNGlitch do
 
     it 'can close' do
       expect { png.close }.not_to raise_error
-      expect {
+      expect do
         png.compressed_data.read
-      }.to raise_error IOError
+      end.to raise_error IOError
     end
 
     context 'when it takes a block' do
       it 'should be closed after the block' do
         png = nil
         PNGlitch.open(infile) { |p| png = p }
-        expect {
+        expect do
           png.compressed_data.read
-        }.to raise_error IOError
+        end.to raise_error IOError
       end
 
       it 'also can execute with DSL style' do
         types, h = ()
         out = outfile
-        expect {
+        expect do
           PNGlitch.open(infile) do
             types = filter_types
             h = height
             output out
           end
-        }.not_to raise_error
+        end.not_to raise_error
         expect(types.size).to eq h
         expect(outfile).to exist
       end
@@ -72,49 +73,44 @@ describe PNGlitch do
     context 'when decompressed data is unexpected size' do
       it 'should not raise error for too small size' do
         bomb = infile.dirname.join('ina.png')
-        expect {
+        expect do
           png = PNGlitch.open bomb
           png.close
-        }.to_not raise_error
+        end.to_not raise_error
       end
 
       it 'should raise error for too large size' do
         bomb = infile.dirname.join('inb.png')
-        expect {
+        expect do
           png = PNGlitch.open bomb
           png.close
-        }.to raise_error PNGlitch::DataSizeError
+        end.to raise_error PNGlitch::DataSizeError
       end
 
       it 'can avoid the error' do
         bomb = infile.dirname.join('inb.png')
-        expect {
-          png = PNGlitch.open bomb, limit_of_decompressed_data_size: 100 * 1024 ** 2
+        expect do
+          png = PNGlitch.open bomb, limit_of_decompressed_data_size: 100 * 1024**2
           png.close
-        }.not_to raise_error
+        end.not_to raise_error
       end
-
     end
 
     context 'when it is not PNG file' do
       it 'should raise error' do
         file = infile.dirname.join('filter_none')
-        expect {
+        expect do
           png = PNGlitch.open file
           png.close
-        }.to raise_error PNGlitch::FormatError
+        end.to raise_error PNGlitch::FormatError
       end
     end
 
     context 'with interlaced image' do
       it 'should check it' do
-        a = PNGlitch.open infile do |p|
-          p.interlaced?
-        end
+        a = PNGlitch.open infile, &:interlaced?
         interlace = infile.dirname.join('inc.png')
-        b = PNGlitch.open interlace do |p|
-          p.interlaced?
-        end
+        b = PNGlitch.open interlace, &:interlaced?
         expect(a).to be false
         expect(b).to be true
       end
@@ -140,30 +136,30 @@ describe PNGlitch do
         out1 = outfile
         out2 = outdir.join('out2.png')
         PNGlitch.open infile do
-          glitch {|d| d.gsub /\d/, '' }
+          glitch { |d| d.gsub(/\d/, '') }
           output out1
         end
-        expect {
+        expect do
           PNGlitch.open outfile do
             compress
             output out2
           end
-        }.not_to raise_error
+        end.not_to raise_error
       end
 
       it 'cannot read broken compression' do
         out1 = outfile
         out2 = outdir.join('out2.png')
         PNGlitch.open infile do
-          glitch_after_compress {|d| d.gsub /\d/, 'a' }
+          glitch_after_compress { |d| d.gsub(/\d/, 'a') }
           output out1
         end
-        expect {
+        expect do
           PNGlitch.open outfile do
             compress
             output out2
           end
-        }.to raise_error Zlib::DataError
+        end.to raise_error Zlib::DataError
       end
     end
   end
@@ -185,9 +181,9 @@ describe PNGlitch do
         io = p.filtered_data
         io.rewind
         io << [100].pack('C')
-        expect {
+        expect do
           p.apply_filters
-        }.not_to raise_error
+        end.not_to raise_error
       end
     end
   end
@@ -196,20 +192,20 @@ describe PNGlitch do
     it 'makes a result that is readable as PNG' do
       png = PNGlitch.open infile
       png.glitch do |data|
-        data.gsub /\d/, 'a'
+        data.gsub(/\d/,'a')
       end
       png.output outfile
       png.close
-      expect {
+      expect do
         ChunkyPNG::Image.from_file outfile
-      }.not_to raise_error
+      end.not_to raise_error
     end
 
     it 'makes a result has an intended size of data' do
       png1 = PNGlitch.open infile
       a = png1.filtered_data.size
       png1.glitch do |data|
-        data.gsub /\d/, 'a'
+        data.gsub(/\d/,'a')
       end
       png1.output outfile
       png2 = PNGlitch.open outfile
@@ -250,11 +246,11 @@ describe PNGlitch do
           data[rand(data.size)] = 'x'
           data
         end
-        expect{
+        expect do
           png.glitch do |data|
             data[0] = 'x'
           end
-        }.to output.to_stderr
+        end.to output.to_stderr
         png.close
       end
     end
@@ -353,9 +349,7 @@ describe PNGlitch do
           expect(t).to be_between(0, 4)
         end
       end
-
     end
-
   end
 
   describe '.each_scanline' do
@@ -372,21 +366,21 @@ describe PNGlitch do
       end
       png.output outfile
       png.close
-      expect {
+      expect do
         ChunkyPNG::Image.from_file outfile
-      }.not_to raise_error
+      end.not_to raise_error
     end
 
     it 'can rewite scanline data' do
       png = PNGlitch.open infile
       png.each_scanline do |line|
-        line.data = line.data.gsub /\d/, 'a'
+        line.data = line.data.gsub(/\d/,'a')
       end
       png.output outfile
       png.close
-      expect {
+      expect do
         ChunkyPNG::Image.from_file outfile
-      }.not_to raise_error
+      end.not_to raise_error
     end
 
     it 'can change filter types and re-filter' do
@@ -396,9 +390,9 @@ describe PNGlitch do
       end
       png.output outfile
       png.close
-      expect {
+      expect do
         ChunkyPNG::Image.from_file outfile
-      }.not_to raise_error
+      end.not_to raise_error
 
     end
 
@@ -461,9 +455,7 @@ describe PNGlitch do
 
       PNGlitch.open infile do |png|
         png.each_scanline.with_index do |s, i|
-          if i == 100
-            s.register_filter_encoder enc
-          end
+          s.register_filter_encoder enc if i == 100
         end
         png.output outfile
       end
@@ -487,9 +479,7 @@ describe PNGlitch do
 
       PNGlitch.open infile do |png|
         png.each_scanline.with_index do |s, i|
-          if i == 100
-            s.register_filter_decoder dec
-          end
+          s.register_filter_decoder dec if i == 100
         end
         png.output outfile
       end
@@ -518,7 +508,7 @@ describe PNGlitch do
 
     context 'with wrong sized data' do
       it 'should raise no errors' do
-        expect {
+        expect do
           PNGlitch.open infile do |png|
             pos = png.filtered_data.pos = png.filtered_data.size * 4 / 5
             png.filtered_data.truncate pos
@@ -528,8 +518,8 @@ describe PNGlitch do
             end
             png.output outfile
           end
-        }.not_to raise_error
-        expect {
+        end.not_to raise_error
+        expect do
           PNGlitch.open infile do |png|
             png.filtered_data.pos = png.filtered_data.size * 4 / 5
             chunk = png.filtered_data.read
@@ -543,7 +533,7 @@ describe PNGlitch do
             end
             png.output outfile
           end
-        }.not_to raise_error
+        end.not_to raise_error
       end
     end
 
@@ -553,7 +543,7 @@ describe PNGlitch do
         png.filtered_data.rewind
         a = png.filtered_data.read
         filters = png.filter_types
-        png.each_scanline.with_index do |l, i|
+        png.each_scanline.with_index do |l, _i|
           l.change_filter PNGlitch::Filter::UP
         end
         b = png.filtered_data.read
@@ -658,8 +648,6 @@ describe PNGlitch do
           expect(l.filter_type).to be == v
         end
       end
-
-
     end
   end
 
@@ -712,5 +700,4 @@ describe PNGlitch do
       expect(idat_size).to be == 1
     end
   end
-
 end

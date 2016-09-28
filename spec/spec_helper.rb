@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # This spec contains the image borrowed from Wikipedia under spec/fixtures.
 # It is generated with POV-Ray source code and licensed under CC BY-SA 3.0.
 # http://en.wikipedia.org/wiki/File:PNG_transparency_demonstration_1.png

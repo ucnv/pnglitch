@@ -1,8 +1,9 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 require 'optparse'
 require 'pnglitch'
 
-program_name = File.basename($0)
+program_name = File.basename($PROGRAM_NAME)
 usage = <<USAGE
 Usage:
   #{program_name} <infile> [--filter=<n>] <outfile>
@@ -40,9 +41,7 @@ begin
   raise 'Wrong options' if ARGV.size < 2
   infile, outfile = ARGV
   PNGlitch.open infile do |png|
-    unless filter.nil?
-      png.change_all_filters filter
-    end
+    png.change_all_filters filter unless filter.nil?
     png.glitch do |data|
       data.gsub /\d/, 'x'
     end

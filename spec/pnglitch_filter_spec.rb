@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
 describe PNGlitch::Filter do
@@ -6,7 +7,7 @@ describe PNGlitch::Filter do
   tests = {}
   types.each do |t|
     data = File.binread(dir.join('filter_' + t.to_s))
-    tests[t] = data.scan %r|[\s\S]{1,#{data.size / 2}}|
+    tests[t] = data.scan /[\s\S]{1,#{data.size / 2}}/
   end
 
   types.each do |type|

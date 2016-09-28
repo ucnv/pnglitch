@@ -1,18 +1,17 @@
+# frozen_string_literal: true
 module PNGlitch
-
   # Base is the class that represents the interface for PNGlitch functions.
   #
   # It will be initialized through PNGlitch#open and be a mainly used instance.
   #
   class Base
-
     attr_reader :width, :height, :sample_size, :is_compressed_data_modified
     attr_accessor :head_data, :tail_data, :compressed_data, :filtered_data, :idat_chunk_size
 
     #
     # Instanciate the class with the passed +file+
     #
-    def initialize file, limit_of_decompressed_data_size = nil
+    def initialize(file, limit_of_decompressed_data_size = nil)
       path = Pathname.new file
       @head_data = StringIO.new
       @tail_data = StringIO.new
@@ -41,12 +40,12 @@ module PNGlitch
               color_type:         io.read(1).unpack('C').first,
               compression_method: io.read(1).unpack('C').first,
               filter_method:      io.read(1).unpack('C').first,
-              interlace_method:   io.read(1).unpack('C').first,
+              interlace_method:   io.read(1).unpack('C').first
             }
             @width = ihdr[:width]
             @height = ihdr[:height]
             @interlace = ihdr[:interlace_method]
-            @sample_size = {0 => 1, 2 => 3, 3 => 1, 4 => 2, 6 => 4}[ihdr[:color_type]]
+            @sample_size = { 0 => 1, 2 => 3, 3 => 1, 4 => 2, 6 => 4 }[ihdr[:color_type]]
             io.pos -= 13
           end
           if type == 'IDAT'
@@ -61,9 +60,7 @@ module PNGlitch
         end
         @idat_chunk_size = idat_sizes.first if idat_sizes.size > 1
       end
-      if @compressed_data.size == 0
-        raise FormatError.new path.to_s
-      end
+      raise FormatError.new path.to_s if @compressed_data.size == 0
       @head_data.rewind
       @tail_data.rewind
       @compressed_data.rewind
@@ -76,7 +73,7 @@ module PNGlitch
         # raise error when the data size goes over 2 times the usually expected size
         if decompressed_size > expected_size * 2
           z.close
-          self.close
+          close
           raise DataSizeError.new path.to_s, decompressed_size, expected_size
         end
         @filtered_data << chunk
@@ -134,7 +131,7 @@ module PNGlitch
     # Since this method sets the decompressed data into String, it may use a massive amount of
     # memory. To decrease the memory usage, treat the data as IO through +glitch_as_io+ instead.
     #
-    def glitch &block   # :yield: data
+    def glitch # :yield: data
       warn_if_compressed_data_modified
 
       wrap_with_rewind(@filtered_data) do
@@ -150,7 +147,7 @@ module PNGlitch
     #
     # Manipulates the filtered (decompressed) data as IO.
     #
-    def glitch_as_io &block # :yield: data
+    def glitch_as_io # :yield: data
       warn_if_compressed_data_modified
 
       wrap_with_rewind(@filtered_data) do
@@ -172,7 +169,7 @@ module PNGlitch
     #
     # This operation will often destroy PNG image completely.
     #
-    def glitch_after_compress &block   # :yield: data
+    def glitch_after_compress # :yield: data
       wrap_with_rewind(@compressed_data) do
         result = yield @compressed_data.read
         @compressed_data.rewind
@@ -186,7 +183,7 @@ module PNGlitch
     #
     # Manipulates the after-compressed data as IO.
     #
-    def glitch_after_compress_as_io &block # :yield: data
+    def glitch_after_compress_as_io # :yield: data
       wrap_with_rewind(@compressed_data) do
         yield @compressed_data
       end
@@ -197,7 +194,7 @@ module PNGlitch
     #
     # (Re-)computes the filtering methods on each scanline.
     #
-    def apply_filters prev_filters = nil, filter_codecs = nil
+    def apply_filters(prev_filters = nil, filter_codecs = nil)
       prev_filters = filter_types if prev_filters.nil?
       filter_codecs = [] if filter_codecs.nil?
       current_filters = []
@@ -218,9 +215,7 @@ module PNGlitch
           if filter_codecs[i] && filter_codecs[i][:decoder]
             filter.decoder = filter_codecs[i][:decoder]
           end
-          if !prev.nil? && @interlace_pass_count.include?(i + 1)  # make sure prev to be nil if interlace pass is changed
-            prev = nil
-          end
+          prev = nil if !prev.nil? && @interlace_pass_count.include?(i + 1) # make sure prev to be nil if interlace pass is changed
           decoded = filter.decode line, prev
           @filtered_data.pos -= line_size
           @filtered_data << decoded
@@ -237,14 +232,12 @@ module PNGlitch
           @filtered_data.pos = ref + 1
           line = @filtered_data.read line_size
           prev = nil
-          if !line_sizes[i + 1].nil?
+          unless line_sizes[i + 1].nil?
             @filtered_data.pos = ref - line_size
             prev = @filtered_data.read line_size
           end
           # make sure prev to be nil if interlace pass is changed
-          if @interlace_pass_count.include?(current_filters.size - i)
-            prev = nil
-          end
+          prev = nil if @interlace_pass_count.include?(current_filters.size - i)
           filter = Filter.new type, @sample_size
           if filter_codecs[i] && filter_codecs[i][:encoder]
             filter.encoder = filter_codecs[i][:encoder]
@@ -269,8 +262,8 @@ module PNGlitch
     )
       wrap_with_rewind(@compressed_data, @filtered_data) do
         z = Zlib::Deflate.new level, window_bits, mem_level, strategy
-        until @filtered_data.eof? do
-          buffer_size = 2 ** 16
+        until @filtered_data.eof?
+          buffer_size = 2**16
           flush = Zlib::NO_FLUSH
           flush = Zlib::FINISH if @filtered_data.size - @filtered_data.pos < buffer_size
           @compressed_data << z.deflate(@filtered_data.read(buffer_size), flush)
@@ -329,7 +322,7 @@ module PNGlitch
     #
     def each_scanline # :yield: scanline
       return enum_for :each_scanline unless block_given?
-      prev_filters = self.filter_types
+      prev_filters = filter_types
       is_refilter_needed = false
       filter_codecs = []
       wrap_with_rewind(@filtered_data) do
@@ -354,12 +347,12 @@ module PNGlitch
     #
     # It returns a single Scanline or an array of Scanline.
     #
-    def scanline_at index_or_range
+    def scanline_at(index_or_range)
       base = self
-      prev_filters = self.filter_types
+      prev_filters = filter_types
       filter_codecs = Array.new(prev_filters.size)
       scanlines = []
-      index_or_range = self.filter_types.size - 1 if index_or_range == -1
+      index_or_range = filter_types.size - 1 if index_or_range == -1
       range = index_or_range.is_a?(Range) ? index_or_range : [index_or_range]
 
       at = 0
@@ -379,13 +372,13 @@ module PNGlitch
       scanlines.size <= 1 ? scanlines.first : scanlines
     end
 
-    def fabricate_scanline scanline, prev_filters, filter_codecs # :nodoc:
+    def fabricate_scanline(scanline, prev_filters, filter_codecs) # :nodoc:
       at = scanline.index
       is_refilter_needed = false
-      unless scanline.prev_filter_type.nil?
-        is_refilter_needed = true
-      else
+      if scanline.prev_filter_type.nil?
         prev_filters[at] = scanline.filter_type
+      else
+        is_refilter_needed = true
       end
       codec = filter_codecs[at] = scanline.filter_codec
       if !codec[:encoder].nil? || !codec[:decoder].nil?
@@ -397,7 +390,7 @@ module PNGlitch
     #
     # Changes filter type values to passed +filter_type+ in all scanlines
     #
-    def change_all_filters filter_type
+    def change_all_filters(filter_type)
       each_scanline do |line|
         line.change_filter filter_type
       end
@@ -415,17 +408,16 @@ module PNGlitch
     #
     # Rewrites the width value.
     #
-    def width= w
+    def width=(w)
       @head_data.pos = 8
       while bytes = @head_data.read(8)
         length, type = bytes.unpack 'Na*'
-        if type == 'IHDR'
-          @head_data << [w].pack('N')
-          @head_data.pos -= 4
-          data = @head_data.read length
-          @head_data << [Zlib.crc32(data, Zlib.crc32(type))].pack('N')
-          break
-        end
+        next unless type == 'IHDR'
+        @head_data << [w].pack('N')
+        @head_data.pos -= 4
+        data = @head_data.read length
+        @head_data << [Zlib.crc32(data, Zlib.crc32(type))].pack('N')
+        break
       end
       @head_data.rewind
       w
@@ -434,19 +426,18 @@ module PNGlitch
     #
     # Rewrites the height value.
     #
-    def height= h
+    def height=(h)
       @head_data.pos = 8
       while bytes = @head_data.read(8)
         length, type = bytes.unpack 'Na*'
-        if type == 'IHDR'
-          @head_data.pos += 4
-          @head_data << [h].pack('N')
-          @head_data.pos -= 8
-          data = @head_data.read length
-          @head_data << [Zlib.crc32(data, Zlib.crc32(type))].pack('N')
-          @head_data.rewind
-          break
-        end
+        next unless type == 'IHDR'
+        @head_data.pos += 4
+        @head_data << [h].pack('N')
+        @head_data.pos -= 8
+        data = @head_data.read length
+        @head_data << [Zlib.crc32(data, Zlib.crc32(type))].pack('N')
+        @head_data.rewind
+        break
       end
       @head_data.rewind
       h
@@ -455,13 +446,13 @@ module PNGlitch
     #
     # Save to the +file+.
     #
-    def save file
+    def save(file)
       wrap_with_rewind(@head_data, @tail_data, @compressed_data) do
         open(file, 'wb') do |io|
           io << @head_data.read
           chunk_size = @idat_chunk_size || @compressed_data.size
           type = 'IDAT'
-          until @compressed_data.eof? do
+          until @compressed_data.eof?
             data = @compressed_data.read(chunk_size)
             io << [data.size].pack('N')
             io << type
@@ -479,20 +470,16 @@ module PNGlitch
     private
 
     # Truncates IO's data from current position.
-    def truncate_io io
+    def truncate_io(io)
       eof = io.pos
       io.truncate eof
     end
 
     # Rewinds given IOs before and after the block.
-    def wrap_with_rewind *io, &block
-      io.each do |i|
-        i.rewind
-      end
+    def wrap_with_rewind(*io)
+      io.each(&:rewind)
       yield
-      io.each do |i|
-        i.rewind
-      end
+      io.each(&:rewind)
     end
 
     # Calculate positions of scanlines
@@ -500,7 +487,7 @@ module PNGlitch
       scanline_pos = [0]
       amount = @filtered_data.size
       @interlace_pass_count = []
-      if self.interlaced?
+      if interlaced?
         # Adam7
         # Pass 1
         v = 1 + (@width / 8.0).ceil * @sample_size
@@ -543,7 +530,7 @@ module PNGlitch
         ((@height - 1) / 2.0).ceil.times do
           scanline_pos << scanline_pos.last + v
         end
-        scanline_pos.pop  # no need to keep last position
+        scanline_pos.pop # no need to keep last position
       end
       loop do
         v = scanline_pos.last + (1 + @width * @sample_size)
@@ -562,9 +549,9 @@ module PNGlitch
           With this operation, your changes on the compressed data will be reverted.
           Note that a modification to the compressed data does not reflect to the
           filtered (decompressed) data.
-          It's happened around #{trace.last.to_s}
+          It's happened around #{trace.last}
         EOL
-        message = ["\e[33m",  message, "\e[0m"].join if STDOUT.tty?  # color yellow
+        message = ["\e[33m", message, "\e[0m"].join if STDOUT.tty? # color yellow
         warn ["\n", message, "\n"].join
       end
     end
