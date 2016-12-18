@@ -1,6 +1,6 @@
 count = 0
 result = []
-infiles = %w(lena.png lena-alpha.png)
+infiles = %w(boat.png boat-alpha.png)
 infiles.each do |infile|
   alpha = /alpha/ =~ infile
   [false, true].each do |compress|
@@ -13,7 +13,7 @@ infiles.each do |infile|
           options << 'interlace' if interlace
           options << 'compress' if compress
           options << method.to_s
-          outfile = "lena-%03d-%s.png" % [count, options.join('-')]
+          outfile = "boat-%03d-%s.png" % [count, options.join('-')]
           meta = {
             file: outfile,
             method: method,
