@@ -192,7 +192,7 @@ require 'pnglitch/base'
 # But sometimes this scratch could break the compression and make the file unopenable.
 #
 module PNGlitch
-  VERSION = '0.0.2'
+  VERSION = '0.0.3'
 
   class << self
 
