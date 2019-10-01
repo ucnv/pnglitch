@@ -27,6 +27,21 @@ For more details about glitching PNG image, see
 
 _The Art of PNG Glitch_ includes [the usage of this library](http://ucnv.github.io/pnglitch/#appendix-a).
 
+### CLI
+
+Once you've installed the gem, it can be used in the terminal.
+
+```sh
+Usage:
+  pnglitch <infile> [--filter=<n>] <outfile>
+
+Options:
+  -f, --filter=<n>  Fix all filter types as passed value before glitching.
+                    A number (0..4) or a type name (none|sub|up|average|paeth).
+  --version         Show version.
+  -h, --help        Show this screen.
+  ```
+
 ## Installation
 
 Add this line to your application's Gemfile:
