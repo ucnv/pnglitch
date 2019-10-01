@@ -96,6 +96,7 @@ p.description {
 }
 
 pre {
+  font-family: 'Source Code Pro', monospace;
   font-size: 16px;
   border-left: 5px solid #c5c5c5;
   padding: 0 30px;
