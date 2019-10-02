@@ -1,4 +1,4 @@
-Copyright (c) 2014-2015 ucnv
+Copyright (c) 2014-2019 ucnv
 
 MIT License
 
